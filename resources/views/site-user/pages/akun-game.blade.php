@@ -14,7 +14,7 @@
     - Akun Game
 @endsection
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/site_users/css/akun-game.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/site-user/css/akun-game.css') }}">
 @endsection
 @section('content')
     <main>
@@ -55,7 +55,7 @@
                             <div class="account-images position-relative">
                                 <!-- Ganti carousel dengan satu gambar statis -->
                                 <div class="single-account-image">
-                                    <img src="{{ asset('assets/site_users/images/ml2.jpg') }}"
+                                    <img src="{{ asset('assets/site-user/images/ml2.jpg') }}"
                                         alt="Screenshot Akun Mobile Legends" class="img-fluid w-100" />
                                 </div>
                                 <div class="account-badges">
@@ -99,7 +99,7 @@
                         <div class="premium-account-card position-relative">
                             <div class="account-images position-relative">
                                 <div class="single-account-image">
-                                    <img src="{{ asset('assets/site_users/images/pb.jpg') }}" alt="Screenshot Akun Valorant"
+                                    <img src="{{ asset('assets/site-user/images/pb.jpg') }}" alt="Screenshot Akun Valorant"
                                         class="img-fluid w-100" />
                                 </div>
                                 <div class="account-badges">

@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="hero-image" data-aos="fade-left">
-                            <img src="{{ asset('assets/site_users/images/logo.png') }}"
+                            <img src="{{ asset('assets/site-user/images/logo.png') }}"
                                 alt="Setup gaming dengan pengalaman gaming premium" class="img-fluid w-100" />
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                         <a href="#" class="card game-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/ml2.jpg') }}" alt="Mobile Legends"
+                                <img src="{{ asset('assets/site-user/images/ml2.jpg') }}" alt="Mobile Legends"
                                     class="img-thumbnail card-img-top" />
                                 <div class="relative card-badge z-3">Trending</div>
                             </div>
@@ -74,7 +74,7 @@
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                         <a href="#" class="card game-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/valorant.webp') }}" alt="Valorant"
+                                <img src="{{ asset('assets/site-user/images/valorant.webp') }}" alt="Valorant"
                                     class="card-img-top" />
                             </div>
                             <div class="card-body">
@@ -95,7 +95,7 @@
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                         <a href="#" class="card game-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/apex-legend.jpg') }}" alt="Apex Legend"
+                                <img src="{{ asset('assets/site-user/images/apex-legend.jpg') }}" alt="Apex Legend"
                                     class="card-img-top" />
                             </div>
                             <div class="card-body">
@@ -136,7 +136,7 @@
                     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
                         <div class="card account-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/ml2.jpg') }}" alt="Akun Mobile Legends Mythic"
+                                <img src="{{ asset('assets/site-user/images/ml2.jpg') }}" alt="Akun Mobile Legends Mythic"
                                     class="card-img-top" />
                                 <div class="card-badge verified">Terverifikasi</div>
                             </div>
@@ -167,7 +167,7 @@
                     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
                         <div class="card account-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/valorant.webp') }}"
+                                <img src="{{ asset('assets/site-user/images/valorant.webp') }}"
                                     alt="Akun Valorant Radiant" class="card-img-top" />
                                 <div class="card-badge verified">Terverifikasi</div>
                             </div>
@@ -197,7 +197,7 @@
                     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                         <div class="card account-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/apex-legend.jpg') }}"
+                                <img src="{{ asset('assets/site-user/images/apex-legend.jpg') }}"
                                     alt="Akun Apex Legend AR60" class="card-img-top" />
                                 <div class="card-badge verified">Terverifikasi</div>
                             </div>
@@ -228,7 +228,7 @@
                     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
                         <div class="card account-card">
                             <div class="card-image">
-                                <img src="{{ asset('assets/site_users/images/pb.jpg') }}" alt="Akun Point Blank Conqueror"
+                                <img src="{{ asset('assets/site-user/images/pb.jpg') }}" alt="Akun Point Blank Conqueror"
                                     class="card-img-top" />
                                 <div class="card-badge verified">Terverifikasi</div>
                             </div>

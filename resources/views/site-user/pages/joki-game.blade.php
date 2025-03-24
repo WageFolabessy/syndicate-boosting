@@ -44,7 +44,7 @@
                 <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="100">
                     <a href="#" class="card game-card">
                         <div class="card-image">
-                            <img src="{{ asset('assets/site_users/images/ml2.jpg') }}" alt="Mobile Legends"
+                            <img src="{{ asset('assets/site-user/images/ml2.jpg') }}" alt="Mobile Legends"
                                 class="card-img-top" />
                             <div class="card-badge">Produk Terlaris</div>
                         </div>
@@ -69,7 +69,7 @@
                 <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="200">
                     <a href="#" class="card game-card">
                         <div class="card-image">
-                            <img src="{{ asset('assets/site_users/images/valorant.webp') }}" alt="Valorant"
+                            <img src="{{ asset('assets/site-user/images/valorant.webp') }}" alt="Valorant"
                                 class="card-img-top" />
                         </div>
                         <div class="card-body">
@@ -93,7 +93,7 @@
                 <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
                     <a href="#" class="card game-card">
                         <div class="card-image">
-                            <img src="{{ asset('assets/site_users/images/pb.jpg') }}" alt="Point Blank"
+                            <img src="{{ asset('assets/site-user/images/pb.jpg') }}" alt="Point Blank"
                                 class="card-img-top" />
                         </div>
                         <div class="card-body">
@@ -117,7 +117,7 @@
                 <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
                     <a href="#" class="card game-card">
                         <div class="card-image">
-                            <img src="{{ asset('assets/site_users/images/apex-legend.jpg') }}" alt="Apex Legend"
+                            <img src="{{ asset('assets/site-user/images/apex-legend.jpg') }}" alt="Apex Legend"
                                 class="card-img-top" />
                         </div>
                         <div class="card-body">
@@ -141,7 +141,7 @@
                 <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
                     <a href="#" class="card game-card">
                         <div class="card-image">
-                            <img src="{{ asset('assets/site_users/images/so.webp') }}" alt="Seal Online"
+                            <img src="{{ asset('assets/site-user/images/so.webp') }}" alt="Seal Online"
                                 class="card-img-top" />
                         </div>
                         <div class="card-body">

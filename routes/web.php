@@ -14,3 +14,13 @@ Route::get('/akun-game', function () {
 Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi' );
 })->name('transaksi');
+
+Route::get('/dashboard', function () {
+    return view('dashboard.pages.index' );
+})->name('dashboard');
+Route::get('/dashboard/game', function () {
+    return view('dashboard.pages.game.index' );
+})->name('dashboard.game');
+Route::get('/dashboard/game/add', function () {
+    return view('dashboard.pages.game.add-game' );
+})->name('dashboard.game.add');

@@ -14,17 +14,17 @@
     @yield('meta')
 
     <!-- Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/site_users/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/site-user/css/bootstrap.min.css') }}" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/site_users/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/site-user/css/main.css') }}" />
     @yield('css')
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/site_users/images/logo.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/site-user/images/logo.png') }}" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,13 +38,13 @@
     @yield('content')
     @include('site-user.components.footer')
     <!-- Bootstrap 5 JS Bundle -->
-    <script src="{{ asset('assets/site_users/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/site-user/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- AOS Animation Library -->
-    <script src="{{ asset('assets/site_users/js/aos.js') }}"></script>
+    <script src="{{ asset('assets/site-user/js/aos.js') }}"></script>
 
     <!-- Custom JS -->
-    <script src="{{ asset('assets/site_users/js/main.js') }}"></script>
+    <script src="{{ asset('assets/site-user/js/main.js') }}"></script>
     @yield('script')
 </body>
 
