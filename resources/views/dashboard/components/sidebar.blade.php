@@ -1,7 +1,9 @@
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <h2>Syndicate</h2>
+        <a class="navbar-brand" href="{{ route('dashboard') }}">
+            <h2>Syndicate</h2>
+        </a>
     </div>
 
     <div class="sidebar-menu">
