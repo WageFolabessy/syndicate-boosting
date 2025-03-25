@@ -15,7 +15,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li>
-                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="{{ route("dashboard.admin.show", Auth::user()->id) }}">Profile</a>
             </li>
             <li>
                 <hr class="dropdown-divider">

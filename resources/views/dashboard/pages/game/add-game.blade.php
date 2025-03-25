@@ -1,6 +1,6 @@
 @extends('dashboard.components.main')
 @section('title')
-    - Tambah Game Baru
+    - Add New Game
 @endsection
 @section('content')
     <!-- Main Content -->

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\GameController;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,14 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game/{game}', [GameController::class, 'show'])->name('dashboard.game.show');
     Route::put('/game/{game}', [GameController::class, 'update'])->name('dashboard.game.update');
     Route::delete('/game/{game}', [GameController::class, 'destroy'])->name('dashboard.game.destroy');
+
+    Route::get('/admin', function () {
+        return view('dashboard.pages.admin.index');
+    })->name('dashboard.admin');
+    Route::get('/admins/datatables', [AdminController::class, 'index']);
+    Route::get('/admin/add', [AdminController::class, 'create'])->name('dashboard.admin.create');
+    Route::post('/admin', [AdminController::class, 'store'])->name('dashboard.admin.store');
+    Route::get('/admin/{admin}', [AdminController::class, 'show'])->name('dashboard.admin.show');
+    Route::put('/admin/{admin}', [AdminController::class, 'update'])->name('dashboard.admin.update');
+    Route::delete('/admin/{admin}', [AdminController::class, 'destroy'])->name('dashboard.admin.destroy');
 });

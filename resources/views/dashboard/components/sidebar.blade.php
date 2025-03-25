@@ -17,18 +17,18 @@
 
         <div class="menu-category">Game Management</div>
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.add') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.add') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
                 <i class="fas fa-gamepad menu-icon"></i>
                 <span class="menu-text">Games</span>
             </a>
             <div
-                class="submenu {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.add') ? 'open' : '' }}">
+                class="submenu {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'open' : '' }}">
                 <a href="{{ route('dashboard.game') }}"
                     class="submenu-link {{ request()->routeIs('dashboard.game') ? 'active' : '' }}">All Games</a>
                 <a href="{{ route('dashboard.game.create') }}"
-                    class="submenu-link {{ request()->routeIs('dashboard.game.add') ? 'active' : '' }}">Add New Game</a>
+                    class="submenu-link {{ request()->routeIs('dashboard.game.create') ? 'active' : '' }}">Add New Game</a>
             </div>
         </div>
 
@@ -125,7 +125,7 @@
         </div>
 
         <div class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{ route('dashboard.admin') }}" class="menu-link {{ request()->routeIs('dashboard.admin') ? 'active' : '' }}">
                 <i class="fas fa-users menu-icon"></i>
                 <span class="menu-text">Admins</span>
             </a>
