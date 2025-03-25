@@ -5,7 +5,6 @@ use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\GameController;
 use Illuminate\Support\Facades\Route;
 
-// Ini halaman customer, tidak ada sistem autentikasi, jadi tidak perlu ada middleware
 Route::get('/', function () {
     return view('site-user.pages.index');
 })->name('index');
