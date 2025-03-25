@@ -27,7 +27,7 @@
                 class="submenu {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.add') ? 'open' : '' }}">
                 <a href="{{ route('dashboard.game') }}"
                     class="submenu-link {{ request()->routeIs('dashboard.game') ? 'active' : '' }}">All Games</a>
-                <a href="{{ route('dashboard.game.add') }}"
+                <a href="{{ route('dashboard.game.create') }}"
                     class="submenu-link {{ request()->routeIs('dashboard.game.add') ? 'active' : '' }}">Add New Game</a>
             </div>
         </div>
@@ -127,7 +127,7 @@
         <div class="menu-item">
             <a href="#" class="menu-link">
                 <i class="fas fa-users menu-icon"></i>
-                <span class="menu-text">Users</span>
+                <span class="menu-text">Admins</span>
             </a>
         </div>
 

@@ -1,6 +1,6 @@
 @extends('dashboard.components.main')
 @section('title')
-    - Tambah Game Baru
+    - Edit Game
 @endsection
 @section('content')
     <!-- Main Content -->
@@ -23,7 +23,7 @@
             @endif
 
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="mb-0 fw-bold">Add New Game</h1>
+                <h1 class="mb-0 fw-bold">Edit Game</h1>
                 <div>
                     <a href="{{ route('dashboard.game') }}" class="btn btn-outline-primary">
                         <i class="fas fa-arrow-left me-2"></i>Back to Games
@@ -31,15 +31,16 @@
                 </div>
             </div>
 
-            <!-- Add Game Form -->
+            <!-- Edit Game Form -->
             <div class="form-card">
                 <div class="form-header">
                     <h5 class="mb-0">Game Information</h5>
                 </div>
                 <div class="form-container">
-                    <form id="addGameForm" action="{{ route('dashboard.game.store') }}" method="POST"
+                    <form id="editGameForm" action="{{ route('dashboard.game.update', $game->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="row g-4">
                             <div class="col-12 col-md-6">
                                 <!-- Game Name -->
@@ -48,7 +49,7 @@
                                         Game Name <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Enter game name" required value="{{ old('name') }}">
+                                        placeholder="Enter game name" required value="{{ old('name', $game->name) }}">
                                 </div>
                                 <!-- Genre -->
                                 <div class="mb-3">
@@ -56,12 +57,12 @@
                                         Game Genre <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="genre" id="genre"
-                                        placeholder="Enter game genre" required value="{{ old('genre') }}">
+                                        placeholder="Enter game genre" required value="{{ old('genre', $game->genre) }}">
                                 </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" name="description" id="description" rows="4" placeholder="Enter game description">{{ old('description') }}</textarea>
+                                    <textarea class="form-control" name="description" id="description" rows="4" placeholder="Enter game description">{{ old('description', $game->description) }}</textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -70,12 +71,13 @@
                                     <label class="form-label">Game Image <span class="text-danger">*</span></label>
                                     <div class="card p-3 bg-light">
                                         <div class="text-center mb-3">
-                                            <img src="https://placehold.co/200x200?text=Game+Image" id="imagePreview"
-                                                class="img-fluid rounded border" style="max-height:200px;width:auto">
+                                            <img src="{{ $game->image ? asset('storage/' . $game->image) : 'https://placehold.co/200x200?text=Game+Image' }}"
+                                                id="imagePreview" class="img-fluid rounded border"
+                                                style="max-height:200px;width:auto">
                                         </div>
                                         <div class="input-group">
                                             <input type="file" class="form-control" name="image" id="image"
-                                                accept="image/*" required>
+                                                accept="image/*">
                                             <button type="button" class="btn btn-outline-secondary" id="removeImage">
                                                 <i class="fas fa-times"></i>
                                             </button>
@@ -90,15 +92,16 @@
                     </form>
                 </div>
                 <div class="form-footer">
-                    <button type="button" class="btn btn-outline-secondary">Cancel</button>
-                    <button type="submit" form="addGameForm" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i>Save Game
+                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">Cancel</button>
+                    <button type="submit" form="editGameForm" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Game
                     </button>
                 </div>
             </div>
         </div>
     </main>
 @endsection
+
 @section('script')
     <!-- Script untuk Preview Image dan Remove Image -->
     <script>
@@ -112,14 +115,16 @@
                 }
                 reader.readAsDataURL(file);
             } else {
-                document.getElementById('imagePreview').src = "https://placehold.co/200x200?text=Game+Image";
+                document.getElementById('imagePreview').src =
+                    "{{ $game->image ? asset('storage/' . $game->image) : 'https://placehold.co/200x200?text=Game+Image' }}";
             }
         });
 
-        // Ketika tombol remove diklik, hapus file terpilih dan kembalikan preview ke gambar default
+        // Ketika tombol remove diklik, hapus file terpilih dan kembalikan preview ke gambar sebelumnya
         document.getElementById('removeImage').addEventListener('click', function() {
             document.getElementById('image').value = ''; // Reset input file
-            document.getElementById('imagePreview').src = "https://placehold.co/200x200?text=Game+Image";
+            document.getElementById('imagePreview').src =
+                "{{ $game->image ? asset('storage/' . $game->image) : 'https://placehold.co/200x200?text=Game+Image' }}";
         });
     </script>
 @endsection
