@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {
-    protected $fillable = ['name', 'genre', 'description', 'image'];
+    protected $fillable = ['name', 'genre', 'developer', 'description', 'image'];
 
     public function rankCategories()
     {

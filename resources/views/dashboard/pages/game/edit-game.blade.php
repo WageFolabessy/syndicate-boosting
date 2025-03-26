@@ -59,6 +59,14 @@
                                     <input type="text" class="form-control" name="genre" id="genre"
                                         placeholder="Enter game genre" required value="{{ old('genre', $game->genre) }}">
                                 </div>
+                                <!-- Developer -->
+                                <div class="mb-3">
+                                    <label for="developer" class="form-label">
+                                        Game Developer's <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="developer" id="developer"
+                                        placeholder="Enter game developer's" required value="{{ old('developer', $game->developer) }}">
+                                </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>

@@ -16,6 +16,7 @@ class AddGameRequest extends FormRequest
         return [
             'name'        => 'required|string|max:255',
             'genre'       => 'required|string|max:255',
+            'developer'   => 'required|string|max:255',
             'description' => 'nullable|string',
             'image'       => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
@@ -30,6 +31,9 @@ class AddGameRequest extends FormRequest
             'genre.required'   => 'Genre game harus diisi.',
             'genre.string'     => 'Genre game harus berupa teks.',
             'genre.max'        => 'Genre game tidak boleh lebih dari 255 karakter.',
+            'developer.required' => 'Developer game harus diisi.',
+            'developer.string'   => 'Developer game harus berupa teks.',
+            'developer.max'      => 'Developer game tidak boleh lebih dari 255 karakter.',
             'image.required'   => 'Gambar game harus diunggah.',
             'image.image'      => 'File yang diunggah harus berupa gambar.',
             'image.mimes'      => 'Format gambar harus jpg, jpeg, png, atau webp.',

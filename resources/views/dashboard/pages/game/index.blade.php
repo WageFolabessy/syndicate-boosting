@@ -39,6 +39,7 @@
                                 <th class="text-center">Image</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Genre</th>
+                                <th class="text-center">Developer's</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

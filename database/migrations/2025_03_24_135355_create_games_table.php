@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('genre'); // misal: MOBA, FPS, dll.
+            $table->string('developer');
             $table->text('description')->nullable();
             $table->string('image');
             $table->timestamps();
