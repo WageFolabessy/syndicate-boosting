@@ -11,5 +11,9 @@
                 </button>
             </form>
         </div>
+    @else
+        <div class="action-btns">
+               <p>You</p>
+        </div>
     @endif
 </div>

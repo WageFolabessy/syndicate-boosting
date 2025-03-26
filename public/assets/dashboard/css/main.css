@@ -627,7 +627,7 @@ body {
     }
 
     .user-info {
-        display: none;
+        display: block;
     }
 }
 
