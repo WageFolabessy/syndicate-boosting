@@ -134,7 +134,11 @@
         <div class="menu-item">
             <a href="#" class="menu-link">
                 <i class="fas fa-sign-out-alt menu-icon"></i>
-                <span class="menu-text">Logout</span>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="dropdown-item"><span class="menu-text">Logout</span></button>
+                </form>
+                
             </a>
         </div>
     </div>

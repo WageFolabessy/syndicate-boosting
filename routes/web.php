@@ -52,7 +52,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/admins/datatables', [AdminController::class, 'index']);
     Route::get('/admin/add', [AdminController::class, 'create'])->name('dashboard.admin.create');
     Route::post('/admin', [AdminController::class, 'store'])->name('dashboard.admin.store');
-    Route::get('/admin/{admin}', [AdminController::class, 'show'])->name('dashboard.admin.show');
+    Route::get('/profile/{admin}', [AdminController::class, 'show'])->name('dashboard.admin.show');
     Route::put('/admin/{admin}', [AdminController::class, 'update'])->name('dashboard.admin.update');
     Route::delete('/admin/{admin}', [AdminController::class, 'destroy'])->name('dashboard.admin.destroy');
 });
