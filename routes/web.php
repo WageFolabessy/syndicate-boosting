@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\GameController;
+use App\Http\Controllers\Dashboard\RankCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,6 +46,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game/{game}', [GameController::class, 'show'])->name('dashboard.game.show');
     Route::put('/game/{game}', [GameController::class, 'update'])->name('dashboard.game.update');
     Route::delete('/game/{game}', [GameController::class, 'destroy'])->name('dashboard.game.destroy');
+
+    Route::get('/rank-category', function () {
+        return view('dashboard.pages.rank-category.index');
+    })->name('dashboard.rank-category');
+    Route::get('/rank-categories/datatables', [RankCategoryController::class, 'index']);
+    Route::get('/rank-category/add', [RankCategoryController::class, 'create'])->name('dashboard.rank-category.create');
+    Route::post('/rank-category', [RankCategoryController::class, 'store'])->name('dashboard.rank-category.store');
+    Route::get('/rank-category/{rankCategory}', [RankCategoryController::class, 'show'])->name('dashboard.rank-category.show');
+    Route::put('/rank-category/{rankCategory}', [RankCategoryController::class, 'update'])->name('dashboard.rank-category.update');
+    Route::delete('/rank-category/{rankCategory}', [RankCategoryController::class, 'destroy'])->name('dashboard.rank-category.destroy');
 
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');

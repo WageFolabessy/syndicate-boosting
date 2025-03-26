@@ -40,7 +40,6 @@ class GameController extends Controller
             ->make(true);
     }
 
-
     public function create()
     {
         return view('dashboard.pages.game.add-game');
@@ -81,7 +80,7 @@ class GameController extends Controller
 
         return redirect()->route('dashboard.game')->with('success', 'Game berhasil diperbarui.');
     }
-
+    
     public function destroy(Game $game)
     {
         if ($game->image && Storage::disk('public')->exists($game->image)) {

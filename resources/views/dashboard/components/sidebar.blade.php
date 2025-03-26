@@ -28,18 +28,26 @@
                 <a href="{{ route('dashboard.game') }}"
                     class="submenu-link {{ request()->routeIs('dashboard.game') ? 'active' : '' }}">All Games</a>
                 <a href="{{ route('dashboard.game.create') }}"
-                    class="submenu-link {{ request()->routeIs('dashboard.game.create') ? 'active' : '' }}">Add New Game</a>
+                    class="submenu-link {{ request()->routeIs('dashboard.game.create') ? 'active' : '' }}">Add New
+                    Game</a>
             </div>
         </div>
 
-        <div class="menu-item has-dropdown">
-            <a href="#" class="menu-link">
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-category') || request()->routeIs('dashboard.rank-category.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.rank-category') || request()->routeIs('dashboard.rank-category.create') ? 'active' : '' }}">
                 <i class="fas fa-trophy menu-icon"></i>
                 <span class="menu-text">Rank Categories</span>
             </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">All Categories</a>
-                <a href="#" class="submenu-link">Add New Category</a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.rank-category') || request()->routeIs('dashboard.rank-category.create') ? 'open' : '' }}"">
+                <a href="{{ route('dashboard.rank-category') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-category') ? 'active' : '' }}">All
+                    Categories</a>
+                <a href="{{ route('dashboard.rank-category.create') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-category.create') ? 'active' : '' }}">Add
+                    New Category</a>
             </div>
         </div>
 
@@ -125,7 +133,8 @@
         </div>
 
         <div class="menu-item">
-            <a href="{{ route('dashboard.admin') }}" class="menu-link {{ request()->routeIs('dashboard.admin') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.admin') }}"
+                class="menu-link {{ request()->routeIs('dashboard.admin') ? 'active' : '' }}">
                 <i class="fas fa-users menu-icon"></i>
                 <span class="menu-text">Admins</span>
             </a>
@@ -138,7 +147,7 @@
                     @csrf
                     <button type="submit" class="dropdown-item"><span class="menu-text">Logout</span></button>
                 </form>
-                
+
             </a>
         </div>
     </div>
