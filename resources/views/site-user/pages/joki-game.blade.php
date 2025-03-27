@@ -26,7 +26,7 @@
             </div>
         </div>
     </section>
-    <!-- Daftar Game -->
+    <!-- Daftar Boosting Service -->
     <section class="game-listing">
         <div class="container">
             <!-- Bar Pencarian & Penyortiran -->
@@ -41,129 +41,42 @@
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-3 g-4 game-cards">
-                <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="100">
-                    <a href="#" class="card game-card">
-                        <div class="card-image">
-                            <img src="{{ asset('assets/site-user/images/ml2.jpg') }}" alt="Mobile Legends"
-                                class="card-img-top" />
-                            <div class="card-badge">Produk Terlaris</div>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Mobile Legends</h3>
-                            <div class="game-meta">
-                                <span><i class="bi bi-controller"></i> MOBA</span>
-                                <span><i class="bi bi-star-fill"></i> 4.9 (120 Ulasan)</span>
+                @foreach ($services as $service)
+                    <div class="col-lg-4 col-md-6 game-item {{ strtolower($service->game->genre) }}" data-aos="fade-up"
+                        data-aos-delay="{{ $loop->iteration * 100 }}">
+                        <a href="{{ route('joki-game.detail', $service->id) }}" class="card game-card">
+                            <div class="card-image">
+                                <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('assets/site-user/images/placeholder.jpg') }}"
+                                    alt="{{ $service->game->name }}" class="card-img-top" />
+                                @if (isset($service->is_best_seller) && $service->is_best_seller)
+                                    <div class="card-badge">Produk Terlaris</div>
+                                @endif
                             </div>
-                            <p class="card-text">
-                                Peningkatan peringkat dari Warrior ke Mythical Glory,
-                                pencapaian medali kustom, pelatihan profesional
-                            </p>
-                            <div class="card-meta">
-                                <span class="price">Mulai dari Rp 50.000</span>
-                                <button class="btn btn-sm btn-primary">Lihat Paket</button>
+                            <div class="card-body">
+                                <h3 class="card-title">{{ $service->game->name }}</h3>
+                                <div class="game-meta">
+                                    <span><i class="bi bi-controller"></i> {{ strtoupper($service->game->genre) }}</span>
+                                    {{-- Jika ada rating/reviews, tampilkan di sini --}}
+                                    {{-- <span><i class="bi bi-star-fill"></i> {{ number_format($service->rating, 1) }} ({{ $service->reviews_count }} Ulasan)</span> --}}
+                                </div>
+                                <p class="card-text">
+                                    {{ \Illuminate\Support\Str::limit($service->description, 100, '...') }}
+                                </p>
+                                <div class="card-meta">
+                                    <span class="price">
+                                        Mulai dari Rp
+                                        {{ number_format($service->sale_price ?? $service->original_price, 0, ',', '.') }}
+                                    </span>
+                                    <button class="btn btn-sm btn-primary">Lihat Paket</button>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="200">
-                    <a href="#" class="card game-card">
-                        <div class="card-image">
-                            <img src="{{ asset('assets/site-user/images/valorant.webp') }}" alt="Valorant"
-                                class="card-img-top" />
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Valorant</h3>
-                            <div class="game-meta">
-                                <span><i class="bi bi-controller"></i> MOBA</span>
-                                <span><i class="bi bi-star-fill"></i> 4.8 (95 Ulasan)</span>
-                            </div>
-                            <p class="card-text">
-                                Peningkatan MMR, pertandingan kalibrasi, peningkatan skor
-                                perilaku, pelatihan profesional
-                            </p>
-                            <div class="card-meta">
-                                <span class="price">Mulai dari Rp 120.000</span>
-                                <button class="btn btn-sm btn-primary">Lihat Paket</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#" class="card game-card">
-                        <div class="card-image">
-                            <img src="{{ asset('assets/site-user/images/pb.jpg') }}" alt="Point Blank"
-                                class="card-img-top" />
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Point Blank</h3>
-                            <div class="game-meta">
-                                <span><i class="bi bi-controller"></i> MOBA</span>
-                                <span><i class="bi bi-star-fill"></i> 4.7 (88 Ulasan)</span>
-                            </div>
-                            <p class="card-text">
-                                Peningkatan peringkat dari Iron ke Challenger, penempatan,
-                                penguasaan champion, pelatihan
-                            </p>
-                            <div class="card-meta">
-                                <span class="price">Mulai dari Rp 150.000</span>
-                                <button class="btn btn-sm btn-primary">Lihat Paket</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#" class="card game-card">
-                        <div class="card-image">
-                            <img src="{{ asset('assets/site-user/images/apex-legend.jpg') }}" alt="Apex Legend"
-                                class="card-img-top" />
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Apex Legend</h3>
-                            <div class="game-meta">
-                                <span><i class="bi bi-controller"></i> MOBA</span>
-                                <span><i class="bi bi-star-fill"></i> 4.7 (88 Ulasan)</span>
-                            </div>
-                            <p class="card-text">
-                                Peningkatan peringkat dari Iron ke Challenger, penempatan,
-                                penguasaan champion, pelatihan
-                            </p>
-                            <div class="card-meta">
-                                <span class="price">Mulai dari Rp 150.000</span>
-                                <button class="btn btn-sm btn-primary">Lihat Paket</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6 game-item moba" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#" class="card game-card">
-                        <div class="card-image">
-                            <img src="{{ asset('assets/site-user/images/so.webp') }}" alt="Seal Online"
-                                class="card-img-top" />
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Seal Online</h3>
-                            <div class="game-meta">
-                                <span><i class="bi bi-controller"></i> MOBA</span>
-                                <span><i class="bi bi-star-fill"></i> 4.7 (88 Ulasan)</span>
-                            </div>
-                            <p class="card-text">
-                                Peningkatan peringkat dari Iron ke Challenger, penempatan,
-                                penguasaan champion, pelatihan
-                            </p>
-                            <div class="card-meta">
-                                <span class="price">Mulai dari Rp 150.000</span>
-                                <button class="btn btn-sm btn-primary">Lihat Paket</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
+
     <!-- Bagian Cara Kerja -->
     @include('site-user.components.how-it-works')
     <!-- Bagian FAQ -->

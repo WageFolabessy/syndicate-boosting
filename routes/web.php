@@ -6,14 +6,14 @@ use App\Http\Controllers\Dashboard\BoostingServiceController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
+use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('site-user.pages.index');
 })->name('index');
-Route::get('/joki-game', function () {
-    return view('site-user.pages.joki-game');
-})->name('joki-game');
+Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
+Route::get('/joki-game/{service}', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
 Route::get('/akun-game', function () {
     return view('site-user.pages.akun-game');
 })->name('akun-game');
