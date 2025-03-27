@@ -70,14 +70,17 @@
         </div>
 
         <div class="menu-category">Services</div>
-        <div class="menu-item has-dropdown">
-            <a href="#" class="menu-link">
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.boosting-service') || request()->routeIs('dashboard.boosting-service.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.boosting-service') || request()->routeIs('dashboard.boosting-service.create') ? 'active' : '' }}">
                 <i class="fas fa-rocket menu-icon"></i>
                 <span class="menu-text">Boosting Services</span>
             </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">All Services</a>
-                <a href="#" class="submenu-link">Add New Service</a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.boosting-service') || request()->routeIs('dashboard.boosting-service.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.boosting-service') }}" class="submenu-link {{ request()->routeIs('dashboard.boosting-service') ? 'active' : '' }}">All Services</a>
+                <a href="{{ route('dashboard.boosting-service.create') }}" class="submenu-link {{ request()->routeIs('dashboard.boosting-service.create') ? 'active' : '' }}">Add New Service</a>
             </div>
         </div>
 

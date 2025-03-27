@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
+use App\Http\Controllers\Dashboard\BoostingServiceController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
@@ -67,6 +68,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-tier/{rankTier}', [RankTierController::class, 'show'])->name('dashboard.rank-tier.show');
     Route::put('/rank-tier/{rankTier}', [RankTierController::class, 'update'])->name('dashboard.rank-tier.update');
     Route::delete('/rank-tier/{rankTier}', [RankTierController::class, 'destroy'])->name('dashboard.rank-tier.destroy');
+
+    Route::get('/boosting-service', function () {
+        return view('dashboard.pages.boosting-service.index');
+    })->name('dashboard.boosting-service');
+    Route::get('/boosting-services/datatables', [BoostingServiceController::class, 'index']);
+    Route::get('/boosting-service/add', [BoostingServiceController::class, 'create'])->name('dashboard.boosting-service.create');
+    Route::post('/boosting-service', [BoostingServiceController::class, 'store'])->name('dashboard.boosting-service.store');
+    Route::get('/boosting-service/{service}', [BoostingServiceController::class, 'show'])->name('dashboard.boosting-service.show');
+    Route::put('/boosting-service/{service}', [BoostingServiceController::class, 'update'])->name('dashboard.boosting-service.update');
+    Route::delete('/boosting-service/{service}', [BoostingServiceController::class, 'destroy'])->name('dashboard.boosting-service.destroy');
 
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');

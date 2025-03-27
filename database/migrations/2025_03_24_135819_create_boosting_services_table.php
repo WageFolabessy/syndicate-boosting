@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('game_id');
             // Tipe layanan: individual (satuan) atau package (paket)
-            $table->enum('service_type', ['individual', 'package'])->default('individual');
+            $table->enum('service_type', ['custom', 'package'])->default('custom');
             $table->text('description')->nullable();
             $table->integer('original_price');
             $table->integer('sale_price')->nullable();
