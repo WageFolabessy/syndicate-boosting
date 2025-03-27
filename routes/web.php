@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
+use App\Http\Controllers\Dashboard\RankTierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -56,6 +57,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-category/{rankCategory}', [RankCategoryController::class, 'show'])->name('dashboard.rank-category.show');
     Route::put('/rank-category/{rankCategory}', [RankCategoryController::class, 'update'])->name('dashboard.rank-category.update');
     Route::delete('/rank-category/{rankCategory}', [RankCategoryController::class, 'destroy'])->name('dashboard.rank-category.destroy');
+
+    Route::get('/rank-tier', function () {
+        return view('dashboard.pages.rank-tier.index');
+    })->name('dashboard.rank-tier');
+    Route::get('/rank-tiers/datatables', [RankTierController::class, 'index']);
+    Route::get('/rank-tier/add', [RankTierController::class, 'create'])->name('dashboard.rank-tier.create');
+    Route::post('/rank-tier', [RankTierController::class, 'store'])->name('dashboard.rank-tier.store');
+    Route::get('/rank-tier/{rankTier}', [RankTierController::class, 'show'])->name('dashboard.rank-tier.show');
+    Route::put('/rank-tier/{rankTier}', [RankTierController::class, 'update'])->name('dashboard.rank-tier.update');
+    Route::delete('/rank-tier/{rankTier}', [RankTierController::class, 'destroy'])->name('dashboard.rank-tier.destroy');
 
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');

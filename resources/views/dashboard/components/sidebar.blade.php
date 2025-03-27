@@ -51,14 +51,21 @@
             </div>
         </div>
 
-        <div class="menu-item has-dropdown">
-            <a href="#" class="menu-link">
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-tier') || request()->routeIs('dashboard.rank-tier.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.rank-tier') || request()->routeIs('dashboard.rank-tier.create') ? 'active' : '' }}">
                 <i class="fas fa-medal menu-icon"></i>
                 <span class="menu-text">Rank Tiers</span>
             </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">All Tiers</a>
-                <a href="#" class="submenu-link">Add New Tier</a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.rank-tier') || request()->routeIs('dashboard.rank-tier.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.rank-tier') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-tier') ? 'active' : '' }}">All
+                    Tiers</a>
+                <a href="{{ route('dashboard.rank-tier.create') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-tier.create') ? 'active' : '' }}">Add
+                    New Tier</a>
             </div>
         </div>
 
