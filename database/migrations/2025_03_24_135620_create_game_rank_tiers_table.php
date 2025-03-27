@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('game_rank_tiers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_rank_category_id');
-            $table->integer('tier'); // misal: 4, 3, 2, 1
+            $table->string('tier'); // misal: 4, 3, 2, 1
             $table->integer('stars_required')->nullable(); // misal: 5 bintang untuk naik tier
             $table->integer('price')->nullable(); // harga kenaikan untuk tier ini (integer)
             $table->timestamps();

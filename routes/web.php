@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\BoostingServiceController;
+use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
@@ -78,6 +79,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/boosting-service/{service}', [BoostingServiceController::class, 'show'])->name('dashboard.boosting-service.show');
     Route::put('/boosting-service/{service}', [BoostingServiceController::class, 'update'])->name('dashboard.boosting-service.update');
     Route::delete('/boosting-service/{service}', [BoostingServiceController::class, 'destroy'])->name('dashboard.boosting-service.destroy');
+
+    Route::get('/faq', function () {
+        return view('dashboard.pages.faq.index');
+    })->name('dashboard.faq');
+    Route::get('/faqs/datatables', [FaqController::class, 'index']);
+    Route::get('/faq/add', [FaqController::class, 'create'])->name('dashboard.faq.create');
+    Route::post('/faq', [FaqController::class, 'store'])->name('dashboard.faq.store');
+    Route::get('/faq/{faq}', [FaqController::class, 'show'])->name('dashboard.faq.show');
+    Route::put('/faq/{faq}', [FaqController::class, 'update'])->name('dashboard.faq.update');
+    Route::delete('/faq/{faq}', [FaqController::class, 'destroy'])->name('dashboard.faq.destroy');
 
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');

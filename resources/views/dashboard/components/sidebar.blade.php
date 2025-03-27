@@ -135,19 +135,33 @@
         </div>
 
         <div class="menu-category">System</div>
-        <div class="menu-item">
-            <a href="#" class="menu-link">
-                <i class="fas fa-cog menu-icon"></i>
-                <span class="menu-text">Settings</span>
+
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.faq') || request()->routeIs('dashboard.faq.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.faq') || request()->routeIs('dashboard.faq.create') ? 'active' : '' }}">
+                <i class="fas fa-question menu-icon"></i>
+                <span class="menu-text">FAQ's</span>
             </a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.faq') || request()->routeIs('dashboard.faq.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.faq') }}" class="submenu-link {{ request()->routeIs('dashboard.faq') ? 'active' : '' }}">All FAQ'S</a>
+                <a href="{{ route('dashboard.faq.create') }}" class="submenu-link {{ request()->routeIs('dashboard.faq.create') ? 'active' : '' }}">Add New FAQ</a>
+            </div>
         </div>
 
-        <div class="menu-item">
-            <a href="{{ route('dashboard.admin') }}"
-                class="menu-link {{ request()->routeIs('dashboard.admin') ? 'active' : '' }}">
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.admin') || request()->routeIs('dashboard.admin.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.admin') || request()->routeIs('dashboard.admin.create') ? 'active' : '' }}">
                 <i class="fas fa-users menu-icon"></i>
                 <span class="menu-text">Admins</span>
             </a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.admin') || request()->routeIs('dashboard.admin.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.admin') }}" class="submenu-link {{ request()->routeIs('dashboard.admin') ? 'active' : '' }}">All Admin</a>
+                <a href="{{ route('dashboard.admin.create') }}" class="submenu-link {{ request()->routeIs('dashboard.admin.create') ? 'active' : '' }}">Add New Admin</a>
+            </div>
         </div>
 
         <div class="menu-item">

@@ -62,7 +62,7 @@
                                     <label for="tier" class="form-label">
                                         Tier <span class="text-danger">*</span>
                                     </label>
-                                    <input type="number" class="form-control" name="tier" id="tier"
+                                    <input type="text" class="form-control" name="tier" id="tier"
                                         placeholder="Enter tier (e.g. 1, 2, 3...)" required value="{{ old('tier') }}">
                                 </div>
                                 <!-- Stars Required -->

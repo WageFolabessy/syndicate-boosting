@@ -32,7 +32,7 @@ class AdminController extends Controller
             ->addColumn('action', function ($game) {
                 return view('dashboard.pages.admin.action-button')->with('admins', $game);
             })
-            ->rawColumns(['image', 'action'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
