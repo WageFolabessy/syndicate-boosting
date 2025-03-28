@@ -25,7 +25,12 @@ $(document).ready(function () {
             { data: "account_age", name: "account_age"},
             { data: "original_price", name: "original_price"},
             { data: "sale_price", name: "sale_price"},
-            
+            {
+                data: "labels",
+                name: "labels",
+                orderable: false,
+                searchable: false,
+            },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
             {

@@ -44,6 +44,7 @@
                                 <th class="text-center">Account Age</th>
                                 <th class="text-center">Original Price</th>
                                 <th class="text-center">Sale Price</th>
+                                <th class="text-center">Labels</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

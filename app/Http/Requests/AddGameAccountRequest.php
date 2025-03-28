@@ -24,6 +24,8 @@ class AddGameAccountRequest extends FormRequest
             'image'          => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'level'          => 'nullable|integer|min:0',
             'account_age'    => 'nullable|string|max:255',
+            'labels'        => 'nullable|array',
+            'labels.*'      => 'exists:labels,id',
         ];
     }
 
@@ -52,6 +54,8 @@ class AddGameAccountRequest extends FormRequest
             'level.min'               => 'Level tidak boleh negatif.',
             'account_age.string'      => 'Umur akun harus berupa teks.',
             'account_age.max'         => 'Umur akun maksimal 255 karakter.',
+            'labels.array'           => 'Labels harus berupa array.',
+            'labels.*.exists'        => 'Label yang dipilih tidak valid.',
         ];
     }
 }

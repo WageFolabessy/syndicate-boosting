@@ -7,6 +7,7 @@ use App\Http\Requests\AddGameAccountRequest;
 use App\Http\Requests\UpdateGameAccountRequest;
 use App\Models\Game;
 use App\Models\GameAccount;
+use App\Models\Label;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,7 +15,7 @@ class GameAccountController extends Controller
 {
     public function index()
     {
-        $gameAccounts = GameAccount::with('game')->orderBy('updated_at', 'desc')->get();
+        $gameAccounts = GameAccount::with(['game', 'labels'])->orderBy('updated_at', 'desc')->get();
 
         return DataTables::of($gameAccounts)
             ->addIndexColumn()
@@ -51,6 +52,11 @@ class GameAccountController extends Controller
             ->editColumn('game_id', function ($gameAccount) {
                 return $gameAccount->game ? $gameAccount->game->name : '-';
             })
+            ->addColumn('labels', function ($gameAccount) {
+                return $gameAccount->labels && $gameAccount->labels->count() > 0
+                    ? $gameAccount->labels->pluck('name')->implode(', ')
+                    : '-';
+            })
             ->editColumn('created_at', function ($gameAccount) {
                 return $gameAccount->created_at
                     ? $gameAccount->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
@@ -72,7 +78,8 @@ class GameAccountController extends Controller
     public function create()
     {
         $games = Game::orderBy('name')->get();
-        return view('dashboard.pages.game-account.add-game-account', compact('games'));
+        $allLabels = Label::orderBy('name')->get();
+        return view('dashboard.pages.game-account.add-game-account', compact('games', 'allLabels'));
     }
 
     public function store(AddGameAccountRequest $request)
@@ -83,7 +90,11 @@ class GameAccountController extends Controller
             $data['image'] = $request->file('image')->store('game-accounts', 'public');
         }
 
-        GameAccount::create($data);
+        $gameAccount = GameAccount::create($data);
+
+        // Sinkronisasi label (jika ada)
+        $labels = $request->input('labels', []); // labels berupa array ID
+        $gameAccount->labels()->sync($labels);
 
         return redirect()->route('dashboard.game-account')->with('success', 'Akun game berhasil ditambahkan.');
     }
@@ -91,7 +102,8 @@ class GameAccountController extends Controller
     public function show(GameAccount $gameAccount)
     {
         $games = Game::orderBy('name')->get();
-        return view('dashboard.pages.game-account.edit-game-account', compact('gameAccount', 'games'));
+        $allLabels = Label::orderBy('name')->get();
+        return view('dashboard.pages.game-account.edit-game-account', compact('gameAccount', 'games', 'allLabels'));
     }
 
     public function update(UpdateGameAccountRequest $request, GameAccount $gameAccount)
@@ -108,6 +120,10 @@ class GameAccountController extends Controller
         }
 
         $gameAccount->update($data);
+
+        // Sinkronisasi label (jika ada)
+        $labels = $request->input('labels', []);
+        $gameAccount->labels()->sync($labels);
 
         return redirect()->route('dashboard.game-account')->with('success', 'Akun game berhasil diperbarui.');
     }

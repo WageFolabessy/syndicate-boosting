@@ -87,6 +87,21 @@
                                     <label for="features" class="form-label">Features</label>
                                     <textarea class="form-control" name="features" id="features" rows="3" placeholder="Enter account features">{{ old('features', $gameAccount->features) }}</textarea>
                                 </div>
+                                <!-- Labels (Multi-select) -->
+                                <div class="mb-3">
+                                    <label for="labels" class="form-label">Select Labels</label>
+                                    <select name="labels[]" id="labels" class="form-select" multiple>
+                                        @foreach ($allLabels as $label)
+                                            <option value="{{ $label->id }}"
+                                                {{ in_array($label->id, $gameAccount->labels->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                {{ $label->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        Hold Ctrl (or Command on Mac) to select multiple labels.
+                                    </small>
+                                </div>
                             </div>
                             <!-- Right Column -->
                             <div class="col-12 col-md-6">
