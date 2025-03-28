@@ -17,5 +17,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FaqSeeder::class,
         ]);
+        $this->call([
+            GameSeeder::class,
+        ]);
+        $this->call([
+            RankCategorySeeder::class,
+        ]);
     }
 }
