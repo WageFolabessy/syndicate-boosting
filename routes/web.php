@@ -10,16 +10,22 @@ use App\Http\Controllers\Dashboard\LabelController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
+use App\Http\Controllers\SiteUser\PageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('site-user.pages.index');
-})->name('index');
+// Route::get('/', function () {
+//     return view('site-user.pages.index');
+// })->name('index');
+
+// Route::get('/akun-game', function () {
+//     return view('site-user.pages.akun-game');
+// })->name('akun-game');
+
+Route::get('', [PageController::class, 'index'])->name('index');
+Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game');
+
 Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
 Route::get('/joki-game/{service}', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
-Route::get('/akun-game', function () {
-    return view('site-user.pages.akun-game');
-})->name('akun-game');
 Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');
 })->name('transaksi');
