@@ -41,6 +41,7 @@
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row g-4">
+                            <!-- Left Column -->
                             <div class="col-12 col-md-6">
                                 <!-- Game Selection -->
                                 <div class="mb-3">
@@ -63,12 +64,36 @@
                                         Service Type <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" name="service_type" id="service_type" required>
-                                        <option value="custom"
-                                            {{ old('service_type') == 'custom' ? 'selected' : '' }}>Custom</option>
+                                        <option value="custom" {{ old('service_type') == 'custom' ? 'selected' : '' }}>
+                                            Custom</option>
                                         <option value="package" {{ old('service_type') == 'package' ? 'selected' : '' }}>
                                             Package</option>
                                     </select>
                                 </div>
+                                <!-- Description -->
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" name="description" id="description" rows="4"
+                                        placeholder="Enter service description">{{ old('description') }}</textarea>
+                                </div>
+                                <!-- Labels (Multi-select) -->
+                                <div class="mb-3">
+                                    <label for="labels" class="form-label">Select Labels</label>
+                                    <select name="labels[]" id="labels" class="form-select" multiple>
+                                        @foreach ($allLabels as $label)
+                                            <option value="{{ $label->id }}"
+                                                {{ collect(old('labels'))->contains($label->id) ? 'selected' : '' }}>
+                                                {{ $label->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        Hold Ctrl (or Command on Mac) to select multiple labels.
+                                    </small>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-12 col-md-6">
                                 <!-- Original Price -->
                                 <div class="mb-3">
                                     <label for="original_price" class="form-label">
@@ -79,25 +104,14 @@
                                 </div>
                                 <!-- Sale Price -->
                                 <div class="mb-3">
-                                    <label for="sale_price" class="form-label">
-                                        Sale Price
-                                    </label>
+                                    <label for="sale_price" class="form-label">Sale Price</label>
                                     <input type="number" class="form-control" name="sale_price" id="sale_price"
                                         placeholder="Enter sale price (if any)" value="{{ old('sale_price') }}">
                                 </div>
-                                <!-- Description -->
+                                <!-- Service Image -->
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" name="description" id="description" rows="4"
-                                        placeholder="Enter service description">{{ old('description') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <!-- Boosting Service Image -->
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">
-                                        Service Image <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="image" class="form-label">Service Image <span
+                                            class="text-danger">*</span></label>
                                     <div class="card p-3 bg-light">
                                         <div class="text-center mb-3">
                                             <img src="https://placehold.co/200x200?text=Service+Image" id="imagePreview"
@@ -134,7 +148,7 @@
 @section('script')
     <!-- Script for Preview Image and Remove Image -->
     <script>
-        // When user selects an image, display the preview
+        // When the user selects an image, display its preview
         document.getElementById('image').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -148,9 +162,9 @@
             }
         });
 
-        // When remove button is clicked, reset the file input and preview image
+        // When the remove button is clicked, reset the file input and restore the default preview image
         document.getElementById('removeImage').addEventListener('click', function() {
-            document.getElementById('image').value = ''; // Reset file input
+            document.getElementById('image').value = '';
             document.getElementById('imagePreview').src = "https://placehold.co/200x200?text=Service+Image";
         });
     </script>

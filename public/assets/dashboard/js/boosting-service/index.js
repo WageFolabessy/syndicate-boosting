@@ -18,26 +18,17 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
             },
+            { data: "service_type", name: "service_type" },
+            { data: "description", name: "description" },
             {
-                data: "service_type",
-                name:  "service_type",
+                data: "labels",
+                name: "labels",
+                orderable: false,
+                searchable: false,
             },
-            {
-                data: "description",
-                name: "description",
-            },
-            {
-                data: "original_price",
-                name: "original_price",
-            },
-            {
-                data: "sale_price",
-                name: "sale_price",
-            },
-            {
-                data: "game_name",
-                name: "game.name", // field virtual dari relasi game
-            },
+            { data: "original_price", name: "original_price" },
+            { data: "sale_price", name: "sale_price" },
+            { data: "game_name", name: "game.name" },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
             {

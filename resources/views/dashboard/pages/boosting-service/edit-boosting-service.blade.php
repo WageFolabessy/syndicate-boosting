@@ -43,12 +43,12 @@
                         @csrf
                         @method('PUT')
                         <div class="row g-4">
+                            <!-- Left Column -->
                             <div class="col-12 col-md-6">
                                 <!-- Game Selection -->
                                 <div class="mb-3">
-                                    <label for="game_id" class="form-label">
-                                        Select Game <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="game_id" class="form-label">Select Game <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-select" name="game_id" id="game_id" required>
                                         <option value="">-- Select Game --</option>
                                         @foreach ($games as $game)
@@ -61,9 +61,8 @@
                                 </div>
                                 <!-- Service Type -->
                                 <div class="mb-3">
-                                    <label for="service_type" class="form-label">
-                                        Service Type <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="service_type" class="form-label">Service Type <span
+                                            class="text-danger">*</span></label>
                                     <select class="form-select" name="service_type" id="service_type" required>
                                         <option value="custom"
                                             {{ old('service_type', $service->service_type) == 'custom' ? 'selected' : '' }}>
@@ -73,37 +72,49 @@
                                             Package</option>
                                     </select>
                                 </div>
-                                <!-- Original Price -->
-                                <div class="mb-3">
-                                    <label for="original_price" class="form-label">
-                                        Original Price <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="number" class="form-control" name="original_price" id="original_price"
-                                        placeholder="Enter original price" required
-                                        value="{{ old('original_price', $service->original_price) }}">
-                                </div>
-                                <!-- Sale Price -->
-                                <div class="mb-3">
-                                    <label for="sale_price" class="form-label">
-                                        Sale Price
-                                    </label>
-                                    <input type="number" class="form-control" name="sale_price" id="sale_price"
-                                        placeholder="Enter sale price (if any)"
-                                        value="{{ old('sale_price', $service->sale_price) }}">
-                                </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
                                     <textarea class="form-control" name="description" id="description" rows="4"
                                         placeholder="Enter service description">{{ old('description', $service->description) }}</textarea>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <!-- Boosting Service Image -->
+                                <!-- Labels (Multi-select) -->
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">
-                                        Service Image <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="labels" class="form-label">Select Labels</label>
+                                    <select name="labels[]" id="labels" class="form-select" multiple>
+                                        @foreach ($allLabels as $label)
+                                            <option value="{{ $label->id }}"
+                                                {{ in_array($label->id, $service->labels->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                {{ $label->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-muted">
+                                        Hold Ctrl (or Command on Mac) to select multiple labels.
+                                    </small>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-12 col-md-6">
+                                <!-- Original Price -->
+                                <div class="mb-3">
+                                    <label for="original_price" class="form-label">Original Price <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" name="original_price" id="original_price"
+                                        placeholder="Enter original price" required
+                                        value="{{ old('original_price', $service->original_price) }}">
+                                </div>
+                                <!-- Sale Price -->
+                                <div class="mb-3">
+                                    <label for="sale_price" class="form-label">Sale Price</label>
+                                    <input type="number" class="form-control" name="sale_price" id="sale_price"
+                                        placeholder="Enter sale price (if any)"
+                                        value="{{ old('sale_price', $service->sale_price) }}">
+                                </div>
+                                <!-- Service Image -->
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Service Image <span
+                                            class="text-danger">*</span></label>
                                     <div class="card p-3 bg-light">
                                         <div class="text-center mb-3">
                                             <img src="{{ $service->image ? asset('storage/' . $service->image) : 'https://placehold.co/200x200?text=Service+Image' }}"
@@ -113,13 +124,11 @@
                                         <div class="input-group">
                                             <input type="file" class="form-control" name="image" id="image"
                                                 accept="image/*">
-                                            <button type="button" class="btn btn-outline-secondary" id="removeImage">
-                                                <i class="fas fa-times"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary" id="removeImage"><i
+                                                    class="fas fa-times"></i></button>
                                         </div>
-                                        <small class="text-muted mt-2">
-                                            Recommended size: 500x500px. Max file size: 2MB.
-                                        </small>
+                                        <small class="text-muted mt-2">Recommended size: 500x500px. Max file size:
+                                            2MB.</small>
                                     </div>
                                 </div>
                             </div>
@@ -136,18 +145,16 @@
         </div>
     </main>
 @endsection
-
 @section('script')
     <!-- Script for Preview Image and Remove Image -->
     <script>
-        // When user selects an image, display the preview
         document.getElementById('image').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('imagePreview').src = e.target.result;
-                };
+                }
                 reader.readAsDataURL(file);
             } else {
                 document.getElementById('imagePreview').src =
@@ -155,9 +162,8 @@
             }
         });
 
-        // When remove button is clicked, reset the file input and restore previous image preview
         document.getElementById('removeImage').addEventListener('click', function() {
-            document.getElementById('image').value = ''; // Reset input file
+            document.getElementById('image').value = '';
             document.getElementById('imagePreview').src =
                 "{{ $service->image ? asset('storage/' . $service->image) : 'https://placehold.co/200x200?text=Service+Image' }}";
         });
