@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\BoostingServiceController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\GameAccountController;
 use App\Http\Controllers\Dashboard\GameController;
+use App\Http\Controllers\Dashboard\LabelController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
@@ -90,6 +91,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game-account/{gameAccount}', [GameAccountController::class, 'show'])->name('dashboard.game-account.show');
     Route::put('/game-account/{gameAccount}', [GameAccountController::class, 'update'])->name('dashboard.game-account.update');
     Route::delete('/game-account/{gameAccount}', [GameAccountController::class, 'destroy'])->name('dashboard.game-account.destroy');
+    
+    Route::get('/label', function () {
+        return view('dashboard.pages.label.index');
+    })->name('dashboard.label');
+    Route::get('/labels/datatables', [LabelController::class, 'index']);
+    Route::get('/label/add', [LabelController::class, 'create'])->name('dashboard.label.create');
+    Route::post('/label', [LabelController::class, 'store'])->name('dashboard.label.store');
+    Route::get('/label/{label}', [LabelController::class, 'show'])->name('dashboard.label.show');
+    Route::put('/label/{label}', [LabelController::class, 'update'])->name('dashboard.label.update');
+    Route::delete('/label/{label}', [LabelController::class, 'destroy'])->name('dashboard.label.destroy');
 
     Route::get('/faq', function () {
         return view('dashboard.pages.faq.index');

@@ -97,19 +97,25 @@
             </a>
             <div
                 class="submenu {{ request()->routeIs('dashboard.game-account') || request()->routeIs('dashboard.game-account.create') ? 'open' : '' }}">
-                <a href="{{ route('dashboard.game-account') }}" class="submenu-link {{ request()->routeIs('dashboard.game-account') ? 'active' : '' }}">All Accounts</a>
-                <a href="{{ route('dashboard.game-account.create') }}" class="submenu-link {{ request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">Add New Account</a>
+                <a href="{{ route('dashboard.game-account') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.game-account') ? 'active' : '' }}">All
+                    Accounts</a>
+                <a href="{{ route('dashboard.game-account.create') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">Add
+                    New Account</a>
             </div>
         </div>
 
-        <div class="menu-item has-dropdown">
-            <a href="#" class="menu-link">
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'active' : '' }}">
                 <i class="fas fa-tag menu-icon"></i>
                 <span class="menu-text">Labels</span>
             </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">All Labels</a>
-                <a href="#" class="submenu-link">Add New Label</a>
+            <div class="submenu {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.label') }}" class="submenu-link {{ request()->routeIs('dashboard.label') ? 'active' : '' }}">All Labels</a>
+                <a href="{{ route('dashboard.label.create') }}" class="submenu-link {{ request()->routeIs('dashboard.label.create') ? 'active' : '' }}">Add New Label</a>
             </div>
         </div>
 

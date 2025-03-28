@@ -9,7 +9,7 @@
         <form action="{{ route('dashboard.faq.destroy', $faq->id) }}" method="POST" style="display:inline; text-decoration: none;">
             @csrf
             @method('DELETE')
-            <button type="submit" class="action-btn delete" title="Delete" onclick="return confirm('Are you sure you want to delete this rank tier?');">
+            <button type="submit" class="action-btn delete" title="Delete" onclick="return confirm('Are you sure you want to delete this faq?');">
                 <i class="fas fa-trash"></i>
             </button>
         </form>
