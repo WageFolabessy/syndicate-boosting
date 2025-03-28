@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('features')->nullable();
             $table->integer('original_price');
             $table->integer('sale_price')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image');
             // Level akun (misal: 85)
             $table->integer('level')->nullable();
             // Lama akun, misal: "2+ Tahun"

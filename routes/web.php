@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\BoostingServiceController;
 use App\Http\Controllers\Dashboard\FaqController;
+use App\Http\Controllers\Dashboard\GameAccountController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
@@ -79,6 +80,16 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/boosting-service/{service}', [BoostingServiceController::class, 'show'])->name('dashboard.boosting-service.show');
     Route::put('/boosting-service/{service}', [BoostingServiceController::class, 'update'])->name('dashboard.boosting-service.update');
     Route::delete('/boosting-service/{service}', [BoostingServiceController::class, 'destroy'])->name('dashboard.boosting-service.destroy');
+
+    Route::get('/game-account', function () {
+        return view('dashboard.pages.game-account.index');
+    })->name('dashboard.game-account');
+    Route::get('/game-accounts/datatables', [GameAccountController::class, 'index']);
+    Route::get('/game-account/add', [GameAccountController::class, 'create'])->name('dashboard.game-account.create');
+    Route::post('/game-account', [GameAccountController::class, 'store'])->name('dashboard.game-account.store');
+    Route::get('/game-account/{gameAccount}', [GameAccountController::class, 'show'])->name('dashboard.game-account.show');
+    Route::put('/game-account/{gameAccount}', [GameAccountController::class, 'update'])->name('dashboard.game-account.update');
+    Route::delete('/game-account/{gameAccount}', [GameAccountController::class, 'destroy'])->name('dashboard.game-account.destroy');
 
     Route::get('/faq', function () {
         return view('dashboard.pages.faq.index');
