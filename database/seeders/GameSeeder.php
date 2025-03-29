@@ -15,32 +15,39 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        // Lokasi file gambar di luar project
-        $imagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legend.jpg';
+        $apexLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legend.jpg';
+        $mobileLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\ml2.jpg';
 
-        $data = [
+        // Data untuk Apex Legends
+        $dataApex = [
             'name'        => 'Apex Legends',
             'genre'       => 'FPS',
             'developer'   => 'Respawn Entertainment',
             'description' => 'Apex Legends is the award-winning, free-to-play Hero Shooter from Respawn Entertainment. Master an ever-growing roster of legendary characters with powerful abilities, and experience strategic squad play and innovative gameplay in the next evolution of Hero Shooter and Battle Royale.',
         ];
-
-        // Cek apakah file gambar ada di lokasi yang ditentukan
-        if (file_exists($imagePath)) {
-            // Generate nama file baru secara random dan simpan ke folder 'games'
-            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($imagePath, PATHINFO_EXTENSION);
-
-            // Pindahkan file gambar ke storage public
-            Storage::disk('public')->put($fileName, file_get_contents($imagePath));
-
-            // Simpan path file gambar yang baru ke dalam data yang akan diinsert
-            $data['image'] = $fileName;
+        if (file_exists($apexLegendImagePath)) {
+            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($apexLegendImagePath, PATHINFO_EXTENSION);
+            Storage::disk('public')->put($fileName, file_get_contents($apexLegendImagePath));
+            $dataApex['image'] = $fileName;
         } else {
-            // Jika file tidak ada, Anda bisa set nilai default atau null
-            $data['image'] = null;
+            $dataApex['image'] = null;
         }
+        Game::create($dataApex);
 
-        // Buat record Game baru
-        Game::create($data);
+        // Data untuk Mobile Legends: Bang Bang
+        $dataML = [
+            'name'        => 'Mobile Legends: Bang Bang',
+            'genre'       => 'MOBA',
+            'developer'   => 'Moonton',
+            'description' => 'Mobile Legends: Bang Bang (MLBB) is a mobile multiplayer online battle arena (MOBA) game developed and published by Chinese developer Moonton, a subsidiary of ByteDance. The game was released in 2016 and grew in popularity, most prominently in Southeast Asia.',
+        ];
+        if (file_exists($mobileLegendImagePath)) {
+            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
+            Storage::disk('public')->put($fileName, file_get_contents($mobileLegendImagePath));
+            $dataML['image'] = $fileName;
+        } else {
+            $dataML['image'] = null;
+        }
+        Game::create($dataML);
     }
 }

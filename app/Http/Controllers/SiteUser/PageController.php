@@ -11,13 +11,11 @@ class PageController extends Controller
 {
     public function index()
     {
-        // Ambil 3 boosting service terbaru (contoh)
         $boostingServices = BoostingService::with(['game', 'labels'])
             ->orderBy('updated_at', 'desc')
             ->take(3)
             ->get();
 
-        // Ambil 4 game account terbaru (contoh)
         $gameAccounts = GameAccount::with(['game', 'labels'])
             ->orderBy('updated_at', 'desc')
             ->take(4)

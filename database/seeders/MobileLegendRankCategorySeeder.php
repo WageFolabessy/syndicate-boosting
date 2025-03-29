@@ -2,65 +2,65 @@
 
 namespace Database\Seeders;
 
-use App\Models\GameRankCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
+use App\Models\GameRankCategory;
 use Illuminate\Support\Str;
 
-class RankCategorySeeder extends Seeder
+class MobileLegendRankCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $apexLegendRankCategories = [
+        $mobileLegendsRankCategories = [
             [
-                'game_id' => '1',
-                'name' => 'Rookie',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\1-rookie.webp',
+                'game_id' => '2',
+                'name' => ucfirst('warrior'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\1-warrior.jpeg',
                 'display_order' => '1',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Bronze',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\2-bronze.webp',
+                'game_id' => '2',
+                'name' => ucfirst('elite'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\2-elite.jpg',
                 'display_order' => '2',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Silver',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\3-silver.webp',
+                'game_id' => '2',
+                'name' => ucfirst('master'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\3-master.jpg',
                 'display_order' => '3',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Gold',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\4-gold.webp',
+                'game_id' => '2',
+                'name' => ucfirst('gm'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\4-gm.jpg',
                 'display_order' => '4',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Platinum',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\5-platinum.webp',
+                'game_id' => '2',
+                'name' => ucfirst('epic'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\5-epic.jpg',
                 'display_order' => '5',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Diamond',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\6-diamond.webp',
+                'game_id' => '2',
+                'name' => ucfirst('legend'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\6-legend.jpg',
                 'display_order' => '6',
             ],
             [
-                'game_id' => '1',
-                'name' => 'Master',
-                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\7-master.webp',
+                'game_id' => '2',
+                'name' => ucfirst('mythic'),
+                'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\7-mythic.jpg',
                 'display_order' => '7',
             ],
         ];
 
-        foreach ($apexLegendRankCategories as $data) {
+        foreach ($mobileLegendsRankCategories as $data) {
             // Simpan nilai image ke variabel terpisah
             $imagePath = $data['image'];
             unset($data['image']);
