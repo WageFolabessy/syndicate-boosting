@@ -26,6 +26,7 @@ Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game')
 
 Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
 Route::get('/joki-game/{service}', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
+Route::get('/ml-boosting/{gameId}', [BoostingServicePageController::class, 'mlRankCustom'])->name('ml-boosting');
 Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');
 })->name('transaksi');

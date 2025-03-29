@@ -36,7 +36,7 @@ class MobileLegendRankCategorySeeder extends Seeder
             ],
             [
                 'game_id' => '2',
-                'name' => ucfirst('gm'),
+                'name' => 'GM',
                 'image' => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\4-gm.jpg',
                 'display_order' => '4',
             ],

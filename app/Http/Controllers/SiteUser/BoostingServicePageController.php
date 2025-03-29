@@ -4,6 +4,8 @@ namespace App\Http\Controllers\SiteUser;
 
 use App\Http\Controllers\Controller;
 use App\Models\BoostingService;
+use App\Models\Game;
+use App\Models\GameRankCategory;
 use Illuminate\Http\Request;
 
 class BoostingServicePageController extends Controller
@@ -18,5 +20,14 @@ class BoostingServicePageController extends Controller
     {
         $service->load('game');
         return view('site-user.pages.boosting-service-detail', compact('service'));
+    }
+
+    public function mlRankCustom($gameId)
+    {
+        $game = Game::with(['rankCategories.rankTiers' => function ($query) {
+            $query->orderBy('tier', 'desc');
+        }])->findOrFail($gameId);
+
+        return view('site-user.pages.ml-boosting', compact('game'));
     }
 }
