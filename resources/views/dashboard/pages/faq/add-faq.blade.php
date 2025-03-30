@@ -44,12 +44,12 @@
                                 <!-- Question -->
                                 <div class="mb-3">
                                     <label for="question" class="form-label">Question</label>
-                                    <textarea class="form-control" name="question" id="question" rows="4" placeholder="Enter game question">{{ old('question') }}</textarea>
+                                    <textarea class="form-control" name="question" id="question" rows="4" placeholder="Enter question">{{ old('question') }}</textarea>
                                 </div>
                                 <!-- Answer -->
                                 <div class="mb-3">
                                     <label for="answer" class="form-label">Answer</label>
-                                    <textarea class="form-control" name="answer" id="answer" rows="4" placeholder="Enter game answer">{{ old('answer') }}</textarea>
+                                    <textarea class="form-control" name="answer" id="answer" rows="4" placeholder="Enter answer">{{ old('answer') }}</textarea>
                                 </div>
                             </div>
                         </div>
