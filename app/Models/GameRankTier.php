@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class GameRankTier extends Model
 {
-    protected $fillable = ['game_rank_category_id', 'tier', 'stars_required', 'price'];
+    protected $fillable = [
+        'game_rank_category_id',
+        'tier',
+        'progress_target',
+        'price',
+        'display_order'
+    ];
 
     public function rankCategory()
     {
