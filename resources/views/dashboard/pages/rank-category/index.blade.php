@@ -38,6 +38,7 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Image</th>
                                 <th class="text-center">Category Name</th>
+                                <th class="text-center">System Type</th>
                                 <th class="text-center">Game Name</th>
                                 <th class="text-center">Display Order</th>
                                 <th class="text-center">Created At</th>
@@ -49,6 +50,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
     </main>
 @endsection

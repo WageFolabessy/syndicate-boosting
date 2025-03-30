@@ -25,12 +25,12 @@ class RankCategoryController extends Controller
             ->addIndexColumn()
             ->editColumn('image', function ($rankCategory) {
                 if ($rankCategory->image) {
-                    return '<img src="' . asset('storage/' . $rankCategory->image) . '" alt="Game Image" class="img-thumbnail" style="width:100px;">';
+                    return '<img alt="Game Image" class="img-thumbnail" src="' . asset('storage/' . $rankCategory->image) . '" style="width:100px">';
                 }
                 return '-';
             })
             ->editColumn('game_id', function ($rankCategory) {
-                return $rankCategory->game ? $rankCategory->game->name : '-';
+                return optional($rankCategory->game)->name ?? '-';
             })
             ->editColumn('created_at', function ($rankCategory) {
                 return $rankCategory->created_at
@@ -43,7 +43,7 @@ class RankCategoryController extends Controller
                     : '';
             })
             ->addColumn('action', function ($rankCategory) {
-                return view('dashboard.pages.rank-category.action-button')->with('rankCategory', $rankCategory);
+                return view('dashboard.pages.rank-category.action-button', compact('rankCategory'))->render();
             })
             ->rawColumns(['image', 'action'])
             ->make(true);
@@ -52,7 +52,6 @@ class RankCategoryController extends Controller
     public function create()
     {
         $games = Game::orderBy('name')->get();
-
         return view('dashboard.pages.rank-category.add-rank-category', compact('games'));
     }
 
@@ -66,7 +65,8 @@ class RankCategoryController extends Controller
 
         GameRankCategory::create($data);
 
-        return redirect()->route('dashboard.rank-category')->with('success', 'Kategori game berhasil ditambahkan.');
+        return redirect()->route('dashboard.rank-category')
+            ->with('success', 'Kategori game berhasil ditambahkan.');
     }
 
     public function show(GameRankCategory $rankCategory)
@@ -74,7 +74,6 @@ class RankCategoryController extends Controller
         $games = Game::orderBy('name')->get();
         return view('dashboard.pages.rank-category.edit-rank-category', compact('rankCategory', 'games'));
     }
-
 
     public function update(UpdateRankCategoryRequest $request, GameRankCategory $rankCategory)
     {
@@ -91,7 +90,8 @@ class RankCategoryController extends Controller
 
         $rankCategory->update($data);
 
-        return redirect()->route('dashboard.rank-category')->with('success', 'Kategori game berhasil diperbarui.');
+        return redirect()->route('dashboard.rank-category')
+            ->with('success', 'Kategori game berhasil diperbarui.');
     }
 
     public function destroy(GameRankCategory $rankCategory)
@@ -102,6 +102,7 @@ class RankCategoryController extends Controller
 
         $rankCategory->delete();
 
-        return redirect()->route('dashboard.rank-category')->with('success', 'Kategori game berhasil dihapus.');
+        return redirect()->route('dashboard.rank-category')
+            ->with('success', 'Kategori game berhasil dihapus.');
     }
 }

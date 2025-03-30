@@ -20,11 +20,26 @@ $(document).ready(function () {
                 data: "game_name",
                 name: "games.name",
             },
-            { data: "tier", name: "tier" },
-            { data: "stars_required", name: "stars_required" },
-            { data: "price", name: "price" },
-            { data: "created_at", name: "created_at" },
-            { data: "updated_at", name: "updated_at" },
+            {
+                data: "tier",
+                name: "tier",
+            },
+            {
+                data: "progress_target",
+                name: "progress_target",
+            },
+            {
+                data: "price",
+                name: "price",
+            },
+            {
+                data: "created_at",
+                name: "created_at",
+            },
+            {
+                data: "updated_at",
+                name: "updated_at",
+            },
             {
                 data: "action",
                 name: "action",

@@ -18,8 +18,18 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
             },
-            { data: "name", name: "name" },
-            { data: "game_id", name: "game_id" },
+            { data: "name", name: "name" }, // Category Name
+            {
+                data: "system_type",
+                name: "system_type",
+                render: function (data, type, row) {
+                    // Contoh: tampilkan huruf kapital di awal
+                    return data
+                        ? data.charAt(0).toUpperCase() + data.slice(1)
+                        : "-";
+                },
+            },
+            { data: "game_id", name: "game_id" }, // Sejak controller mengembalikan nama game melalui relasi
             { data: "display_order", name: "display_order" },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
@@ -30,14 +40,15 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
-        dom: "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-             "<'row'<'col-sm-12'tr>>" +
-             "<'row p-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        dom:
+            "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row p-3'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         language: {
             paginate: {
                 previous: '<i class="fas fa-chevron-left"></i>',
-                next: '<i class="fas fa-chevron-right"></i>'
-            }
-        }
+                next: '<i class="fas fa-chevron-right"></i>',
+            },
+        },
     });
 });

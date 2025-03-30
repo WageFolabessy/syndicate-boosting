@@ -42,7 +42,7 @@
                         @csrf
                         @method('PUT')
                         <div class="row g-4">
-                            <div class="col-12 col-md-12">
+                            <div class="col-12">
                                 <!-- Rank Category Selection -->
                                 <div class="mb-3">
                                     <label for="game_rank_category_id" class="form-label">
@@ -65,17 +65,17 @@
                                         Tier <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="tier" id="tier"
-                                        placeholder="Enter tier (e.g. 1, 2, 3...)" required
+                                        placeholder="Enter tier (e.g. I, II, III...)" required
                                         value="{{ old('tier', $rankTier->tier) }}">
                                 </div>
-                                <!-- Stars Required -->
+                                <!-- Progress Target -->
                                 <div class="mb-3">
-                                    <label for="stars_required" class="form-label">
-                                        Stars Required
+                                    <label for="progress_target" class="form-label">
+                                        Progress Target
                                     </label>
-                                    <input type="number" class="form-control" name="stars_required" id="stars_required"
-                                        placeholder="Enter stars required"
-                                        value="{{ old('stars_required', $rankTier->stars_required) }}">
+                                    <input type="number" class="form-control" name="progress_target" id="progress_target"
+                                        placeholder="Enter progress target"
+                                        value="{{ old('progress_target', $rankTier->progress_target) }}">
                                 </div>
                                 <!-- Price -->
                                 <div class="mb-3">

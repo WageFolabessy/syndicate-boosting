@@ -39,7 +39,7 @@
                                 <th class="text-center">Category Name</th>
                                 <th class="text-center">Game Name</th>
                                 <th class="text-center">Tier</th>
-                                <th class="text-center">Stars Required</th>
+                                <th class="text-center">Progress Target</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>

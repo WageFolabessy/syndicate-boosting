@@ -40,7 +40,7 @@
                     <form id="addRankTierForm" action="{{ route('dashboard.rank-tier.store') }}" method="POST">
                         @csrf
                         <div class="row g-4">
-                            <div class="col-12 col-md-12">
+                            <div class="col-12">
                                 <!-- Rank Category Selection -->
                                 <div class="mb-3">
                                     <label for="game_rank_category_id" class="form-label">
@@ -63,15 +63,15 @@
                                         Tier <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" name="tier" id="tier"
-                                        placeholder="Enter tier (e.g. 1, 2, 3...)" required value="{{ old('tier') }}">
+                                        placeholder="Enter tier (e.g. I, II, III...)" required value="{{ old('tier') }}">
                                 </div>
-                                <!-- Stars Required -->
+                                <!-- Progress Target -->
                                 <div class="mb-3">
-                                    <label for="stars_required" class="form-label">
-                                        Stars Required
+                                    <label for="progress_target" class="form-label">
+                                        Progress Target
                                     </label>
-                                    <input type="number" class="form-control" name="stars_required" id="stars_required"
-                                        placeholder="Enter stars required" value="{{ old('stars_required') }}">
+                                    <input type="number" class="form-control" name="progress_target" id="progress_target"
+                                        placeholder="Enter progress target" value="{{ old('progress_target') }}">
                                 </div>
                                 <!-- Price -->
                                 <div class="mb-3">
@@ -86,8 +86,9 @@
                     </form>
                 </div>
                 <div class="form-footer d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-outline-secondary"
-                        onclick="window.history.back();">Cancel</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="window.history.back();">
+                        Cancel
+                    </button>
                     <button type="submit" form="addRankTierForm" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>Save Rank Tier
                     </button>

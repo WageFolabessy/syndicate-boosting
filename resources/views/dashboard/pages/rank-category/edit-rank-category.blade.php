@@ -68,6 +68,21 @@
                                         placeholder="Enter rank category name" required
                                         value="{{ old('name', $rankCategory->name) }}">
                                 </div>
+                                <!-- System Type -->
+                                <div class="mb-3">
+                                    <label for="system_type" class="form-label">
+                                        System Type <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" name="system_type" id="system_type" required>
+                                        <option value="">-- Select System Type --</option>
+                                        <option value="star"
+                                            {{ old('system_type', $rankCategory->system_type) == 'star' ? 'selected' : '' }}>
+                                            Star</option>
+                                        <option value="point"
+                                            {{ old('system_type', $rankCategory->system_type) == 'point' ? 'selected' : '' }}>
+                                            Point</option>
+                                    </select>
+                                </div>
                                 <!-- Display Order -->
                                 <div class="mb-3">
                                     <label for="display_order" class="form-label">
@@ -82,7 +97,7 @@
                                 <!-- Rank Category Image -->
                                 <div class="mb-3">
                                     <label for="image" class="form-label">
-                                        Category Image <span class="text-danger">*</span>
+                                        Category Image
                                     </label>
                                     <div class="card p-3 bg-light">
                                         <div class="text-center mb-3">

@@ -11,24 +11,26 @@ class AddRankTierRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'game_rank_category_id' => 'required|exists:game_rank_categories,id',
             'tier'                  => 'required|string',
-            'stars_required'        => 'nullable|integer|min:0',
+            'progress_target'       => 'nullable|integer|min:0',
             'price'                 => 'nullable|integer|min:0',
+            'display_order'         => 'nullable|integer',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'game_rank_category_id.required' => 'Rank category harus dipilih.',
             'game_rank_category_id.exists'   => 'Rank category yang dipilih tidak valid.',
             'tier.required'                  => 'Tier harus diisi.',
-            'stars_required.integer'         => 'Stars required harus berupa angka.',
-            'stars_required.min'             => 'Stars required tidak boleh negatif.',
+            'tier.string'                    => 'Tier harus berupa teks.',
+            'progress_target.integer'        => 'Progress target harus berupa angka.',
+            'progress_target.min'            => 'Progress target tidak boleh negatif.',
             'price.integer'                  => 'Price harus berupa angka.',
             'price.min'                      => 'Price tidak boleh negatif.',
         ];
