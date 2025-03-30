@@ -29,7 +29,7 @@ class RankTierController extends Controller
             WHEN 'VII' THEN 7 
             WHEN 'VIII' THEN 8 
             ELSE 0 
-         END ASC")
+         END desc")
             ->select([
                 'game_rank_tiers.*',
                 'game_rank_categories.name as category_name',
