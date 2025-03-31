@@ -22,7 +22,7 @@ class BoostingServicePageController extends Controller
         return view('site-user.pages.boosting-service-detail', compact('service'));
     }
 
-    public function mlRankCustom($gameId)
+    public function rankBoosting($gameId)
     {
         $game = Game::with([
             'rankCategories' => function ($query) {
@@ -36,6 +36,6 @@ class BoostingServicePageController extends Controller
             }
         ])->findOrFail($gameId);
 
-        return view('site-user.pages.ml-boosting', compact('game'));
+        return view('site-user.pages.rank-boosting', compact('game'));
     }
 }
