@@ -623,15 +623,22 @@
         function updateSelectedPrice(type, tierId, starValue) {
             let options = rpOptionsMap[tierId] || [];
             let starVal = parseInt(starValue);
-            if (!starVal) {
-                starVal = options.length > 0 ? parseInt(options[0].star_number) : 0;
-            }
-            let selected = options.find(opt => parseInt(opt.star_number) === starVal);
-            if (selected) {
+            if (starVal > 0) {
+                // Jika ada bintang yang dipilih, ambil harga sesuai opsi yang sesuai
+                let selected = options.find(opt => parseInt(opt.star_number) === starVal);
+                if (selected) {
+                    if (type === 'current') {
+                        currentSelectedPrice = selected.price;
+                    } else {
+                        desiredSelectedPrice = selected.price;
+                    }
+                }
+            } else {
+                // Jika nilai star adalah 0 (tidak ada bintang yang dipilih), harga di-set ke 0
                 if (type === 'current') {
-                    currentSelectedPrice = selected.price;
+                    currentSelectedPrice = 0;
                 } else {
-                    desiredSelectedPrice = selected.price;
+                    desiredSelectedPrice = 0;
                 }
             }
         }
@@ -648,21 +655,26 @@
         // Fungsi untuk mengosongkan pilihan bintang (clear star selection)
         function clearStarSelection(type) {
             const container = document.getElementById(type + '-stars-input').querySelector('.star-display');
-            container.querySelectorAll('.star-option').forEach(function(s) {
-                s.classList.remove('selected');
+            // Hapus kelas 'selected' dari semua bintang
+            container.querySelectorAll('.star-option').forEach(function(star) {
+                star.classList.remove('selected');
             });
-            container.parentElement.querySelector('input[type="hidden"]').value = "";
+            // Set hidden input ke 0 agar tidak ada bintang yang dipilih
+            const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
+            hiddenInput.value = 0;
+
+            // Update harga menjadi 0 untuk bintang yang sedang aktif
             if (type === 'current') {
                 currentSelectedPrice = 0;
                 let summaryEl = document.getElementById('checkout-current-stars');
                 if (summaryEl) {
-                    summaryEl.innerText = "";
+                    summaryEl.innerText = 0;
                 }
             } else {
                 desiredSelectedPrice = 0;
                 let summaryEl = document.getElementById('checkout-desired-stars');
                 if (summaryEl) {
-                    summaryEl.innerText = "";
+                    summaryEl.innerText = 0;
                 }
             }
             updatePriceDifference();

@@ -79,7 +79,8 @@
                     </form>
                 </div>
                 <div class="form-footer">
-                    <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                    <button type="button" class="btn btn-outline-secondary"
+                        onclick="window.history.back();">Cancel</button>
                     <button type="submit" form="addAdminForm" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>Save Profile
                     </button>
