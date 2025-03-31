@@ -18,4 +18,9 @@ class GameRankTier extends Model
     {
         return $this->belongsTo(GameRankCategory::class, 'game_rank_category_id');
     }
+
+    public function tierDetails()
+    {
+        return $this->hasMany(GameRankTierDetail::class, 'game_rank_tier_id');
+    }
 }

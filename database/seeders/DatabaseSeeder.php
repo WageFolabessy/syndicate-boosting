@@ -20,17 +20,20 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GameSeeder::class,
         ]);
-        $this->call([
-            ApexLegendRankCategorySeeder::class,
-        ]);
+        // $this->call([
+        //     ApexLegendRankCategorySeeder::class,
+        // ]);
+        // $this->call([
+        //     ApexLegendGameRankTierSeeder::class,
+        // ]);
         $this->call([
             MobileLegendRankCategorySeeder::class,
         ]);
         $this->call([
-            ApexLegendGameRankTierSeeder::class,
+            MobileLegendGameRankTierSeeder::class,
         ]);
         $this->call([
-            MobileLegendGameRankTierSeeder::class,
+            MobileLegendGameRankTierDetailSeeder::class,
         ]);
     }
 }

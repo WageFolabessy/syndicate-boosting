@@ -24,9 +24,14 @@ class BoostingServicePageController extends Controller
 
     public function mlRankCustom($gameId)
     {
-        $game = Game::with(['rankCategories.rankTiers' => function ($query) {
-            $query->orderBy('tier', 'desc');
-        }])->findOrFail($gameId);
+        $game = Game::with([
+            'rankCategories' => function ($query) {
+                $query->orderBy('display_order', 'asc');
+            },
+            'rankCategories.rankTiers' => function ($query) {
+                $query->orderBy('display_order', 'asc');
+            }
+        ])->findOrFail($gameId);
 
         return view('site-user.pages.ml-boosting', compact('game'));
     }

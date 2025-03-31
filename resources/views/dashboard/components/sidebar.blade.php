@@ -69,6 +69,24 @@
             </div>
         </div>
 
+        <div
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-tier-detail') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">
+            <a href="#"
+                class="menu-link {{ request()->routeIs('dashboard.rank-tier-detail') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">
+                <i class="fas fa-layer-group menu-icon"></i>
+                <span class="menu-text">Rank Tier Details</span>
+            </a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.rank-tier-detail') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.rank-tier-detail') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-tier-detail') ? 'active' : '' }}">All
+                    Details</a>
+                <a href="{{ route('dashboard.rank-tier-detail.create') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">Add
+                    New Detail</a>
+            </div>
+        </div>
+
         <div class="menu-category">Services</div>
         <div
             class="menu-item has-dropdown {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'active' : '' }}">
@@ -77,9 +95,13 @@
                 <i class="fas fa-tag menu-icon"></i>
                 <span class="menu-text">Labels</span>
             </a>
-            <div class="submenu {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'open' : '' }}">
-                <a href="{{ route('dashboard.label') }}" class="submenu-link {{ request()->routeIs('dashboard.label') ? 'active' : '' }}">All Labels</a>
-                <a href="{{ route('dashboard.label.create') }}" class="submenu-link {{ request()->routeIs('dashboard.label.create') ? 'active' : '' }}">Add New Label</a>
+            <div
+                class="submenu {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'open' : '' }}">
+                <a href="{{ route('dashboard.label') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.label') ? 'active' : '' }}">All Labels</a>
+                <a href="{{ route('dashboard.label.create') }}"
+                    class="submenu-link {{ request()->routeIs('dashboard.label.create') ? 'active' : '' }}">Add New
+                    Label</a>
             </div>
         </div>
 
