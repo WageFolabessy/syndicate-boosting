@@ -58,13 +58,13 @@ class MobileLegendRankCategorySeeder extends Seeder
                 'display_order' => 6,
                 'system_type'   => 'star',
             ],
-            [
-                'game_id'       => 2,
-                'name'          => ucfirst('mythic'),
-                'image'         => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\7-mythic.png',
-                'display_order' => 7,
-                'system_type'   => 'star',
-            ],
+            // [
+            //     'game_id'       => 2,
+            //     'name'          => ucfirst('mythic'),
+            //     'image'         => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\mobile-legends\7-mythic.png',
+            //     'display_order' => 7,
+            //     'system_type'   => 'star',
+            // ],
         ];
 
         foreach ($mobileLegendsRankCategories as $data) {

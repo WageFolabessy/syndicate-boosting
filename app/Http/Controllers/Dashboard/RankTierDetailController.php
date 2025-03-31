@@ -19,6 +19,9 @@ class RankTierDetailController extends Controller
             ->join('games', 'game_rank_categories.game_id', '=', 'games.id')
             ->orderBy('games.name', 'asc')
             ->orderBy('game_rank_categories.display_order', 'asc')
+            // Urutkan berdasarkan urutan tier yang diinginkan, misalnya: III, II, I
+            ->orderByRaw("FIELD(game_rank_tiers.tier, 'V', 'IV', 'III', 'II', 'I')")
+            ->orderBy('game_rank_tier_details.display_order', 'asc')
             ->select([
                 'game_rank_tier_details.*',
                 'game_rank_tiers.tier as tier_name',

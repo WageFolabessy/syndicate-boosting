@@ -87,22 +87,9 @@
             object-fit: contain;
         }
 
+        /* Gunakan btn-group Bootstrap untuk subdivisi */
         .subdivision-options {
             margin-top: 15px;
-            text-align: center;
-        }
-
-        .subdivision-options label {
-            margin: 0 5px;
-            cursor: pointer;
-        }
-
-        .subdivision-options input[type="radio"] {
-            display: none;
-        }
-
-        .subdivision-options label.btn-outline-primary {
-            min-width: 50px;
         }
 
         .rp-option {
@@ -123,6 +110,11 @@
             font-size: 1.5rem;
             cursor: pointer;
             margin: 0 2px;
+            color: #ccc;
+        }
+
+        .star-display i.selected {
+            color: #f7c02c;
         }
 
         .card-custom {
@@ -137,6 +129,7 @@
         }
     </style>
 @endsection
+
 @section('content')
     <!-- Main Content -->
     <main>
@@ -166,11 +159,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="legend-rank" id="current-legend">
-                                        <img alt="Selected Current Rank"
-                                            src="{{ asset('storage/' . $game->rankCategories->first()->image) }}"
+                                        <img alt="Selected Current Rank" src="{{ asset('storage/' . $defaultRank->image) }}"
                                             id="current-selected-img">
-                                        <h4 id="current-selected-text">Rank saat ini:
-                                            {{ $game->rankCategories->first()->name }}</h4>
+                                        <h4 id="current-selected-text">Rank saat ini: {{ $defaultRank->name }}</h4>
                                     </div>
                                     <div class="rank-grid" id="current-rank-grid">
                                         @foreach ($game->rankCategories->sortBy('display_order') as $category)
@@ -178,8 +169,9 @@
                                                 $rankCode =
                                                     $category->display_order . '-' . strtolower($category->name);
                                             @endphp
-                                            <div class="rank-item {{ $loop->first ? 'selected' : '' }}"
-                                                data-rank="{{ $rankCode }}" data-system="{{ $category->system_type }}"
+                                            <div class="rank-item {{ $category->id === $defaultRank->id ? 'selected' : '' }}"
+                                                data-rank="{{ $rankCode }}" data-id="{{ $category->id }}"
+                                                data-system="{{ $category->system_type }}"
                                                 onclick="selectRank('current', this)">
                                                 <img alt="{{ $category->name }}"
                                                     src="{{ asset('storage/' . $category->image) }}">
@@ -188,20 +180,49 @@
                                         @endforeach
                                     </div>
                                     <div class="mt-3" id="current-options">
-                                        <div class="subdivision-options" id="current-subdivisions-container"></div>
-                                        <!-- Widget star rating untuk sistem star; default disembunyikan -->
-                                        <div class="star-rating" id="current-stars-input" style="display:none;">
-                                            <label class="form-label">Bintang Saat Ini</label>
-                                            <div class="star-display">
-                                                <!-- Icon akan di-generate secara dinamis -->
+                                        <!-- Subdivisi: Pilih Tier akan di-update secara dinamis -->
+                                        <div class="subdivision-options d-flex justify-content-center"
+                                            id="current-subdivisions-container">
+                                            <div class="btn-group" role="group" aria-label="Current Tier">
+                                                @foreach ($defaultRank->rankTiers->sortBy('display_order') as $tier)
+                                                    <input type="radio" class="btn-check" name="current-tier"
+                                                        id="current-tier-{{ $tier->id }}" value="{{ $tier->id }}"
+                                                        data-progress-target="{{ $tier->progress_target }}"
+                                                        {{ $loop->first ? 'checked' : '' }}
+                                                        onclick="selectTier('current', {{ $tier->id }})">
+                                                    <label for="current-tier-{{ $tier->id }}"
+                                                        class="btn btn-outline-primary">{{ $tier->tier }}</label>
+                                                @endforeach
                                             </div>
-                                            <input type="hidden" id="current-stars" name="current-stars" value="0">
                                         </div>
-                                        <!-- Dropdown RP untuk sistem point; default disembunyikan -->
-                                        <div class="rp-option" id="current-rp-dropdown" style="display:none;">
-                                            <label class="form-label" for="current-rp">RP saat ini</label>
-                                            <select class="form-select" id="current-rp" name="current-rp"></select>
-                                        </div>
+                                        <!-- Pilihan Bintang untuk sistem star -->
+                                        @if ($defaultRank->system_type === 'star')
+                                            <div class="star-rating" id="current-stars-input">
+                                                <label class="form-label">Bintang Saat Ini</label>
+                                                <div class="star-display">
+                                                    @for ($i = 1; $i <= $defaultTier->progress_target; $i++)
+                                                        <i class="fa fa-star star-option"
+                                                            data-value="{{ $i }}"></i>
+                                                    @endfor
+                                                </div>
+                                                <!-- Ubah value default menjadi 0 -->
+                                                <input type="hidden" id="current-stars" name="current-stars"
+                                                    value="0">
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="clearStarSelection('current')">Hapus Bintang</button>
+                                            </div>
+                                        @else
+                                            <div class="rp-option" id="current-rp-dropdown">
+                                                <label class="form-label" for="current-rp">RP saat ini</label>
+                                                <select class="form-select" id="current-rp" name="current-rp">
+                                                    @foreach ($defaultTier->tierDetails->sortBy('display_order') as $detail)
+                                                        <option value="{{ $detail->price }}">
+                                                            {{ $detail->star_number }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -213,10 +234,8 @@
                                 <div class="card-body">
                                     <div class="legend-rank" id="desired-legend">
                                         <img alt="Selected Desired Rank"
-                                            src="{{ asset('storage/' . $game->rankCategories->first()->image) }}"
-                                            id="desired-selected-img">
-                                        <h4 id="desired-selected-text">Rank yang diinginkan:
-                                            {{ $game->rankCategories->first()->name }}</h4>
+                                            src="{{ asset('storage/' . $defaultRank->image) }}" id="desired-selected-img">
+                                        <h4 id="desired-selected-text">Rank yang diinginkan: {{ $defaultRank->name }}</h4>
                                     </div>
                                     <div class="rank-grid" id="desired-rank-grid">
                                         @foreach ($game->rankCategories->sortBy('display_order') as $category)
@@ -224,8 +243,9 @@
                                                 $rankCode =
                                                     $category->display_order . '-' . strtolower($category->name);
                                             @endphp
-                                            <div class="rank-item {{ $loop->first ? 'selected' : '' }}"
-                                                data-rank="{{ $rankCode }}" data-system="{{ $category->system_type }}"
+                                            <div class="rank-item {{ $category->id === $defaultRank->id ? 'selected' : '' }}"
+                                                data-rank="{{ $rankCode }}" data-id="{{ $category->id }}"
+                                                data-system="{{ $category->system_type }}"
                                                 onclick="selectRank('desired', this)">
                                                 <img alt="{{ $category->name }}"
                                                     src="{{ asset('storage/' . $category->image) }}">
@@ -234,20 +254,50 @@
                                         @endforeach
                                     </div>
                                     <div class="mt-3" id="desired-options">
-                                        <div class="subdivision-options" id="desired-subdivisions-container"></div>
-                                        <!-- Widget star rating untuk sistem star; default disembunyikan -->
-                                        <div class="star-rating" id="desired-stars-input" style="display:none;">
-                                            <label class="form-label">Bintang yang diinginkan</label>
-                                            <div class="star-display">
-                                                <!-- Icon akan di-generate secara dinamis -->
+                                        <!-- Subdivisi: Pilih Tier akan di-update secara dinamis -->
+                                        <div class="subdivision-options d-flex justify-content-center"
+                                            id="desired-subdivisions-container">
+                                            <div class="btn-group" role="group" aria-label="Desired Tier">
+                                                @foreach ($defaultRank->rankTiers->sortBy('display_order') as $tier)
+                                                    <input type="radio" class="btn-check" name="desired-tier"
+                                                        id="desired-tier-{{ $tier->id }}"
+                                                        value="{{ $tier->id }}"
+                                                        data-progress-target="{{ $tier->progress_target }}"
+                                                        {{ $loop->first ? 'checked' : '' }}
+                                                        onclick="selectTier('desired', {{ $tier->id }})">
+                                                    <label for="desired-tier-{{ $tier->id }}"
+                                                        class="btn btn-outline-primary">{{ $tier->tier }}</label>
+                                                @endforeach
                                             </div>
-                                            <input type="hidden" id="desired-stars" name="desired-stars" value="0">
                                         </div>
-                                        <!-- Dropdown RP untuk sistem point; default disembunyikan -->
-                                        <div class="rp-option" id="desired-rp-dropdown" style="display:none;">
-                                            <label class="form-label" for="desired-rp">RP yang diinginkan</label>
-                                            <select class="form-select" id="desired-rp" name="desired-rp"></select>
-                                        </div>
+                                        <!-- Pilihan Bintang untuk sistem star -->
+                                        @if ($defaultRank->system_type === 'star')
+                                            <div class="star-rating" id="desired-stars-input">
+                                                <label class="form-label">Bintang yang diinginkan</label>
+                                                <div class="star-display">
+                                                    @for ($i = 1; $i <= $defaultTier->progress_target; $i++)
+                                                        <i class="fa fa-star star-option"
+                                                            data-value="{{ $i }}"></i>
+                                                    @endfor
+                                                </div>
+                                                <!-- Ubah value default menjadi 0 -->
+                                                <input type="hidden" id="desired-stars" name="desired-stars"
+                                                    value="0">
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="clearStarSelection('desired')">Hapus Bintang</button>
+                                            </div>
+                                        @else
+                                            <div class="rp-option" id="desired-rp-dropdown">
+                                                <label class="form-label" for="desired-rp">RP yang diinginkan</label>
+                                                <select class="form-select" id="desired-rp" name="desired-rp">
+                                                    @foreach ($defaultTier->tierDetails->sortBy('display_order') as $detail)
+                                                        <option value="{{ $detail->price }}">
+                                                            {{ $detail->star_number }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -282,25 +332,33 @@
                                         <li class="list-group-item">
                                             <strong>Rank Saat Ini:</strong>
                                             <span id="checkout-current-rank">
-                                                <span id="checkout-current-tier">Default</span> (Bintang: <span
-                                                    id="checkout-current-stars">0</span>)
+                                                <span id="checkout-current-rank-name">{{ $defaultRank->name }}</span> -
+                                                <span id="checkout-current-tier">{{ $defaultTier->tier }}</span>
+                                                @if ($defaultRank->system_type === 'star')
+                                                    (Bintang: <span id="checkout-current-stars">0</span>)
+                                                @else
+                                                    (RP: <span id="checkout-current-rp"></span>)
+                                                @endif
                                             </span>
                                         </li>
-                                        <li class="list-group-item"><strong>RP saat ini:</strong> <span
-                                                id="checkout-current-rp">-</span></li>
                                         <li class="list-group-item">
                                             <strong>Rank yang Diinginkan:</strong>
                                             <span id="checkout-desired-rank">
-                                                <span id="checkout-desired-tier">Default</span> (Bintang: <span
-                                                    id="checkout-desired-stars">0</span>)
+                                                <span id="checkout-desired-rank-name">{{ $defaultRank->name }}</span> -
+                                                <span id="checkout-desired-tier">{{ $defaultTier->tier }}</span>
+                                                @if ($defaultRank->system_type === 'star')
+                                                    (Bintang: <span id="checkout-desired-stars">0</span>)
+                                                @else
+                                                    (RP: <span id="checkout-desired-rp"></span>)
+                                                @endif
                                             </span>
                                         </li>
-                                        <li class="list-group-item"><strong>RP yang diinginkan:</strong> <span
-                                                id="checkout-desired-rp">-</span></li>
-                                        <li class="list-group-item"><strong>Server:</strong> <span
-                                                id="checkout-server">North America</span></li>
-                                        <li class="list-group-item"><strong>Platform:</strong> <span
-                                                id="checkout-platform">PC</span></li>
+                                        <li class="list-group-item">
+                                            <strong>Server:</strong> <span id="checkout-server">North America</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Platform:</strong> <span id="checkout-platform">PC</span>
+                                        </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>Subtotal</strong> <span id="checkout-subtotal">Rp. 0</span>
                                         </li>
@@ -318,365 +376,296 @@
         </section>
     </main>
 @endsection
+
 @section('script')
     <script>
-        AOS.init();
+        // Global variables untuk menyimpan pilihan harga dan tier id
+        var currentTierId = null,
+            desiredTierId = null,
+            currentSelectedPrice = 0,
+            desiredSelectedPrice = 0;
 
-        // Mapping tier berdasarkan kategori (menggunakan data dari game_rank_categories, rankTiers, dan tierDetails)
-        var tierMapping = {!! json_encode(
-            $game->rankCategories->keyBy(function ($cat) {
-                    return $cat->display_order . '-' . strtolower($cat->name);
-                })->map(function ($cat) {
-                    return $cat->rankTiers->map(function ($tier) use ($cat) {
-                        return [
-                            'tier' => $tier->tier, // misal "I", "II", dll.
-                            'stars' => (int) $tier->progress_target, // jumlah bintang yang dibutuhkan untuk menyelesaikan tier
-                            'price' => number_format($tier->price, 0, ',', '.'),
-                            'price_value' => (int) $tier->price,
-                            'details' => $tier->tierDetails->map(function ($detail) {
-                                return [
-                                    'star_number' => (int) $detail->star_number,
-                                    'price' => number_format($detail->price, 0, ',', '.'),
-                                    'price_value' => (int) $detail->price,
-                                    'display_order' => $detail->display_order,
-                                ];
-                            }),
-                        ];
-                    });
-                }),
-        ) !!};
+        // Mapping: rank category id ke array tier (dengan id, label, progress)
+        const rankTiersMap = {
+            @foreach ($game->rankCategories as $category)
+                "{{ $category->id }}": [
+                    @foreach ($category->rankTiers->sortBy('display_order') as $tier)
+                        {
+                            id: "{{ $tier->id }}",
+                            label: "{{ $tier->tier }}",
+                            progress: {{ (int) $tier->progress_target }}
+                        },
+                    @endforeach
+                ],
+            @endforeach
+        };
 
-        // Mapping RP untuk kategori "point" (jika diperlukan)
-        var rpMapping = {!! json_encode(
-            $game->rankCategories->keyBy(function ($cat) {
-                    return $cat->display_order . '-' . strtolower($cat->name);
-                })->map(function ($cat) {
-                    return $cat->rankTiers->map(function ($tier) use ($cat) {
-                        if ($cat->system_type === 'star') {
-                            return str_repeat('<i class="fa-solid fa-star text-warning"></i>', (int) $tier->progress_target);
-                        } else {
-                            return $tier->progress_target ? $tier->progress_target + ' progress' : '-';
-                        }
-                    });
-                }),
-        ) !!};
+        // Mapping tier id ke progress_target
+        const tierProgressMap = {
+            @foreach ($defaultRank->rankTiers as $tier)
+                "{{ $tier->id }}": "{{ $tier->progress_target }}",
+            @endforeach
+        };
 
-        // Fungsi bantuan untuk str_repeat di JS
-        function str_repeat(input, multiplier) {
-            let output = "";
-            for (let i = 0; i < multiplier; i++) {
-                output += input;
-            }
-            return output;
-        }
+        // Mapping untuk harga: setiap tier id ke array detail (harga dan star_number)
+        const rpOptionsMap = {
+            @foreach ($game->rankCategories as $category)
+                @foreach ($category->rankTiers as $tier)
+                    "{{ $tier->id }}": [
+                        @foreach ($tier->tierDetails->sortBy('display_order') as $detail)
+                            {
+                                price: parseInt("{{ $detail->price }}"),
+                                star_number: "{{ $detail->star_number }}"
+                            },
+                        @endforeach
+                    ],
+                @endforeach
+            @endforeach
+        };
 
-        function numberToRoman(num) {
-            const lookup = {
-                M: 1000,
-                CM: 900,
-                D: 500,
-                CD: 400,
-                C: 100,
-                XC: 90,
-                L: 50,
-                XL: 40,
-                X: 10,
-                IX: 9,
-                V: 5,
-                IV: 4,
-                I: 1
-            };
-            let roman = '';
-            for (let i in lookup) {
-                while (num >= lookup[i]) {
-                    roman += i;
-                    num -= lookup[i];
-                }
-            }
-            return roman;
-        }
-
-        // Fungsi untuk menghasilkan tombol subdivisi (radio button) secara dinamis.
-        function updateSubdivisions(type, rank) {
-            const container = document.getElementById(type + "-subdivisions-container");
-            container.innerHTML = "";
-            container.style.display = "flex";
-            container.style.justifyContent = "center";
-            container.style.gap = "5px";
-            const subdivisions = tierMapping[rank];
-            if (!subdivisions || subdivisions.length === 0) return;
-            // Buat radio button untuk tiap subdivisi.
-            for (let i = 0; i < subdivisions.length; i++) {
-                const radioId = type + "-subdiv-" + i;
-                const input = document.createElement("input");
-                input.type = "radio";
-                input.classList.add("btn-check");
-                input.name = type + "-subdivision";
-                input.value = i; // indeks subdivisi
-                input.id = radioId;
-                // Default: pilih subdivisi terakhir (misal tier tertinggi) jika ada
-                if (i === subdivisions.length - 1) {
-                    input.checked = true;
-                }
-                const label = document.createElement("label");
-                label.className = "btn btn-outline-primary";
-                label.htmlFor = radioId;
-                label.textContent = subdivisions[i].tier; // tampilkan label dari field tier
-                container.appendChild(input);
-                container.appendChild(label);
-            }
-        }
-
-        // Fungsi untuk mengupdate dropdown RP (untuk kategori point)
-        function updateRpOptions(type, rank) {
-            const selectEl = document.getElementById(type + "-rp");
-            selectEl.innerHTML = "";
-            if (rpMapping[rank] && rpMapping[rank].length > 0) {
-                rpMapping[rank].forEach(function(optionText) {
-                    const opt = document.createElement("option");
-                    if (optionText.indexOf('<i') !== -1) {
-                        opt.innerHTML = optionText;
-                    } else {
-                        opt.textContent = optionText;
-                    }
-                    opt.value = optionText;
-                    selectEl.appendChild(opt);
-                });
-                document.getElementById("checkout-" + type + "-rp").innerHTML = selectEl.options[0].innerHTML;
-            }
-        }
-
-        // Fungsi untuk mengupdate star widget secara dinamis.
-        function updateStarWidget(type, requiredStars) {
-            const container = document.getElementById(type + "-stars-input");
-            const starDisplay = container.querySelector(".star-display");
-            starDisplay.innerHTML = "";
-            for (let i = 1; i <= requiredStars; i++) {
-                const icon = document.createElement("i");
-                icon.classList.add("fa-regular", "fa-star");
-                icon.setAttribute("data-value", i);
-                icon.style.fontSize = "1.5rem";
-                icon.style.cursor = "pointer";
-                icon.style.margin = "0 2px";
-                starDisplay.appendChild(icon);
-            }
-            const hiddenInput = container.querySelector("input[type='hidden']");
-            const icons = starDisplay.querySelectorAll("i");
-            icons.forEach(function(icon) {
-                icon.addEventListener("click", function() {
-                    const rating = parseInt(icon.getAttribute("data-value"));
-                    hiddenInput.value = rating;
-                    icons.forEach(function(s) {
-                        const val = parseInt(s.getAttribute("data-value"));
-                        if (val <= rating) {
-                            s.classList.remove("fa-regular");
-                            s.classList.add("fa-solid", "text-warning");
-                        } else {
-                            s.classList.remove("fa-solid", "text-warning");
-                            s.classList.add("fa-regular");
-                        }
-                    });
-                    updateCheckoutRank(type);
-                    updateCheckoutPrice();
-                });
-            });
-            // Jangan reset nilai hiddenInput di sini!
-            // hiddenInput.value = 0;  <-- Hapus baris ini
-        }
-
-        // Fungsi bantu untuk menjumlahkan biaya upgrade per bintang berdasarkan detail.
-        // Mengasumsikan 'fromStar' eksklusif dan 'toStar' inklusif.
-        function sumDetailCost(details, fromStar, toStar) {
-            let cost = 0;
-            details.forEach(function(detail) {
-                if (detail.star_number > fromStar && detail.star_number <= toStar) {
-                    cost += detail.price_value;
+        // Fungsi untuk mengatur tampilan bintang sesuai nilai (untuk sistem star)
+        function setStarSelection(type, starValue) {
+            const container = document.getElementById(type + '-stars-input').querySelector('.star-display');
+            if (!container) return;
+            container.querySelectorAll('.star-option').forEach(function(star) {
+                if (parseInt(star.getAttribute('data-value')) <= parseInt(starValue)) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
                 }
             });
-            return cost;
         }
 
-        // Fungsi untuk memperbarui ringkasan checkout (rank & harga).
-        function updateCheckoutRank(type) {
-            const grid = document.getElementById(type + "-rank-grid");
-            const selectedRankItem = grid.querySelector(".rank-item.selected");
-            if (!selectedRankItem) return;
-            const rank = selectedRankItem.getAttribute("data-rank");
-            const rankName = selectedRankItem.querySelector(".rank-name").textContent;
-            let subdivRadio = document.querySelector('input[name="' + type + '-subdivision"]:checked');
-            let tierLabel = subdivRadio ? subdivRadio.nextSibling.textContent : '';
-            let stars = "0";
-            const starInput = document.querySelector("#" + type + "-stars-input input[type='hidden']");
-            if (starInput) {
-                stars = starInput.value;
-            }
-            let checkoutText = rankName + (tierLabel ? (" " + tierLabel) : "") + " (Bintang: " + stars + ")";
-            document.getElementById("checkout-" + type + "-rank").textContent = checkoutText;
-        }
-
-        // Fungsi untuk menghitung subtotal dan total upgrade (perbintang) secara dinamis, baik jika tier sama atau berbeda.
-        function updateCheckoutPrice() {
-            let upgradeCost = 0;
-
-            // Ambil data current dan desired tier
-            let currentGrid = document.getElementById("current-rank-grid");
-            let currentRankItem = currentGrid.querySelector(".rank-item.selected");
-            let desiredGrid = document.getElementById("desired-rank-grid");
-            let desiredRankItem = desiredGrid.querySelector(".rank-item.selected");
-
-            let currentTier = null,
-                desiredTier = null;
-            let currentSubdivisionRadio = document.querySelector('input[name="current-subdivision"]:checked');
-            let desiredSubdivisionRadio = document.querySelector('input[name="desired-subdivision"]:checked');
-
-            if (currentRankItem && currentSubdivisionRadio && tierMapping[currentRankItem.getAttribute("data-rank")]) {
-                let currentTierIndex = parseInt(currentSubdivisionRadio.value);
-                currentTier = tierMapping[currentRankItem.getAttribute("data-rank")][currentTierIndex];
-            }
-            if (desiredRankItem && desiredSubdivisionRadio && tierMapping[desiredRankItem.getAttribute("data-rank")]) {
-                let desiredTierIndex = parseInt(desiredSubdivisionRadio.value);
-                desiredTier = tierMapping[desiredRankItem.getAttribute("data-rank")][desiredTierIndex];
-            }
-
-            // Ambil nilai bintang dari widget star rating
-            let currentStars = parseInt(document.querySelector("#current-stars-input input[type='hidden']").value) || 0;
-            let desiredStars = parseInt(document.querySelector("#desired-stars-input input[type='hidden']").value) || 0;
-
-            // Jika current dan desired berada dalam tier yang sama:
-            if (currentTier && desiredTier && currentTier.tier === desiredTier.tier) {
-                upgradeCost = sumDetailCost(currentTier.details, currentStars, desiredStars);
-            }
-            // Jika tier berbeda (misalnya, current tier lebih rendah daripada desired tier)
-            else if (currentTier && desiredTier) {
-                // 1. Biaya untuk menyelesaikan current tier: dari currentStars+1 sampai maksimal bintang current tier.
-                let costCurrent = sumDetailCost(currentTier.details, currentStars, currentTier.stars);
-                // 2. Untuk setiap tier antara current dan desired (jika ada), jumlahkan biaya penuh tiap tier.
-                let costIntermediate = 0;
-                let currentCategoryKey = currentRankItem.getAttribute("data-rank");
-                let tiersArray = tierMapping[currentCategoryKey];
-                for (let i = parseInt(currentSubdivisionRadio.value) + 1; i < parseInt(desiredSubdivisionRadio
-                    .value); i++) {
-                    costIntermediate += sumDetailCost(tiersArray[i].details, 0, tiersArray[i].stars);
-                }
-                // 3. Biaya untuk desired tier: dari 0 sampai desiredStars.
-                let costDesired = sumDetailCost(desiredTier.details, 0, desiredStars);
-                upgradeCost = costCurrent + costIntermediate + costDesired;
-            }
-
-            document.getElementById("checkout-subtotal").textContent = "Rp. " + number_format(upgradeCost);
-            document.getElementById("checkout-total").textContent = "Rp. " + number_format(upgradeCost);
-        }
-
-        // Fungsi format angka (Indonesia)
-        function number_format(number) {
-            return number.toLocaleString('id-ID');
-        }
-
-        function updateCheckoutRp(type) {
-            if (type === "current") {
-                const selectEl = document.getElementById("current-rp");
-                document.getElementById("checkout-current-rp").textContent = selectEl.value;
-            } else if (type === "desired") {
-                const selectEl = document.getElementById("desired-rp");
-                document.getElementById("checkout-desired-rp").textContent = selectEl.value;
-            }
-            updateCheckoutPrice();
-        }
-
-        function updateCheckoutExtra() {
-            const serverSelect = document.getElementById("server");
-            const platformSelect = document.getElementById("platform");
-            document.getElementById("checkout-server").textContent = serverSelect.options[serverSelect.selectedIndex].text;
-            document.getElementById("checkout-platform").textContent = platformSelect.options[platformSelect.selectedIndex]
-                .text;
-        }
-
-        // Fungsi untuk menangani pemilihan rank
-        function selectRank(type, el) {
-            const grid = document.getElementById(type + "-rank-grid");
-            grid.querySelectorAll(".rank-item").forEach(function(item) {
-                item.classList.remove("selected");
-            });
-            el.classList.add("selected");
-            const systemType = el.getAttribute("data-system");
-            if (systemType === "star") {
-                document.getElementById(type + "-stars-input").style.display = "block";
-                document.getElementById(type + "-rp-dropdown").style.display = "none";
-                const currentRank = el.getAttribute("data-rank");
-                const subdivisions = tierMapping[currentRank];
-                if (subdivisions && subdivisions.length > 0) {
-                    // Default: pilih subdivisi terakhir (tier tertinggi)
-                    updateStarWidget(type, subdivisions[subdivisions.length - 1].stars);
-                }
-            } else if (systemType === "point") {
-                document.getElementById(type + "-rp-dropdown").style.display = "block";
-                document.getElementById(type + "-stars-input").style.display = "none";
-            } else {
-                document.getElementById(type + "-stars-input").style.display = "block";
-                document.getElementById(type + "-rp-dropdown").style.display = "block";
-            }
-            const selectedRank = el.getAttribute("data-rank");
-            const selectedName = el.querySelector(".rank-name").textContent;
-            if (typeof rankImageMapping !== 'undefined' && rankImageMapping[selectedRank]) {
-                document.getElementById(type + "-selected-img").src = rankImageMapping[selectedRank];
-            }
-            document.getElementById(type + "-selected-text").textContent =
-                (type === "current" ? "Rank saat ini: " : "Rank yang diinginkan: ") + selectedName;
-            updateCheckoutRank(type);
-            updateSubdivisions(type, selectedRank);
-            if (rpMapping[selectedRank] && rpMapping[selectedRank].length > 0) {
-                updateRpOptions(type, selectedRank);
-            }
-        }
-
-        // Event listener untuk subdivisi
-        document.addEventListener("change", function(e) {
-            if (e.target.name === "current-subdivision") {
-                updateCheckoutRank("current");
-                let index = parseInt(e.target.value);
-                let currentRank = document.querySelector("#current-rank-grid .rank-item.selected").getAttribute(
-                    "data-rank");
-                let subdivisions = tierMapping[currentRank];
-                if (subdivisions && subdivisions[index]) {
-                    updateStarWidget("current", subdivisions[index].stars);
-                }
-                updateCheckoutPrice();
-            }
-            if (e.target.name === "desired-subdivision") {
-                updateCheckoutRank("desired");
-                let index = parseInt(e.target.value);
-                let desiredRank = document.querySelector("#desired-rank-grid .rank-item.selected").getAttribute(
-                    "data-rank");
-                let subdivisions = tierMapping[desiredRank];
-                if (subdivisions && subdivisions[index]) {
-                    updateStarWidget("desired", subdivisions[index].stars);
-                }
-                updateCheckoutPrice();
-            }
-        });
-
-        document.getElementById("current-rp").addEventListener("change", function() {
-            updateCheckoutRp("current");
-        });
-        document.getElementById("desired-rp").addEventListener("change", function() {
-            updateCheckoutRp("desired");
-        });
-        document.getElementById("server").addEventListener("change", updateCheckoutExtra);
-        document.getElementById("platform").addEventListener("change", updateCheckoutExtra);
-
-        // Saat halaman load, pastikan default item dipilih
+        // Saat halaman dimuat, default star adalah 0 (tidak ada yang terselect)
         document.addEventListener("DOMContentLoaded", function() {
-            let currentDefault = document.querySelector("#current-rank-grid .rank-item.selected") ||
-                document.querySelector("#current-rank-grid .rank-item");
-            let desiredDefault = document.querySelector("#desired-rank-grid .rank-item.selected") ||
-                document.querySelector("#desired-rank-grid .rank-item");
-            if (currentDefault) {
-                selectRank("current", currentDefault);
+            document.getElementById("current-stars").value = 0;
+            document.getElementById("desired-stars").value = 0;
+            setStarSelection('current', 0);
+            setStarSelection('desired', 0);
+            updatePriceDifference();
+
+            // Inisialisasi star rating untuk default tier jika sistem star
+            var systemType = '{{ $defaultRank->system_type }}';
+            if (systemType === 'star') {
+                var defaultTierId = "{{ $defaultTier->id }}";
+                // Memanggil ulang selectTier untuk current dan desired agar star rating ter-render ulang
+                selectTier('current', defaultTierId);
+                selectTier('desired', defaultTierId);
             }
-            if (desiredDefault) {
-                selectRank("desired", desiredDefault);
-            }
-            updateCheckoutExtra();
         });
+
+        // Fungsi untuk update subdivisi (tier) secara dinamis
+        function updateSubdivisions(type, rankId) {
+            const container = document.getElementById(type + '-subdivisions-container');
+            let tiers = rankTiersMap[rankId] || [];
+            let html = '<div class="btn-group" role="group" aria-label="' + type + ' Tier">';
+            tiers.forEach((tier, index) => {
+                html += '<input type="radio" class="btn-check" name="' + type + '-tier" id="' + type + '-tier-' +
+                    tier.id + '" value="' + tier.id + '" data-progress-target="' + tier.progress + '" ' +
+                    (index === 0 ? 'checked' : '') + ' onclick="selectTier(\'' + type + '\',' + tier.id + ')">';
+                html += '<label for="' + type + '-tier-' + tier.id + '" class="btn btn-outline-primary">' + tier
+                    .label + '</label>';
+            });
+            html += '</div>';
+            container.innerHTML = html;
+            if (tiers.length > 0) {
+                selectTier(type, tiers[0].id);
+            }
+        }
+
+        // Fungsi untuk memilih rank (current atau desired)
+        function selectRank(type, element) {
+            document.querySelectorAll('#' + type + '-rank-grid .rank-item').forEach(function(item) {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            var selectedImgSrc = element.querySelector('img').src;
+            var selectedName = element.querySelector('.rank-name').innerText;
+            document.getElementById(type + '-selected-img').src = selectedImgSrc;
+            document.getElementById(type + '-selected-text').innerText = (type === 'current' ? 'Rank saat ini: ' :
+                'Rank yang diinginkan: ') + selectedName;
+            let rankId = element.getAttribute('data-id');
+            updateSubdivisions(type, rankId);
+            let summaryRankEl = document.getElementById('checkout-' + type + '-rank-name');
+            if (summaryRankEl) {
+                summaryRankEl.innerText = selectedName;
+            }
+        }
+
+        // Fungsi untuk render star rating (untuk sistem star)
+        function renderStarRating(type, tierId) {
+            const container = document.getElementById(type + '-stars-input').querySelector('.star-display');
+            let radio = document.querySelector('input[name="' + type + '-tier"][value="' + tierId + '"]');
+            let progressTarget = parseInt(radio.getAttribute('data-progress-target')) || 0;
+            let html = '';
+            for (let i = 1; i <= progressTarget; i++) {
+                html += '<i class="fa fa-star star-option" data-value="' + i + '"></i>';
+            }
+            container.innerHTML = html;
+            // Set hidden input ke 0 dan update tampilan bintang
+            const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
+            hiddenInput.value = 0;
+            setStarSelection(type, 0);
+            // Simpan tier id global dan set harga default ke 0
+            if (type === 'current') {
+                currentTierId = tierId;
+                currentSelectedPrice = 0;
+            } else {
+                desiredTierId = tierId;
+                desiredSelectedPrice = 0;
+            }
+            // Panggil updateSelectedPrice dengan default star (nilai hidden 0) sehingga
+            // jika user tidak memilih, tetap diambil harga default (opsi pertama)
+            updateSelectedPrice(type, tierId, hiddenInput.value);
+            updatePriceDifference();
+            // Pasang event listener pada tiap bintang yang baru dirender
+            container.querySelectorAll('.star-option').forEach(function(star) {
+                star.addEventListener('click', function() {
+                    let value = star.getAttribute('data-value');
+                    hiddenInput.value = value;
+                    setStarSelection(type, value);
+                    updateSelectedPrice(type, tierId, value);
+                    let summaryEl = document.getElementById('checkout-' + type + '-stars');
+                    if (summaryEl) {
+                        summaryEl.innerText = value;
+                    }
+                    updatePriceDifference();
+                });
+            });
+        }
+
+
+        // Fungsi untuk update dropdown RP (untuk sistem point)
+        function updateRPDropdown(type, tierId) {
+            const container = document.getElementById(type + '-rp-dropdown');
+            let options = rpOptionsMap[tierId] || [];
+            let html = '<label class="form-label" for="' + type + '-rp">RP ' + (type === 'current' ? 'saat ini' :
+                'yang diinginkan') + '</label>';
+            html += '<select class="form-select" id="' + type + '-rp" name="' + type + '-rp">';
+            options.forEach(option => {
+                html += '<option value="' + option.price + '">' + option.star_number + '</option>';
+            });
+            html += '</select>';
+            container.innerHTML = html;
+            const selectEl = document.getElementById(type + '-rp');
+            let defaultPrice = options.length > 0 ? parseInt(options[0].price) : 0;
+            if (type === 'current') {
+                currentSelectedPrice = defaultPrice;
+            } else {
+                desiredSelectedPrice = defaultPrice;
+            }
+            selectEl.addEventListener('change', function() {
+                let selectedText = selectEl.options[selectEl.selectedIndex].text;
+                let selectedPrice = parseInt(selectEl.value);
+                if (type === 'current') {
+                    currentSelectedPrice = selectedPrice;
+                    let el = document.getElementById('checkout-current-rp');
+                    if (el) {
+                        el.innerText = selectedText;
+                    }
+                } else if (type === 'desired') {
+                    desiredSelectedPrice = selectedPrice;
+                    let el = document.getElementById('checkout-desired-rp');
+                    if (el) {
+                        el.innerText = selectedText;
+                    }
+                }
+                updatePriceDifference();
+            });
+            if (options.length > 0) {
+                let defaultText = selectEl.options[selectEl.selectedIndex].text;
+                if (type === 'current') {
+                    let el = document.getElementById('checkout-current-rp');
+                    if (el) {
+                        el.innerText = defaultText;
+                    }
+                } else if (type === 'desired') {
+                    let el = document.getElementById('checkout-desired-rp');
+                    if (el) {
+                        el.innerText = defaultText;
+                    }
+                }
+                updatePriceDifference();
+            }
+        }
+
+        // Fungsi untuk memilih tier (subdivisi)
+        function selectTier(type, tierId) {
+            var radios = document.getElementsByName(type + '-tier');
+            radios.forEach(function(radio) {
+                radio.checked = false;
+            });
+            document.getElementById(type + '-tier-' + tierId).checked = true;
+            if (type === 'current') {
+                currentTierId = tierId;
+                currentSelectedPrice = 0;
+            } else {
+                desiredTierId = tierId;
+                desiredSelectedPrice = 0;
+            }
+            let systemType = '{{ $defaultRank->system_type }}';
+            if (systemType === 'star') {
+                renderStarRating(type, tierId);
+            } else {
+                updateRPDropdown(type, tierId);
+            }
+            var tierLabel = document.querySelector('label[for="' + type + '-tier-' + tierId + '"]').innerText;
+            if (type === 'current') {
+                let el = document.getElementById('checkout-current-tier');
+                if (el) el.innerText = tierLabel;
+            } else if (type === 'desired') {
+                let el = document.getElementById('checkout-desired-tier');
+                if (el) el.innerText = tierLabel;
+            }
+        }
+
+        // Fungsi untuk update harga yang dipilih (sistem star) berdasarkan tier dan starValue
+        function updateSelectedPrice(type, tierId, starValue) {
+            let options = rpOptionsMap[tierId] || [];
+            let starVal = parseInt(starValue);
+            if (!starVal) {
+                starVal = options.length > 0 ? parseInt(options[0].star_number) : 0;
+            }
+            let selected = options.find(opt => parseInt(opt.star_number) === starVal);
+            if (selected) {
+                if (type === 'current') {
+                    currentSelectedPrice = selected.price;
+                } else {
+                    desiredSelectedPrice = selected.price;
+                }
+            }
+        }
+
+        // Fungsi untuk menghitung dan mengupdate selisih harga di summary checkout
+        // Jika desired < current, selisih dianggap 0
+        function updatePriceDifference() {
+            let diff = desiredSelectedPrice - currentSelectedPrice;
+            if (diff < 0) diff = 0;
+            document.getElementById('checkout-subtotal').innerText = 'Rp. ' + diff;
+            document.getElementById('checkout-total').innerText = 'Rp. ' + diff;
+        }
+
+        // Fungsi untuk mengosongkan pilihan bintang (clear star selection)
+        function clearStarSelection(type) {
+            const container = document.getElementById(type + '-stars-input').querySelector('.star-display');
+            container.querySelectorAll('.star-option').forEach(function(s) {
+                s.classList.remove('selected');
+            });
+            container.parentElement.querySelector('input[type="hidden"]').value = "";
+            if (type === 'current') {
+                currentSelectedPrice = 0;
+                let summaryEl = document.getElementById('checkout-current-stars');
+                if (summaryEl) {
+                    summaryEl.innerText = "";
+                }
+            } else {
+                desiredSelectedPrice = 0;
+                let summaryEl = document.getElementById('checkout-desired-stars');
+                if (summaryEl) {
+                    summaryEl.innerText = "";
+                }
+            }
+            updatePriceDifference();
+        }
     </script>
 @endsection

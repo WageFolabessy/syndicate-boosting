@@ -36,6 +36,12 @@ class BoostingServicePageController extends Controller
             }
         ])->findOrFail($gameId);
 
-        return view('site-user.pages.rank-boosting', compact('game'));
+        $defaultRank = $game->rankCategories->sortBy('display_order')->first();
+
+        $defaultTier = $defaultRank->rankTiers->sortBy('display_order')->first();
+
+        $defaultTierDetail = $defaultTier ? $defaultTier->tierDetails->sortBy('display_order')->first() : null;
+
+        return view('site-user.pages.rank-boosting', compact('game', 'defaultRank', 'defaultTier', 'defaultTierDetail'));
     }
 }

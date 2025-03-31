@@ -58,13 +58,13 @@ class ApexLegendRankCategorySeeder extends Seeder
                 'display_order' => 6,
                 'system_type'   => 'point',
             ],
-            [
-                'game_id'       => 1,
-                'name'          => 'Master',
-                'image'         => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\7-master.webp',
-                'display_order' => 7,
-                'system_type'   => 'point',
-            ],
+            // [
+            //     'game_id'       => 1,
+            //     'name'          => 'Master',
+            //     'image'         => 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legends\7-master.webp',
+            //     'display_order' => 7,
+            //     'system_type'   => 'point',
+            // ],
         ];
 
         foreach ($apexLegendRankCategories as $data) {
