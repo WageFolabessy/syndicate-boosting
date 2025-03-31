@@ -15,7 +15,7 @@ class UpdateRankTierDetailRequest extends FormRequest
     {
         return [
             'game_rank_tier_id' => 'sometimes|required|exists:game_rank_tiers,id',
-            'star_number'       => 'sometimes|required|integer|min:1',
+            'star_number'       => 'sometimes|required|string',
             'price'             => 'nullable|integer|min:0',
             'display_order'     => 'nullable|integer',
         ];
@@ -27,8 +27,6 @@ class UpdateRankTierDetailRequest extends FormRequest
             'game_rank_tier_id.required' => 'Tier harus dipilih jika diubah.',
             'game_rank_tier_id.exists'   => 'Tier yang dipilih tidak valid.',
             'star_number.required'       => 'Nomor bintang harus diisi jika diubah.',
-            'star_number.integer'        => 'Nomor bintang harus berupa angka.',
-            'star_number.min'            => 'Nomor bintang minimal adalah 1.',
             'price.integer'              => 'Harga harus berupa angka.',
             'price.min'                  => 'Harga tidak boleh negatif.',
             'display_order.integer'      => 'Display order harus berupa angka.',

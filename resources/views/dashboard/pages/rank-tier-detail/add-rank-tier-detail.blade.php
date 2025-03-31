@@ -47,7 +47,8 @@
                                     <label for="game_rank_tier_id" class="form-label">
                                         Select Rank Tier <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select mb-3" name="game_rank_tier_id" id="game_rank_tier_id" required >
+                                    <select class="form-select mb-3" name="game_rank_tier_id" id="game_rank_tier_id"
+                                        required>
                                         <option value="">-- Select Rank Tier --</option>
                                         @foreach ($rankTiers as $tier)
                                             <option value="{{ $tier->id }}"
@@ -64,7 +65,7 @@
                                     <label for="star_number" class="form-label">
                                         Star Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="number" class="form-control" name="star_number" id="star_number"
+                                    <input type="text" class="form-control" name="star_number" id="star_number"
                                         placeholder="Enter star number (e.g., 1, 2, 3)" required
                                         value="{{ old('star_number') }}">
                                 </div>
@@ -78,13 +79,13 @@
                                         placeholder="Enter price" value="{{ old('price') }}">
                                 </div>
 
-                                <!-- Display Order (optional) -->
+                                <!-- Display Order -->
                                 <div class="mb-3">
                                     <label for="display_order" class="form-label">
                                         Display Order
                                     </label>
                                     <input type="number" class="form-control" name="display_order" id="display_order"
-                                        placeholder="Enter display order" value="{{ old('display_order') }}">
+                                        placeholder="Enter display order" value="{{ old('display_order', 0) }}">
                                 </div>
                             </div>
                         </div>

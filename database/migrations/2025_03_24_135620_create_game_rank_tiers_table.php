@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('game_rank_category_id');
             $table->string('tier');
-            $table->integer('progress_target')->nullable();
+            $table->string('progress_target')->nullable();
             $table->integer('price')->nullable();
             $table->integer('display_order')->default(0);
             $table->timestamps();

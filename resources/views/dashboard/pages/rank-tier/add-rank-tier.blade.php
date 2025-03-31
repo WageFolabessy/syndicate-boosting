@@ -70,7 +70,7 @@
                                     <label for="progress_target" class="form-label">
                                         Progress Target
                                     </label>
-                                    <input type="number" class="form-control" name="progress_target" id="progress_target"
+                                    <input type="text" class="form-control" name="progress_target" id="progress_target"
                                         placeholder="Enter progress target" value="{{ old('progress_target') }}">
                                 </div>
                                 <!-- Price -->

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('game_rank_tier_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_rank_tier_id');
-            $table->integer('star_number');
+            $table->string('star_number');
             $table->integer('price')->nullable();
             $table->integer('display_order')->default(0);
             $table->timestamps();

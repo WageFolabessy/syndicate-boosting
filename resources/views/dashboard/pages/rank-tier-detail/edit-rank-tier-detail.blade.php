@@ -65,7 +65,7 @@
                                     <label for="star_number" class="form-label">
                                         Star Number <span class="text-danger">*</span>
                                     </label>
-                                    <input type="number" class="form-control" name="star_number" id="star_number"
+                                    <input type="text" class="form-control" name="star_number" id="star_number"
                                         placeholder="Enter star number (e.g., 1, 2, 3)" required
                                         value="{{ old('star_number', $detail->star_number) }}">
                                 </div>
