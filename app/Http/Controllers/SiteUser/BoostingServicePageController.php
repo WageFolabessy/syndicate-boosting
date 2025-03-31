@@ -30,6 +30,9 @@ class BoostingServicePageController extends Controller
             },
             'rankCategories.rankTiers' => function ($query) {
                 $query->orderBy('display_order', 'asc');
+            },
+            'rankCategories.rankTiers.tierDetails' => function ($query) {
+                $query->orderBy('display_order', 'asc');
             }
         ])->findOrFail($gameId);
 

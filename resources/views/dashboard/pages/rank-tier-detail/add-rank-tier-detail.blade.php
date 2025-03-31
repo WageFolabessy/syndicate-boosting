@@ -47,7 +47,7 @@
                                     <label for="game_rank_tier_id" class="form-label">
                                         Select Rank Tier <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" name="game_rank_tier_id" id="game_rank_tier_id" required>
+                                    <select class="form-select mb-3" name="game_rank_tier_id" id="game_rank_tier_id" required >
                                         <option value="">-- Select Rank Tier --</option>
                                         @foreach ($rankTiers as $tier)
                                             <option value="{{ $tier->id }}"

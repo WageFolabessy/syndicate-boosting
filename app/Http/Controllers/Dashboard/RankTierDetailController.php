@@ -19,8 +19,6 @@ class RankTierDetailController extends Controller
             ->join('games', 'game_rank_categories.game_id', '=', 'games.id')
             ->orderBy('games.name', 'asc')
             ->orderBy('game_rank_categories.display_order', 'asc')
-            ->orderBy('game_rank_tiers.display_order', 'asc')
-            ->orderBy('game_rank_tier_details.star_number', 'asc')
             ->select([
                 'game_rank_tier_details.*',
                 'game_rank_tiers.tier as tier_name',

@@ -138,6 +138,7 @@
     </style>
 @endsection
 @section('content')
+    <!-- Main Content -->
     <main>
         <!-- Header Halaman -->
         <section class="mt-5 page-header pt-5" data-aos="fade-up">
@@ -304,14 +305,14 @@
                                             <strong>Subtotal</strong> <span id="checkout-subtotal">Rp. 0</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <strong>Total</strong> <span id="checkout-total">Rp.
-
+                                            <strong>Total</strong> <span id="checkout-total">Rp. 0</span>
+                                        </li>
                                     </ul>
                                     <button class="mt-3 btn btn-success w-100" type="button">Lanjut Checkout</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div><!-- End Checkout Summary -->
                 </div><!-- End Row -->
             </div><!-- End Container -->
         </section>
@@ -321,33 +322,31 @@
     <script>
         AOS.init();
 
-        // Mapping tier berdasarkan kategori,
-        // disesuaikan dengan struktur tabel game_rank_categories & game_rank_tiers.
+        // Mapping tier berdasarkan kategori (menggunakan data dari game_rank_categories, rankTiers, dan tierDetails)
         var tierMapping = {!! json_encode(
             $game->rankCategories->keyBy(function ($cat) {
                     return $cat->display_order . '-' . strtolower($cat->name);
                 })->map(function ($cat) {
                     return $cat->rankTiers->map(function ($tier) use ($cat) {
-                        if ($cat->system_type === 'star') {
-                            return [
-                                'tier' => $tier->tier, // misal "I", "II", dsb.
-                                'stars' => (int) $tier->progress_target,
-                                'price' => number_format($tier->price, 0, ',', '.'),
-                                'price_value' => (int) $tier->price,
-                            ];
-                        } else {
-                            return [
-                                'tier' => $tier->tier,
-                                'progress' => $tier->progress_target ? $tier->progress_target . ' progress' : '-',
-                                'price' => number_format($tier->price, 0, ',', '.'),
-                                'price_value' => (int) $tier->price,
-                            ];
-                        }
+                        return [
+                            'tier' => $tier->tier, // misal "I", "II", dll.
+                            'stars' => (int) $tier->progress_target, // jumlah bintang yang dibutuhkan untuk menyelesaikan tier
+                            'price' => number_format($tier->price, 0, ',', '.'),
+                            'price_value' => (int) $tier->price,
+                            'details' => $tier->tierDetails->map(function ($detail) {
+                                return [
+                                    'star_number' => (int) $detail->star_number,
+                                    'price' => number_format($detail->price, 0, ',', '.'),
+                                    'price_value' => (int) $detail->price,
+                                    'display_order' => $detail->display_order,
+                                ];
+                            }),
+                        ];
                     });
                 }),
         ) !!};
 
-        // Mapping RP untuk kategori "point"
+        // Mapping RP untuk kategori "point" (jika diperlukan)
         var rpMapping = {!! json_encode(
             $game->rankCategories->keyBy(function ($cat) {
                     return $cat->display_order . '-' . strtolower($cat->name);
@@ -355,10 +354,8 @@
                     return $cat->rankTiers->map(function ($tier) use ($cat) {
                         if ($cat->system_type === 'star') {
                             return str_repeat('<i class="fa-solid fa-star text-warning"></i>', (int) $tier->progress_target);
-                                
                         } else {
-                            return ($tier->progress_target ? $tier->progress_target . ' progress' : '-');
-                                
+                            return $tier->progress_target ? $tier->progress_target + ' progress' : '-';
                         }
                     });
                 }),
@@ -399,25 +396,7 @@
             return roman;
         }
 
-        // Fungsi untuk mengonversi roman numeral ke angka (jika dibutuhkan)
-        function romanToNumber(romanStr) {
-            const romanMap = {
-                "I": 1,
-                "II": 2,
-                "III": 3,
-                "IV": 4,
-                "V": 5,
-                "VI": 6,
-                "VII": 7,
-                "VIII": 8,
-                "IX": 9,
-                "X": 10
-            };
-            return romanMap[romanStr] || 0;
-        }
-
         // Fungsi untuk menghasilkan tombol subdivisi (radio button) secara dinamis.
-        // Menggunakan data "tier" dari mapping.
         function updateSubdivisions(type, rank) {
             const container = document.getElementById(type + "-subdivisions-container");
             container.innerHTML = "";
@@ -426,17 +405,16 @@
             container.style.gap = "5px";
             const subdivisions = tierMapping[rank];
             if (!subdivisions || subdivisions.length === 0) return;
-            // Buat radio button untuk tiap subdivisi
-            // Kita iterasi dari index 0 sampai subdivisions.length - 1
+            // Buat radio button untuk tiap subdivisi.
             for (let i = 0; i < subdivisions.length; i++) {
                 const radioId = type + "-subdiv-" + i;
                 const input = document.createElement("input");
                 input.type = "radio";
                 input.classList.add("btn-check");
                 input.name = type + "-subdivision";
-                input.value = i; // simpan indeks subdivisi
+                input.value = i; // indeks subdivisi
                 input.id = radioId;
-                // Set default: radio button pertama (misal, subdivisi dengan index tertinggi, bisa disesuaikan)
+                // Default: pilih subdivisi terakhir (misal tier tertinggi) jika ada
                 if (i === subdivisions.length - 1) {
                     input.checked = true;
                 }
@@ -469,7 +447,6 @@
         }
 
         // Fungsi untuk mengupdate star widget secara dinamis.
-        // Untuk kategori star, jumlah bintang didasarkan pada properti "stars" pada subdivisi.
         function updateStarWidget(type, requiredStars) {
             const container = document.getElementById(type + "-stars-input");
             const starDisplay = container.querySelector(".star-display");
@@ -503,7 +480,20 @@
                     updateCheckoutPrice();
                 });
             });
-            hiddenInput.value = 0;
+            // Jangan reset nilai hiddenInput di sini!
+            // hiddenInput.value = 0;  <-- Hapus baris ini
+        }
+
+        // Fungsi bantu untuk menjumlahkan biaya upgrade per bintang berdasarkan detail.
+        // Mengasumsikan 'fromStar' eksklusif dan 'toStar' inklusif.
+        function sumDetailCost(details, fromStar, toStar) {
+            let cost = 0;
+            details.forEach(function(detail) {
+                if (detail.star_number > fromStar && detail.star_number <= toStar) {
+                    cost += detail.price_value;
+                }
+            });
+            return cost;
         }
 
         // Fungsi untuk memperbarui ringkasan checkout (rank & harga).
@@ -524,43 +514,60 @@
             document.getElementById("checkout-" + type + "-rank").textContent = checkoutText;
         }
 
-        // Fungsi untuk menghitung subtotal dan total.
-        // Di sini subtotal dihitung sebagai selisih harga tier desired dan current (tidak negatif).
+        // Fungsi untuk menghitung subtotal dan total upgrade (perbintang) secara dinamis, baik jika tier sama atau berbeda.
         function updateCheckoutPrice() {
-            // Current
-            let currentPrice = 0;
-            const currentGrid = document.getElementById("current-rank-grid");
-            const currentRankItem = currentGrid.querySelector(".rank-item.selected");
-            if (currentRankItem) {
-                const currentRank = currentRankItem.getAttribute("data-rank");
-                const currentSubdivisionRadio = document.querySelector('input[name="current-subdivision"]:checked');
-                if (currentRank && tierMapping[currentRank] && currentSubdivisionRadio) {
-                    let index = parseInt(currentSubdivisionRadio.value);
-                    currentPrice = tierMapping[currentRank][index]['price_value'] || 0;
-                }
+            let upgradeCost = 0;
+
+            // Ambil data current dan desired tier
+            let currentGrid = document.getElementById("current-rank-grid");
+            let currentRankItem = currentGrid.querySelector(".rank-item.selected");
+            let desiredGrid = document.getElementById("desired-rank-grid");
+            let desiredRankItem = desiredGrid.querySelector(".rank-item.selected");
+
+            let currentTier = null,
+                desiredTier = null;
+            let currentSubdivisionRadio = document.querySelector('input[name="current-subdivision"]:checked');
+            let desiredSubdivisionRadio = document.querySelector('input[name="desired-subdivision"]:checked');
+
+            if (currentRankItem && currentSubdivisionRadio && tierMapping[currentRankItem.getAttribute("data-rank")]) {
+                let currentTierIndex = parseInt(currentSubdivisionRadio.value);
+                currentTier = tierMapping[currentRankItem.getAttribute("data-rank")][currentTierIndex];
+            }
+            if (desiredRankItem && desiredSubdivisionRadio && tierMapping[desiredRankItem.getAttribute("data-rank")]) {
+                let desiredTierIndex = parseInt(desiredSubdivisionRadio.value);
+                desiredTier = tierMapping[desiredRankItem.getAttribute("data-rank")][desiredTierIndex];
             }
 
-            // Desired
-            let desiredPrice = 0;
-            const desiredGrid = document.getElementById("desired-rank-grid");
-            const desiredRankItem = desiredGrid.querySelector(".rank-item.selected");
-            if (desiredRankItem) {
-                const desiredRank = desiredRankItem.getAttribute("data-rank");
-                const desiredSubdivisionRadio = document.querySelector('input[name="desired-subdivision"]:checked');
-                if (desiredRank && tierMapping[desiredRank] && desiredSubdivisionRadio) {
-                    let index = parseInt(desiredSubdivisionRadio.value);
-                    desiredPrice = tierMapping[desiredRank][index]['price_value'] || 0;
+            // Ambil nilai bintang dari widget star rating
+            let currentStars = parseInt(document.querySelector("#current-stars-input input[type='hidden']").value) || 0;
+            let desiredStars = parseInt(document.querySelector("#desired-stars-input input[type='hidden']").value) || 0;
+
+            // Jika current dan desired berada dalam tier yang sama:
+            if (currentTier && desiredTier && currentTier.tier === desiredTier.tier) {
+                upgradeCost = sumDetailCost(currentTier.details, currentStars, desiredStars);
+            }
+            // Jika tier berbeda (misalnya, current tier lebih rendah daripada desired tier)
+            else if (currentTier && desiredTier) {
+                // 1. Biaya untuk menyelesaikan current tier: dari currentStars+1 sampai maksimal bintang current tier.
+                let costCurrent = sumDetailCost(currentTier.details, currentStars, currentTier.stars);
+                // 2. Untuk setiap tier antara current dan desired (jika ada), jumlahkan biaya penuh tiap tier.
+                let costIntermediate = 0;
+                let currentCategoryKey = currentRankItem.getAttribute("data-rank");
+                let tiersArray = tierMapping[currentCategoryKey];
+                for (let i = parseInt(currentSubdivisionRadio.value) + 1; i < parseInt(desiredSubdivisionRadio
+                    .value); i++) {
+                    costIntermediate += sumDetailCost(tiersArray[i].details, 0, tiersArray[i].stars);
                 }
+                // 3. Biaya untuk desired tier: dari 0 sampai desiredStars.
+                let costDesired = sumDetailCost(desiredTier.details, 0, desiredStars);
+                upgradeCost = costCurrent + costIntermediate + costDesired;
             }
 
-            let subtotal = Math.max(desiredPrice - currentPrice, 0);
-            let total = subtotal; // Bisa ditambah fee atau diskon jika diperlukan
-
-            document.getElementById("checkout-subtotal").textContent = "Rp. " + number_format(subtotal);
-            document.getElementById("checkout-total").textContent = "Rp. " + number_format(total);
+            document.getElementById("checkout-subtotal").textContent = "Rp. " + number_format(upgradeCost);
+            document.getElementById("checkout-total").textContent = "Rp. " + number_format(upgradeCost);
         }
 
-        // Fungsi sederhana untuk format angka (Indonesia)
+        // Fungsi format angka (Indonesia)
         function number_format(number) {
             return number.toLocaleString('id-ID');
         }
@@ -598,7 +605,7 @@
                 const currentRank = el.getAttribute("data-rank");
                 const subdivisions = tierMapping[currentRank];
                 if (subdivisions && subdivisions.length > 0) {
-                    // Default gunakan subdivisi terakhir (misal tier tertinggi)
+                    // Default: pilih subdivisi terakhir (tier tertinggi)
                     updateStarWidget(type, subdivisions[subdivisions.length - 1].stars);
                 }
             } else if (systemType === "point") {
@@ -622,7 +629,7 @@
             }
         }
 
-        // Event listener untuk subdivisi agar mengupdate widget dan harga jika sistem star
+        // Event listener untuk subdivisi
         document.addEventListener("change", function(e) {
             if (e.target.name === "current-subdivision") {
                 updateCheckoutRank("current");
@@ -657,13 +664,12 @@
         document.getElementById("server").addEventListener("change", updateCheckoutExtra);
         document.getElementById("platform").addEventListener("change", updateCheckoutExtra);
 
-        // Pastikan default item sudah dipilih dan widget langsung ter-update saat halaman load.
+        // Saat halaman load, pastikan default item dipilih
         document.addEventListener("DOMContentLoaded", function() {
             let currentDefault = document.querySelector("#current-rank-grid .rank-item.selected") ||
                 document.querySelector("#current-rank-grid .rank-item");
             let desiredDefault = document.querySelector("#desired-rank-grid .rank-item.selected") ||
                 document.querySelector("#desired-rank-grid .rank-item");
-
             if (currentDefault) {
                 selectRank("current", currentDefault);
             }

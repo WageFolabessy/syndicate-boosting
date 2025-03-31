@@ -86,9 +86,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-tier-details/datatables', [RankTierDetailController::class, 'index']);
     Route::get('/rank-tier-detail/add', [RankTierDetailController::class, 'create'])->name('dashboard.rank-tier-detail.create');
     Route::post('/rank-tier-detail', [RankTierDetailController::class, 'store'])->name('dashboard.rank-tier-detail.store');
-    Route::get('/rank-tier-detail/{rankTierDetail}', [RankTierDetailController::class, 'show'])->name('dashboard.rank-tier-detail.show');
-    Route::put('/rank-tier-detail/{rankTierDetail}', [RankTierDetailController::class, 'update'])->name('dashboard.rank-tier-detail.update');
-    Route::delete('/rank-tier-detail/{rankTierDetail}', [RankTierDetailController::class, 'destroy'])->name('dashboard.rank-tier-detail.destroy');
+    Route::get('/rank-tier-detail/{detail}', [RankTierDetailController::class, 'show'])->name('dashboard.rank-tier-detail.show');
+    Route::put('/rank-tier-detail/{detail}', [RankTierDetailController::class, 'update'])->name('dashboard.rank-tier-detail.update');
+    Route::delete('/rank-tier-detail/{detail}', [RankTierDetailController::class, 'destroy'])->name('dashboard.rank-tier-detail.destroy');
 
     Route::get('/boosting-service', function () {
         return view('dashboard.pages.boosting-service.index');
