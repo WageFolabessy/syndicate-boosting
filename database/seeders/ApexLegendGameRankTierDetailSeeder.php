@@ -46,7 +46,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['rookie4'],
                 'star_number' => '0-50 RP',
-                'price' => 1000,
+                'price' => 0,
                 'display_order' => 1,
             ],
             [

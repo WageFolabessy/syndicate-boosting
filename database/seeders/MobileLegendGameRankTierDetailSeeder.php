@@ -46,6 +46,12 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Warrior 3
             [
                 'game_rank_tier_id' => $rankTier['warrior3'],
+                'star_number' => '0',
+                'price' => 0,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['warrior3'],
                 'star_number' => '1',
                 'price' => 1000,
                 'display_order' => 1,
@@ -63,6 +69,12 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
                 'display_order' => 3,
             ],
             // Warrior 2
+            [
+                'game_rank_tier_id' => $rankTier['warrior2'],
+                'star_number' => '0',
+                'price' => 3500,
+                'display_order' => 0,
+            ],
             [
                 'game_rank_tier_id' => $rankTier['warrior2'],
                 'star_number' => '1',
@@ -84,6 +96,12 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Warrior 1
             [
                 'game_rank_tier_id' => $rankTier['warrior1'],
+                'star_number' => '0',
+                'price' => 6500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['warrior1'],
                 'star_number' => '1',
                 'price' => 7000,
                 'display_order' => 1,
@@ -103,15 +121,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Elite 3
             [
                 'game_rank_tier_id' => $rankTier['elite3'],
+                'star_number' => '0',
+                'price' => 9500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['elite3'],
                 'star_number' => '1',
                 'price' => 10000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite3'],
                 'star_number' => '2',
                 'price' => 11000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite3'],
@@ -128,15 +152,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Elite 2
             [
                 'game_rank_tier_id' => $rankTier['elite2'],
+                'star_number' => '0',
+                'price' => 13500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['elite2'],
                 'star_number' => '1',
                 'price' => 14000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite2'],
                 'star_number' => '2',
                 'price' => 15000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite2'],
@@ -153,15 +183,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Elite 1
             [
                 'game_rank_tier_id' => $rankTier['elite1'],
+                'star_number' => '0',
+                'price' => 17500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['elite1'],
                 'star_number' => '1',
                 'price' => 18000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite1'],
                 'star_number' => '2',
                 'price' => 19000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['elite1'],
@@ -178,15 +214,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Master 4
             [
                 'game_rank_tier_id' => $rankTier['master4'],
+                'star_number' => '0',
+                'price' => 21500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['master4'],
                 'star_number' => '1',
                 'price' => 22000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master4'],
                 'star_number' => '2',
                 'price' => 23000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master4'],
@@ -203,15 +245,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Master 3
             [
                 'game_rank_tier_id' => $rankTier['master3'],
+                'star_number' => '0',
+                'price' => 25500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['master3'],
                 'star_number' => '1',
                 'price' => 26000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master3'],
                 'star_number' => '2',
                 'price' => 27000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master3'],
@@ -228,15 +276,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Master 2
             [
                 'game_rank_tier_id' => $rankTier['master2'],
+                'star_number' => '0',
+                'price' => 30500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['master2'],
                 'star_number' => '1',
                 'price' => 30000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master2'],
                 'star_number' => '2',
                 'price' => 31000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master2'],
@@ -253,15 +307,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Master 1
             [
                 'game_rank_tier_id' => $rankTier['master1'],
+                'star_number' => '0',
+                'price' => 33500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['master1'],
                 'star_number' => '1',
                 'price' => 34000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master1'],
                 'star_number' => '2',
                 'price' => 35000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['master1'],
@@ -278,15 +338,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // GM 5
             [
                 'game_rank_tier_id' => $rankTier['gm5'],
+                'star_number' => '0',
+                'price' => 37500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['gm5'],
                 'star_number' => '1',
                 'price' => 38000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm5'],
                 'star_number' => '2',
                 'price' => 39000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm5'],
@@ -309,15 +375,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // GM 4
             [
                 'game_rank_tier_id' => $rankTier['gm4'],
+                'star_number' => '0',
+                'price' => 42500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['gm4'],
                 'star_number' => '1',
                 'price' => 42000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm4'],
                 'star_number' => '2',
                 'price' => 43000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm4'],
@@ -340,15 +412,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // GM 3
             [
                 'game_rank_tier_id' => $rankTier['gm3'],
+                'star_number' => '0',
+                'price' => 46500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['gm3'],
                 'star_number' => '1',
                 'price' => 47000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm3'],
                 'star_number' => '2',
                 'price' => 48000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm3'],
@@ -371,15 +449,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // GM 2
             [
                 'game_rank_tier_id' => $rankTier['gm2'],
+                'star_number' => '0',
+                'price' => 51500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['gm2'],
                 'star_number' => '1',
                 'price' => 52000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm2'],
                 'star_number' => '2',
                 'price' => 53000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm2'],
@@ -402,15 +486,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // GM 1
             [
                 'game_rank_tier_id' => $rankTier['gm1'],
+                'star_number' => '0',
+                'price' => 56500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['gm1'],
                 'star_number' => '1',
                 'price' => 57000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm1'],
                 'star_number' => '2',
                 'price' => 58000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['gm1'],
@@ -433,15 +523,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Epic 5
             [
                 'game_rank_tier_id' => $rankTier['epic5'],
+                'star_number' => '0',
+                'price' => 61500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['epic5'],
                 'star_number' => '1',
                 'price' => 62000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic5'],
                 'star_number' => '2',
                 'price' => 63000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic5'],
@@ -464,15 +560,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Epic 4
             [
                 'game_rank_tier_id' => $rankTier['epic4'],
+                'star_number' => '0',
+                'price' => 66500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['epic4'],
                 'star_number' => '1',
                 'price' => 67000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic4'],
                 'star_number' => '2',
                 'price' => 68000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic4'],
@@ -495,15 +597,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Epic 3
             [
                 'game_rank_tier_id' => $rankTier['epic3'],
+                'star_number' => '0',
+                'price' => 71500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['epic3'],
                 'star_number' => '1',
                 'price' => 72000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic3'],
                 'star_number' => '2',
                 'price' => 73000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic3'],
@@ -526,15 +634,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Epic 2
             [
                 'game_rank_tier_id' => $rankTier['epic2'],
+                'star_number' => '0',
+                'price' => 76500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['epic2'],
                 'star_number' => '1',
                 'price' => 77000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic2'],
                 'star_number' => '2',
                 'price' => 78000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic2'],
@@ -557,15 +671,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Epic 1
             [
                 'game_rank_tier_id' => $rankTier['epic1'],
+                'star_number' => '0',
+                'price' => 81500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['epic1'],
                 'star_number' => '1',
                 'price' => 82000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic1'],
                 'star_number' => '2',
                 'price' => 83000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['epic1'],
@@ -588,15 +708,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Legend 5
             [
                 'game_rank_tier_id' => $rankTier['legend5'],
+                'star_number' => '0',
+                'price' => 86500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['legend5'],
                 'star_number' => '1',
                 'price' => 87000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend5'],
                 'star_number' => '2',
                 'price' => 88000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend5'],
@@ -619,15 +745,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Legend 4
             [
                 'game_rank_tier_id' => $rankTier['legend4'],
+                'star_number' => '0',
+                'price' => 91500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['legend4'],
                 'star_number' => '1',
                 'price' => 92000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend4'],
                 'star_number' => '2',
                 'price' => 93000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend4'],
@@ -650,15 +782,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Legend 3
             [
                 'game_rank_tier_id' => $rankTier['legend3'],
+                'star_number' => '0',
+                'price' => 96500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['legend3'],
                 'star_number' => '1',
                 'price' => 97000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend3'],
                 'star_number' => '2',
                 'price' => 98000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend3'],
@@ -681,15 +819,21 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Legend 2
             [
                 'game_rank_tier_id' => $rankTier['legend2'],
+                'star_number' => '0',
+                'price' => 101500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['legend2'],
                 'star_number' => '1',
                 'price' => 102000,
-                'display_order' => 3,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend2'],
                 'star_number' => '2',
                 'price' => 103000,
-                'display_order' => 3,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend2'],
@@ -712,32 +856,38 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             // Legend 1
             [
                 'game_rank_tier_id' => $rankTier['legend1'],
+                'star_number' => '0',
+                'price' => 106500,
+                'display_order' => 0,
+            ],
+            [
+                'game_rank_tier_id' => $rankTier['legend1'],
                 'star_number' => '1',
-                'price' => 106000,
-                'display_order' => 3,
+                'price' => 107000,
+                'display_order' => 1,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend1'],
                 'star_number' => '2',
-                'price' => 107000,
-                'display_order' => 3,
+                'price' => 108000,
+                'display_order' => 2,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend1'],
                 'star_number' => '3',
-                'price' => 108000,
+                'price' => 109000,
                 'display_order' => 3,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend1'],
                 'star_number' => '4',
-                'price' => 109000,
+                'price' => 110000,
                 'display_order' => 4,
             ],
             [
                 'game_rank_tier_id' => $rankTier['legend1'],
                 'star_number' => '5',
-                'price' => 110000,
+                'price' => 111000,
                 'display_order' => 5,
             ],
         ];
