@@ -239,11 +239,16 @@
                                         <h3 class="h5 fw-bold mb-3">{{ $account->account_name }}</h3>
                                         <p class="text-muted small mb-4">{{ $account->game->name }}</p>
                                         <ul class="list-unstyled mb-4">
-                                            @foreach (explode("\n", $account->features) as $feature)
-                                                <li class="mb-2">
-                                                    <i class="bi bi-check-circle text-primary me-2"></i>
-                                                    {{ $feature }}
-                                                </li>
+                                            @foreach (explode("\n", $account->features) as $line)
+                                                @php
+                                                    $parts = explode('+', $line);
+                                                @endphp
+                                                @foreach ($parts as $feature)
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-check-circle text-primary me-2"></i>
+                                                        {{ trim($feature) }}
+                                                    </li>
+                                                @endforeach
                                             @endforeach
                                         </ul>
                                         <div class="d-flex justify-content-between align-items-center mt-auto">

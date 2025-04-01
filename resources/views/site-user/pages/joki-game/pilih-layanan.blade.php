@@ -142,49 +142,58 @@
     <section class="service-options">
         <div class="container">
             <div class="row g-4 justify-content-center">
-                <!-- Joki Paket -->
-                <div class="col-12 col-md-10 col-lg-6" data-aos="fade-up" data-aos-delay="50">
-                    <article class="service-card h-100">
-                        <div class="card-body p-4 text-center d-flex flex-column">
-                            <header class="mb-4 px-3">
-                                <div class="icon-wrapper bg-success bg-opacity-10 mx-auto mb-4">
-                                    <i class="bi bi-box-seam fs-1 text-success"></i>
-                                </div>
-                                <h3 class="service-title">Joki Paket</h3>
-                                <p class="text-muted mb-0">Layanan lengkap dengan paket harga tetap dan transparan</p>
-                            </header>
+                @php
+                    // Cek keberadaan layanan package dan custom
+                    $hasPackage = $game->boostingServices->contains('service_type', 'package');
+                    $hasCustom = $game->boostingServices->contains('service_type', 'custom');
+                @endphp
 
-                            <footer class="mt-auto pt-3">
-                                <a href="{{ route('joki-paket', $game->id) }}" class="btn btn-success btn-service">
-                                    Pilih Paket
-                                    <i class="bi bi-arrow-right-short"></i>
-                                </a>
-                            </footer>
-                        </div>
-                    </article>
-                </div>
+                @if ($hasPackage)
+                    <!-- Joki Paket -->
+                    <div class="col-12 col-md-10 col-lg-6" data-aos="fade-up" data-aos-delay="50">
+                        <article class="service-card h-100">
+                            <div class="card-body p-4 text-center d-flex flex-column">
+                                <header class="mb-4 px-3">
+                                    <div class="icon-wrapper bg-success bg-opacity-10 mx-auto mb-4">
+                                        <i class="bi bi-box-seam fs-1 text-success"></i>
+                                    </div>
+                                    <h3 class="service-title">Joki Paket</h3>
+                                    <p class="text-muted mb-0">Layanan lengkap dengan paket harga tetap dan transparan</p>
+                                </header>
 
-                <!-- Joki Custom -->
-                <div class="col-12 col-md-10 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <article class="service-card h-100">
-                        <div class="card-body p-4 text-center d-flex flex-column">
-                            <header class="mb-4 px-3">
-                                <div class="icon-wrapper bg-primary bg-opacity-10 mx-auto mb-4">
-                                    <i class="bi bi-gear fs-1 text-primary"></i>
-                                </div>
-                                <h3 class="service-title">Joki Custom</h3>
-                                <p class="text-muted mb-0">Kustomisasi kebutuhan boosting sesuai preferensi Anda</p>
-                            </header>
+                                <footer class="mt-auto pt-3">
+                                    <a href="{{ route('joki-paket', $game->id) }}" class="btn btn-success btn-service">
+                                        Pilih Paket <i class="bi bi-arrow-right-short"></i>
+                                    </a>
+                                </footer>
+                            </div>
+                        </article>
+                    </div>
+                @endif
 
-                            <footer class="mt-auto pt-3">
-                                <a href="{{ route('joki-kostum', $game->id) }}" class="btn btn-primary btn-service">
-                                    Buat Custom
-                                    <i class="bi bi-arrow-right-short"></i>
-                                </a>
-                            </footer>
-                        </div>
-                    </article>
-                </div>
+                @if ($hasCustom)
+                    <!-- Joki Custom -->
+                    <div class="col-12 col-md-10 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <article class="service-card h-100">
+                            <div class="card-body p-4 text-center d-flex flex-column">
+                                <header class="mb-4 px-3">
+                                    <div class="icon-wrapper bg-primary bg-opacity-10 mx-auto mb-4">
+                                        <i class="bi bi-gear fs-1 text-primary"></i>
+                                    </div>
+                                    <h3 class="service-title">Joki Custom</h3>
+                                    <p class="text-muted mb-0">Kustomisasi kebutuhan boosting sesuai preferensi Anda</p>
+                                </header>
+
+                                <footer class="mt-auto pt-3">
+                                    <a href="{{ route('joki-kostum', $game->id) }}" class="btn btn-primary btn-service">
+                                        Buat Custom <i class="bi bi-arrow-right-short"></i>
+                                    </a>
+                                </footer>
+                            </div>
+                        </article>
+                    </div>
+                @endif
+
             </div>
         </div>
     </section>

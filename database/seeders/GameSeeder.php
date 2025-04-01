@@ -17,6 +17,7 @@ class GameSeeder extends Seeder
     {
         $apexLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legend.jpg';
         $mobileLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\ml2.jpg';
+        $pointBlankImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\pb-2.jpeg';
 
         // Data untuk Apex Legends
         $dataApex = [
@@ -49,5 +50,21 @@ class GameSeeder extends Seeder
             $dataML['image'] = null;
         }
         Game::create($dataML);
+
+        // Data untuk Point Blank: Beyond Limits
+        $datPB = [
+            'name'        => 'Point Blank: Beyond Limits',
+            'genre'       => 'FPS',
+            'developer'   => 'Zepetto',
+            'description' => 'Point Blank: Beyond Limits adalah Game FPS Favorite sejak 2009. Point Blank Beyond Limit adalah game FPS No. 1 Indonesia selama 10 tahun. Dimainkan di 100 negara dan memiliki 100 juta player dunia.',
+        ];
+        if (file_exists($pointBlankImagePath)) {
+            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
+            $datPB['image'] = $fileName;
+        } else {
+            $datPB['image'] = null;
+        }
+        Game::create($datPB);
     }
 }

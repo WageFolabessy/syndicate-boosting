@@ -18,7 +18,7 @@ class BoostingServicePageController extends Controller
 
     public function serviceSelection($gameId)
     {
-        $game = Game::findOrFail($gameId);
+        $game = Game::with('boostingServices')->findOrFail($gameId);
         return view('site-user.pages.joki-game.pilih-layanan', compact('game'));
     }
 
@@ -40,6 +40,7 @@ class BoostingServicePageController extends Controller
     public function rankBoosting($gameId)
     {
         $game = Game::with([
+            'boostingServices', // Eager load boostingServices agar bisa dicek
             'rankCategories' => function ($query) {
                 $query->orderBy('display_order', 'asc');
             },
@@ -50,6 +51,11 @@ class BoostingServicePageController extends Controller
                 $query->orderBy('display_order', 'asc');
             }
         ])->findOrFail($gameId);
+
+        // Cek apakah game memiliki boosting service dengan service_type "custom"
+        if (!$game->boostingServices->contains('service_type', 'custom')) {
+            abort(404);
+        }
 
         $defaultRank = $game->rankCategories->sortBy('display_order')->first();
         $defaultTier = $defaultRank->rankTiers->sortBy('display_order')->first();

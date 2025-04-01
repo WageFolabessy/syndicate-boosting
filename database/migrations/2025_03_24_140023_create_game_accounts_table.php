@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('original_price');
             $table->integer('sale_price')->nullable();
             $table->string('image');
-            $table->integer('level')->nullable();
+            $table->string('level')->nullable();
             $table->string('account_age')->nullable();
             $table->timestamps();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');

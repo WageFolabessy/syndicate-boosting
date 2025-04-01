@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('boosting_services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
-            // Tipe layanan: individual (satuan) atau package (paket)
             $table->enum('service_type', ['custom', 'package'])->default('custom');
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('original_price');
             $table->integer('sale_price')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image');
             $table->timestamps();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
         });

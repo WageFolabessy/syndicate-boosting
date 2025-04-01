@@ -21,6 +21,15 @@ class DatabaseSeeder extends Seeder
             GameSeeder::class,
         ]);
         $this->call([
+            LabelSeeder::class,
+        ]);
+        $this->call([
+            GameAccountSeeder::class,
+        ]);
+        $this->call([
+           BoostingServiceSeeder::class,
+        ]);
+        $this->call([
             ApexLegendRankCategorySeeder::class,
         ]);
         $this->call([
