@@ -157,7 +157,7 @@
 
                                 <div class="card-body p-4">
                                     <header class="mb-3">
-                                        <h2 class="h5 fw-bold mb-2">{{ $package->description }}</h2>
+                                        <h2 class="h5 fw-bold mb-2">{{ $package->title }}</h2>
                                         <p class="text-muted small mb-0">{{ $game->name }}</p>
                                     </header>
 

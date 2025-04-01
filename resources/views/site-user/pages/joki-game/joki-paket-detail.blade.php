@@ -147,7 +147,7 @@
                         @foreach ($service->labels as $label)
                             <span class="service-type-badge">{{ $label->name }}</span>
                         @endforeach
-                        <h1 class="display-5 fw-bold mb-4">{{ $service->description }}</h1>
+                        <h1 class="display-5 fw-bold mb-4">{{ $service->title }}</h1>
                     </header>
 
                     <div class="service-body">
