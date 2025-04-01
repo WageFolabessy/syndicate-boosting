@@ -78,7 +78,7 @@
                                 <!-- Features -->
                                 <div class="mb-3">
                                     <label for="features" class="form-label">Features</label>
-                                    <textarea class="form-control" name="features" id="features" rows="3" placeholder="Enter account features">{{ old('features') }}</textarea>
+                                    <textarea class="form-control" name="features" id="features" rows="8" placeholder="Enter account features">{{ old('features') }}</textarea>
                                 </div>
 
                                 <!-- Labels (Multi-select) -->
