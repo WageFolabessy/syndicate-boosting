@@ -14,6 +14,7 @@ use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\PageController;
 use Illuminate\Support\Facades\Route;
 
+// Route Milik User
 Route::get('', [PageController::class, 'index'])->name('index');
 Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game');
 
@@ -27,6 +28,7 @@ Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');
 })->name('transaksi');
 
+// Route Milik Admin
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -41,10 +43,12 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
+    // Overview
     Route::get('/', function () {
         return view('dashboard.pages.index');
     })->name('dashboard')->middleware('auth');
 
+    // Games Managements
     Route::get('/game', function () {
         return view('dashboard.pages.game.index');
     })->name('dashboard.game');
@@ -55,6 +59,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/game/{game}', [GameController::class, 'update'])->name('dashboard.game.update');
     Route::delete('/game/{game}', [GameController::class, 'destroy'])->name('dashboard.game.destroy');
 
+    // Rank Categories Managements
     Route::get('/rank-category', function () {
         return view('dashboard.pages.rank-category.index');
     })->name('dashboard.rank-category');
@@ -65,6 +70,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/rank-category/{rankCategory}', [RankCategoryController::class, 'update'])->name('dashboard.rank-category.update');
     Route::delete('/rank-category/{rankCategory}', [RankCategoryController::class, 'destroy'])->name('dashboard.rank-category.destroy');
 
+    // Rank Tiers Managements
     Route::get('/rank-tier', function () {
         return view('dashboard.pages.rank-tier.index');
     })->name('dashboard.rank-tier');
@@ -75,6 +81,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/rank-tier/{rankTier}', [RankTierController::class, 'update'])->name('dashboard.rank-tier.update');
     Route::delete('/rank-tier/{rankTier}', [RankTierController::class, 'destroy'])->name('dashboard.rank-tier.destroy');
     
+    // Rank Tier Details Managements
     Route::get('/rank-tier-detail', function () {
         return view('dashboard.pages.rank-tier-detail.index');
     })->name('dashboard.rank-tier-detail');
@@ -85,26 +92,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/rank-tier-detail/{detail}', [RankTierDetailController::class, 'update'])->name('dashboard.rank-tier-detail.update');
     Route::delete('/rank-tier-detail/{detail}', [RankTierDetailController::class, 'destroy'])->name('dashboard.rank-tier-detail.destroy');
 
-    Route::get('/boosting-service', function () {
-        return view('dashboard.pages.boosting-service.index');
-    })->name('dashboard.boosting-service');
-    Route::get('/boosting-services/datatables', [BoostingServiceController::class, 'index']);
-    Route::get('/boosting-service/add', [BoostingServiceController::class, 'create'])->name('dashboard.boosting-service.create');
-    Route::post('/boosting-service', [BoostingServiceController::class, 'store'])->name('dashboard.boosting-service.store');
-    Route::get('/boosting-service/{service}', [BoostingServiceController::class, 'show'])->name('dashboard.boosting-service.show');
-    Route::put('/boosting-service/{service}', [BoostingServiceController::class, 'update'])->name('dashboard.boosting-service.update');
-    Route::delete('/boosting-service/{service}', [BoostingServiceController::class, 'destroy'])->name('dashboard.boosting-service.destroy');
-
-    Route::get('/game-account', function () {
-        return view('dashboard.pages.game-account.index');
-    })->name('dashboard.game-account');
-    Route::get('/game-accounts/datatables', [GameAccountController::class, 'index']);
-    Route::get('/game-account/add', [GameAccountController::class, 'create'])->name('dashboard.game-account.create');
-    Route::post('/game-account', [GameAccountController::class, 'store'])->name('dashboard.game-account.store');
-    Route::get('/game-account/{gameAccount}', [GameAccountController::class, 'show'])->name('dashboard.game-account.show');
-    Route::put('/game-account/{gameAccount}', [GameAccountController::class, 'update'])->name('dashboard.game-account.update');
-    Route::delete('/game-account/{gameAccount}', [GameAccountController::class, 'destroy'])->name('dashboard.game-account.destroy');
-    
+    // Labels Managements
     Route::get('/label', function () {
         return view('dashboard.pages.label.index');
     })->name('dashboard.label');
@@ -115,6 +103,29 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/label/{label}', [LabelController::class, 'update'])->name('dashboard.label.update');
     Route::delete('/label/{label}', [LabelController::class, 'destroy'])->name('dashboard.label.destroy');
 
+    // Boosting Services Managements
+    Route::get('/boosting-service', function () {
+        return view('dashboard.pages.boosting-service.index');
+    })->name('dashboard.boosting-service');
+    Route::get('/boosting-services/datatables', [BoostingServiceController::class, 'index']);
+    Route::get('/boosting-service/add', [BoostingServiceController::class, 'create'])->name('dashboard.boosting-service.create');
+    Route::post('/boosting-service', [BoostingServiceController::class, 'store'])->name('dashboard.boosting-service.store');
+    Route::get('/boosting-service/{service}', [BoostingServiceController::class, 'show'])->name('dashboard.boosting-service.show');
+    Route::put('/boosting-service/{service}', [BoostingServiceController::class, 'update'])->name('dashboard.boosting-service.update');
+    Route::delete('/boosting-service/{service}', [BoostingServiceController::class, 'destroy'])->name('dashboard.boosting-service.destroy');
+
+    // Game Accounts Managements
+    Route::get('/game-account', function () {
+        return view('dashboard.pages.game-account.index');
+    })->name('dashboard.game-account');
+    Route::get('/game-accounts/datatables', [GameAccountController::class, 'index']);
+    Route::get('/game-account/add', [GameAccountController::class, 'create'])->name('dashboard.game-account.create');
+    Route::post('/game-account', [GameAccountController::class, 'store'])->name('dashboard.game-account.store');
+    Route::get('/game-account/{gameAccount}', [GameAccountController::class, 'show'])->name('dashboard.game-account.show');
+    Route::put('/game-account/{gameAccount}', [GameAccountController::class, 'update'])->name('dashboard.game-account.update');
+    Route::delete('/game-account/{gameAccount}', [GameAccountController::class, 'destroy'])->name('dashboard.game-account.destroy');
+
+    // FAQ'S Managements
     Route::get('/faq', function () {
         return view('dashboard.pages.faq.index');
     })->name('dashboard.faq');
@@ -125,6 +136,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::put('/faq/{faq}', [FaqController::class, 'update'])->name('dashboard.faq.update');
     Route::delete('/faq/{faq}', [FaqController::class, 'destroy'])->name('dashboard.faq.destroy');
 
+    // Admin Managements
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');
     })->name('dashboard.admin');
