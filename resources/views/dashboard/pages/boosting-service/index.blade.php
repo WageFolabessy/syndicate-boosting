@@ -38,7 +38,7 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Image</th>
                                 <th class="text-center">Service Type</th>
-                                <th class="text-center">Description</th>
+                                <th class="text-center">Title</th>
                                 <th class="text-center">Labels</th>
                                 <th class="text-center">Original Price</th>
                                 <th class="text-center">Sale Price</th>

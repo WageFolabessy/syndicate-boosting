@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BoostingService extends Model
 {
-    protected $fillable = ['game_id', 'service_type', 'description', 'original_price', 'sale_price', 'image'];
+    protected $fillable = ['game_id', 'service_type', 'title', 'description', 'original_price', 'sale_price', 'image'];
 
     public function game()
     {

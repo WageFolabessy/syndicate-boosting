@@ -19,7 +19,7 @@ $(document).ready(function () {
                 searchable: false,
             },
             { data: "service_type", name: "service_type" },
-            { data: "description", name: "description" },
+            { data: "title", name: "title" },
             {
                 data: "labels",
                 name: "labels",

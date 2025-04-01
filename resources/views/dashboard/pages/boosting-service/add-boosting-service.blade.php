@@ -70,6 +70,14 @@
                                             Package</option>
                                     </select>
                                 </div>
+                                <!-- Title -->
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">
+                                       Title <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="title" id="title"
+                                        placeholder="Enter title" required value="{{ old('title') }}">
+                                </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>

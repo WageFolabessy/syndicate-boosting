@@ -72,6 +72,13 @@
                                             Package</option>
                                     </select>
                                 </div>
+                                <!-- Title -->
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="string" class="form-control" name="title" id="title"
+                                        placeholder="Enter title" required
+                                        value="{{ old('title', $service->title) }}">
+                                </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
