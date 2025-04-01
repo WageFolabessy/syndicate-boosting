@@ -1,4 +1,4 @@
-<header>
+<header class="mb-4">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
@@ -17,11 +17,11 @@
                             href="{{ route('index') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('joki-game') ? 'active' : '' }}"
+                        <a class="nav-link {{ request()->is('joki-game*') ? 'active' : '' }}"
                             href="{{ route('joki-game') }}">Joki Game</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('akun-game') ? 'active' : '' }}"
+                        <a class="nav-link {{ request()->is('akun-game*') ? 'active' : '' }}"
                             href="{{ route('akun-game') }}">Akun Game</a>
                     </li>
                     <li class="nav-item">
