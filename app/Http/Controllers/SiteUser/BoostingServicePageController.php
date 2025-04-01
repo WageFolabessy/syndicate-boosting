@@ -13,7 +13,7 @@ class BoostingServicePageController extends Controller
     public function index()
     {
         $games = Game::has('boostingServices')->get();
-        return view('site-user.pages.joki-game.joki-game', compact('games'));
+        return view('site-user.pages.joki-game.index', compact('games'));
     }
 
     public function serviceSelection($gameId)

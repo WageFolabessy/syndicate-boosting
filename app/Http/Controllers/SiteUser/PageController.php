@@ -27,6 +27,6 @@ class PageController extends Controller
     public function akunGame()
     {
         $gameAccounts = GameAccount::with(['game', 'labels'])->orderBy('updated_at', 'desc')->get();
-        return view('site-user.pages.akun-game.akun-game', compact('gameAccounts'));
+        return view('site-user.pages.akun-game.index', compact('gameAccounts'));
     }
 }

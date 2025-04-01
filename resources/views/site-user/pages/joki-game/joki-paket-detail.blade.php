@@ -11,60 +11,97 @@
 @section('title')
     - Joki Game
 @endsection
+@section('css')
+    <style>
+        .service-detail {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-type-badge {
+            background-color: #cfe2ff;
+            color: #084298;
+            font-size: 1rem;
+            padding: 0.5em 1em;
+            border-radius: 50px;
+        }
+
+        .price-container {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-button {
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .order-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .service-detail {
+                padding: 2rem 0;
+            }
+
+            h1.display-5 {
+                font-size: 2.5rem;
+            }
+
+            .order-button {
+                width: 100%;
+            }
+        }
+    </style>
+@endsection
 @section('content')
-    <!-- Bagian Header -->
-    <section class="page-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mt-4" data-aos="fade-up">
-                    <span class="section-tag">Layanan Profesional</span>
-                    <h1>Layanan Joki Game</h1>
-                    <p class="lead">
-                        Tingkatkan peringkat, capai pencapaian, dan asah kemampuan Anda
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Detail Boosting Service -->
-    <section class="service-detail py-5">
+    <section class="service-detail py-5 bg-light">
         <div class="container">
-            <div class="mb-4">
-                <a href="{{ route('joki-game') }}" class="btn btn-outline-primary">
-                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar Joki
-                </a>
-            </div>
-            <div class="row">
+            <div class="row g-5 align-items-start">
                 <!-- Gambar Layanan -->
-                <div class="col-md-6 mb-4">
-                    <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('assets/site-user/images/placeholder.jpg') }}"
-                        alt="{{ $service->game->name }}" class="img-fluid rounded">
-                </div>
+                <article class="col-lg-6">
+                    <div class="service-image">
+                        <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('assets/site-user/images/placeholder.jpg') }}"
+                            alt="{{ $service->game->name }}" class="img-fluid rounded-3 shadow-lg w-100">
+                    </div>
+                </article>
+
                 <!-- Detail Informasi -->
-                <div class="col-md-6">
-                    <h2 class="mb-3">{{ $service->game->name }}</h2>
-                    <div class="mb-3">
-                        <span class="badge bg-info text-dark">{{ ucfirst($service->service_type) }}</span>
+                <article class="col-lg-6">
+                    <header class="mb-4">
+                        <h1 class="display-5 fw-bold mb-3">{{ $service->game->name }}</h1>
+                        <span class="badge service-type-badge">Tipe Layanan</span>
+                    </header>
+
+                    <div class="service-body">
+                        <h2 class="lead fw-bold mb-4">
+                            {{ $service->description }}
+                        </h2>
+
+                        <div class="d-flex flex-column gap-4">
+                            <div class="price-container">
+                                <h2 class="text-primary fw-bold mb-0">
+                                    Rp. {{ number_format($service->sale_price ?? $service->original_price, 0, ',', '.') }}
+                                </h2>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg py-3 px-5 order-button">
+                                Pesan Sekarang
+                                <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <strong>Genre:</strong> {{ $service->game->genre }} <br>
-                        <strong>Developer:</strong> {{ $service->game->developer }}
-                    </div>
-                    <p class="mb-4">
-                        {{ $service->description }}
-                    </p>
-                    <div class="mb-4">
-                        <h4>
-                            Mulai dari Rp {{ number_format($service->sale_price ?? $service->original_price, 0, ',', '.') }}
-                        </h4>
-                    </div>
-                    <button class="btn btn-primary btn-lg">Pesan Sekarang</button>
-                </div>
+                </article>
             </div>
         </div>
     </section>
-
     <!-- Bagian Cara Kerja -->
     @include('site-user.components.how-it-works')
     <!-- Bagian FAQ -->
