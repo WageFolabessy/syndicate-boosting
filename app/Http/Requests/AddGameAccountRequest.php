@@ -16,7 +16,6 @@ class AddGameAccountRequest extends FormRequest
         return [
             'game_id'        => 'required|exists:games,id',
             'account_name'   => 'required|string|max:255',
-            'subtitle'       => 'nullable|string|max:255',
             'description'    => 'nullable|string',
             'features'       => 'nullable|string',
             'original_price' => 'required|integer|min:0',
@@ -37,8 +36,6 @@ class AddGameAccountRequest extends FormRequest
             'account_name.required'   => 'Nama akun wajib diisi.',
             'account_name.string'     => 'Nama akun harus berupa teks.',
             'account_name.max'        => 'Nama akun maksimal 255 karakter.',
-            'subtitle.string'         => 'Subjudul harus berupa teks.',
-            'subtitle.max'            => 'Subjudul maksimal 255 karakter.',
             'description.string'      => 'Deskripsi harus berupa teks.',
             'features.string'         => 'Fitur harus berupa teks.',
             'original_price.required' => 'Harga asli wajib diisi.',

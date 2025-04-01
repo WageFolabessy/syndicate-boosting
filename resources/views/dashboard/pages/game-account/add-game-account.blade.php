@@ -68,14 +68,6 @@
                                         placeholder="Enter account name" required value="{{ old('account_name') }}">
                                 </div>
 
-                                <!-- Subtitle -->
-                                <div class="mb-3">
-                                    <label for="subtitle" class="form-label">Subtitle</label>
-                                    <input type="text" class="form-control" name="subtitle" id="subtitle"
-                                        placeholder="Enter subtitle (e.g. 'Mythical Glory' or 'Akun AR 60 Whale')"
-                                        value="{{ old('subtitle') }}">
-                                </div>
-
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>

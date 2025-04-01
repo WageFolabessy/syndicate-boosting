@@ -60,6 +60,9 @@ class BoostingServicePageController extends Controller
 
     public function show(BoostingService $service)
     {
+        if ($service->service_type === 'custom') {
+            abort(404);
+        }
         $service->load('game');
         return view('site-user.pages.joki-game.joki-paket-detail', compact('service'));
     }

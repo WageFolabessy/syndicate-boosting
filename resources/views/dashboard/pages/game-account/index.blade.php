@@ -39,7 +39,6 @@
                                 <th class="text-center">Image</th>
                                 <th class="text-center">Game</th>
                                 <th class="text-center">Account Name</th>
-                                <th class="text-center">Subtitle</th>
                                 <th class="text-center">Level</th>
                                 <th class="text-center">Account Age</th>
                                 <th class="text-center">Original Price</th>

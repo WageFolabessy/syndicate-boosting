@@ -191,8 +191,9 @@
                     <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
                         <article class="game-card h-100">
                             <div class="package-image">
-                                <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}" class="img-fluid">
-                            </div>
+                                <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
+                                    class="img-fluid">
+                                </div>
 
                             <div class="card-body">
                                 <header class="mb-3">
