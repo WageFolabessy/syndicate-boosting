@@ -14,7 +14,7 @@ use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\PageController;
 use Illuminate\Support\Facades\Route;
 
-// Route Milik User
+// ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
 Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game');
 
@@ -28,7 +28,7 @@ Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');
 })->name('transaksi');
 
-// Route Milik Admin
+// ################################################ Route Milik Admin ################################################
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
