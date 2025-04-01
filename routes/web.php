@@ -14,20 +14,14 @@ use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\PageController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('site-user.pages.index');
-// })->name('index');
-
-// Route::get('/akun-game', function () {
-//     return view('site-user.pages.akun-game');
-// })->name('akun-game');
-
 Route::get('', [PageController::class, 'index'])->name('index');
 Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game');
 
 Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
-Route::get('/joki-game/{service}', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
-Route::get('/rank-boosting/{gameId}', [BoostingServicePageController::class, 'rankBoosting'])->name('rank-boosting');
+Route::get('/joki-game/{gameId}/pilih-layanan', [BoostingServicePageController::class, 'serviceSelection'])->name('pilih-layanan');
+Route::get('/joki-game/{gameId}/joki-paket', [BoostingServicePageController::class, 'packageBoosting'])->name('joki-paket');
+Route::get('/joki-game/{gameId}/joki-kostum', [BoostingServicePageController::class, 'customBoosting'])->name('joki-kostum');
+Route::get('/joki-game/{service}/joki-paket/detail', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
 
 Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');

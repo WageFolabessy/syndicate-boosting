@@ -26,22 +26,28 @@
             </div>
         </div>
     </section>
-
     <div class="container">
         <div class="row">
-            @foreach ($games as $game)
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $game->name }}</h5>
-                            <p class="card-text">{{ $game->genre }}</p>
-                            <a href="{{ route('pilih-layanan', $game->id) }}" class="btn btn-primary">Pilih Layanan
-                                Joki</a>
-                        </div>
+            <!-- Joki Paket -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3>Joki Paket</h3>
+                        <p>Layanan boosting dengan paket harga tetap</p>
+                        <a href="{{ route('joki-paket', $game->id) }}" class="btn btn-success">Pilih Joki Paket</a>
                     </div>
                 </div>
-            @endforeach
+            </div>
+            <!-- Joki Custom -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3>Joki Custom</h3>
+                        <p>Layanan boosting custom dengan pilihan rank & tier</p>
+                        <a href="{{ route('joki-kostum', $game->id) }}" class="btn btn-primary">Pilih Joki Custom</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

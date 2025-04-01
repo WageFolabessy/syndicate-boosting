@@ -28,21 +28,29 @@
     </section>
 
     <div class="container">
-        <div class="row">
-            @foreach ($games as $game)
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $game->name }}</h5>
-                            <p class="card-text">{{ $game->genre }}</p>
-                            <a href="{{ route('pilih-layanan', $game->id) }}" class="btn btn-primary">Pilih Layanan
-                                Joki</a>
+        @if ($packages->count())
+            <div class="row">
+                @foreach ($packages as $package)
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ $package->image ? asset('storage/' . $package->image) : asset('assets/site-user/images/placeholder.jpg') }}"
+                                alt="{{ $game->name }}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $game->name }}</h5>
+                                <p class="card-text">{{ \Illuminate\Support\Str::limit($package->description, 100, '...') }}
+                                </p>
+                                <p>Mulai dari: Rp
+                                    {{ number_format($package->sale_price ?? $package->original_price, 0, ',', '.') }}</p>
+                                <a href="{{ route('joki-game.detail', $package->id) }}" class="btn btn-info">Lihat
+                                    Detail</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @else
+            <p>Tidak ada layanan joki paket untuk game ini.</p>
+        @endif
     </div>
 @endsection
 @section('script')
