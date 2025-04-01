@@ -73,14 +73,6 @@
                                     <input type="text" class="form-control" name="progress_target" id="progress_target"
                                         placeholder="Enter progress target" value="{{ old('progress_target') }}">
                                 </div>
-                                <!-- Price -->
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">
-                                        Price
-                                    </label>
-                                    <input type="number" class="form-control" name="price" id="price"
-                                        placeholder="Enter price" value="{{ old('price') }}">
-                                </div>
                             </div>
                         </div>
                     </form>

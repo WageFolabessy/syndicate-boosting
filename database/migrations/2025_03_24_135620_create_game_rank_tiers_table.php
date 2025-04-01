@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('game_rank_category_id');
             $table->string('tier');
             $table->string('progress_target')->nullable();
-            $table->integer('price')->nullable();
             $table->integer('display_order')->default(0);
             $table->timestamps();
             $table->foreign('game_rank_category_id')->references('id')->on('game_rank_categories')->onDelete('cascade');

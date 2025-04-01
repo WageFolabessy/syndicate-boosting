@@ -77,14 +77,6 @@
                                         placeholder="Enter progress target"
                                         value="{{ old('progress_target', $rankTier->progress_target) }}">
                                 </div>
-                                <!-- Price -->
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">
-                                        Price
-                                    </label>
-                                    <input type="number" class="form-control" name="price" id="price"
-                                        placeholder="Enter price" value="{{ old('price', $rankTier->price) }}">
-                                </div>
                             </div>
                         </div>
                     </form>

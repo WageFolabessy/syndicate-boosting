@@ -40,7 +40,6 @@
                                 <th class="text-center">Game Name</th>
                                 <th class="text-center">Tier</th>
                                 <th class="text-center">Progress Target</th>
-                                <th class="text-center">Price</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

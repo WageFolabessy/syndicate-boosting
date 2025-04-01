@@ -29,10 +29,6 @@ $(document).ready(function () {
                 name: "progress_target",
             },
             {
-                data: "price",
-                name: "price",
-            },
-            {
                 data: "created_at",
                 name: "created_at",
             },

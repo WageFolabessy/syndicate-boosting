@@ -17,7 +17,6 @@ class AddRankTierRequest extends FormRequest
             'game_rank_category_id' => 'required|exists:game_rank_categories,id',
             'tier'                  => 'required|string',
             'progress_target'       => 'nullable|string',
-            'price'                 => 'nullable|integer|min:0',
             'display_order'         => 'nullable|integer',
         ];
     }
@@ -29,8 +28,6 @@ class AddRankTierRequest extends FormRequest
             'game_rank_category_id.exists'   => 'Rank category yang dipilih tidak valid.',
             'tier.required'                  => 'Tier harus diisi.',
             'tier.string'                    => 'Tier harus berupa teks.',
-            'price.integer'                  => 'Price harus berupa angka.',
-            'price.min'                      => 'Price tidak boleh negatif.',
         ];
     }
 }
