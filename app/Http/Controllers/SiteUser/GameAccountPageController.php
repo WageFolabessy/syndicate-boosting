@@ -9,11 +9,23 @@ use Illuminate\Http\Request;
 
 class GameAccountPageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $gameAccounts = GameAccount::with('game')
-            ->orderBy('updated_at', 'desc')
-            ->get();
+        $query = GameAccount::with('game')
+            ->orderBy('updated_at', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('account_name', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('game', function ($q2) use ($search) {
+                        $q2->where('name', 'LIKE', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $gameAccounts = $query->get();
+
         return view('site-user.pages.akun-game.index', compact('gameAccounts'));
     }
 

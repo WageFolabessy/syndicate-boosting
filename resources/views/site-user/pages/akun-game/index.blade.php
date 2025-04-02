@@ -181,96 +181,103 @@
         <section class="account-listings">
             <div class="container">
                 <!-- Search Bar -->
-                <div class="search-sort-bar mb-5" data-aos="fade-up">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Cari akun game..."
-                                    aria-label="Search accounts">
-                                <i
-                                    class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                <form action="{{ route('akun-game') }}" method="GET">
+                    <div class="search-sort-bar mb-5" data-aos="fade-up">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div class="position-relative">
+                                    <input type="text" name="search" class="form-control"
+                                        placeholder="Cari akun game..." aria-label="Search accounts"
+                                        value="{{ request('search') }}">
+                                    <i
+                                        class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <!-- Account Grid -->
-                <div class="row g-4">
-                    @foreach ($gameAccounts as $gameAccount)
-                        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                            <article class="premium-account-card h-100">
-                                <div class="account-images">
-                                    <img src="{{ asset('storage/' . $gameAccount->image) }}"
-                                        alt="{{ $gameAccount->account_name }}" class="img-fluid">
-                                    <div class="account-badges">
-                                        @if ($gameAccount->labels->count())
-                                            @foreach ($gameAccount->labels as $label)
-                                                <span class="badge"
-                                                    style="background-color: {{ $label->color ?? '#0d6efd' }}; color: #fff;">
-                                                    <i class="bi bi-check-circle me-2"></i>{{ $label->name }}
-                                                </span>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="account-details">
-                                    <h5 class="fw-bold mb-3">{{ $gameAccount->account_name }}</h5>
-
-                                    <!-- Baris detail: Genre, Level & Umur Akun -->
-                                    <div class="row text-muted small mb-4">
-                                        <div class="col-4 text-start">
-                                            <i class="bi bi-controller me-1"></i>
-                                            {{ $gameAccount->game->genre ?? '-' }}
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <i class="bi bi-person me-1"></i>
-                                            Level {{ $gameAccount->level ?? '-' }}
-                                        </div>
-                                        <div class="col-4 text-end">
-                                            <i class="bi bi-clock me-1"></i>
-                                            {{ $gameAccount->account_age ?? '-' }}
-                                        </div>
-                                    </div>
-
-                                    <ul class="list-unstyled mb-4">
-                                        @foreach (explode("\n", $gameAccount->features) as $line)
-                                            @php
-                                                $parts = explode('+', $line);
-                                            @endphp
-                                            @foreach ($parts as $feature)
-                                                <li class="mb-2 d-flex align-items-start">
-                                                    <i class="bi bi-check2-circle text-success me-2 mt-1"></i>
-                                                    <span>{{ trim($feature) }}</span>
-                                                </li>
-                                            @endforeach
-                                        @endforeach
-                                    </ul>
-
-                                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                                        <div class="price-tag">
-                                            @if (!is_null($gameAccount->sale_price))
-                                                <span class="current-price">
-                                                    Rp {{ number_format($gameAccount->sale_price, 0, ',', '.') }}
-                                                </span>
-                                                <del class="original-price">
-                                                    Rp {{ number_format($gameAccount->original_price, 0, ',', '.') }}
-                                                </del>
-                                            @else
-                                                <span class="current-price">
-                                                    Rp {{ number_format($gameAccount->original_price, 0, ',', '.') }}
-                                                </span>
+                @if ($gameAccounts->count())
+                    <div class="row g-4">
+                        @foreach ($gameAccounts as $gameAccount)
+                            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                                <article class="premium-account-card h-100">
+                                    <div class="account-images">
+                                        <img src="{{ asset('storage/' . $gameAccount->image) }}"
+                                            alt="{{ $gameAccount->account_name }}" class="img-fluid">
+                                        <div class="account-badges">
+                                            @if ($gameAccount->labels->count())
+                                                @foreach ($gameAccount->labels as $label)
+                                                    <span class="badge"
+                                                        style="background-color: {{ $label->color ?? '#0d6efd' }}; color: #fff;">
+                                                        <i class="bi bi-check-circle me-2"></i>{{ $label->name }}
+                                                    </span>
+                                                @endforeach
                                             @endif
                                         </div>
-                                        <a href="{{ route('akun-game.detail', [$gameAccount->game->slug, $gameAccount->id]) }}" class="btn btn-primary btn-detail">
-                                            Detail
-                                            <i class="bi bi-arrow-right-short"></i>
-                                        </a>
                                     </div>
-                                </div>
-                            </article>
-                        </div>
-                    @endforeach
-                </div>
+                                    <div class="account-details">
+                                        <h5 class="fw-bold mb-3">{{ $gameAccount->account_name }}</h5>
+                                        <!-- Baris detail: Genre, Level & Umur Akun -->
+                                        <div class="row text-muted small mb-4">
+                                            <div class="col-4 text-start">
+                                                <i class="bi bi-controller me-1"></i>
+                                                {{ $gameAccount->game->genre ?? '-' }}
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <i class="bi bi-person me-1"></i>
+                                                Level {{ $gameAccount->level ?? '-' }}
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <i class="bi bi-clock me-1"></i>
+                                                {{ $gameAccount->account_age ?? '-' }}
+                                            </div>
+                                        </div>
+                                        <ul class="list-unstyled mb-4">
+                                            @foreach (explode("\n", $gameAccount->features) as $line)
+                                                @php
+                                                    $parts = explode('+', $line);
+                                                @endphp
+                                                @foreach ($parts as $feature)
+                                                    <li class="mb-2 d-flex align-items-start">
+                                                        <i class="bi bi-check2-circle text-success me-2 mt-1"></i>
+                                                        <span>{{ trim($feature) }}</span>
+                                                    </li>
+                                                @endforeach
+                                            @endforeach
+                                        </ul>
+                                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                                            <div class="price-tag">
+                                                @if (!is_null($gameAccount->sale_price))
+                                                    <span class="current-price">
+                                                        Rp {{ number_format($gameAccount->sale_price, 0, ',', '.') }}
+                                                    </span>
+                                                    <del class="original-price">
+                                                        Rp {{ number_format($gameAccount->original_price, 0, ',', '.') }}
+                                                    </del>
+                                                @else
+                                                    <span class="current-price">
+                                                        Rp {{ number_format($gameAccount->original_price, 0, ',', '.') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <a href="{{ route('akun-game.detail', [$gameAccount->game->slug, $gameAccount->id]) }}"
+                                                class="btn btn-primary btn-detail">
+                                                Detail <i class="bi bi-arrow-right-short"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-5">
+                        <p class="mb-4">Akun game tidak ditemukan.</p>
+                        <a href="{{ route('akun-game') }}" class="btn btn-secondary">Hapus Pencarian</a>
+                    </div>
+                @endif
             </div>
         </section>
     </main>

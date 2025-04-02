@@ -5,15 +5,23 @@ namespace App\Http\Controllers\SiteUser;
 use App\Http\Controllers\Controller;
 use App\Models\BoostingService;
 use App\Models\Game;
+use Illuminate\Http\Request;
 
 class BoostingServicePageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $games = Game::where(function ($query) {
-            $query->has('boostingServices')
+        $query = Game::where(function ($q) {
+            $q->has('boostingServices')
                 ->orHas('rankCategories');
-        })->get();
+        });
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+
+        $games = $query->get();
 
         return view('site-user.pages.joki-game.index', compact('games'));
     }

@@ -199,53 +199,65 @@
     <section class="game-listing">
         <div class="container">
             <!-- Search Bar -->
-            <div class="search-sort-bar mb-5" data-aos="fade-up">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Cari game..." aria-label="Search games">
-                            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+            <form action="{{ route('joki-game') }}" method="GET">
+                <div class="search-sort-bar mb-5" data-aos="fade-up">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="position-relative">
+                                <input type="text" name="search" class="form-control" placeholder="Cari game..."
+                                    aria-label="Search games" value="{{ request('search') }}">
+                                <i
+                                    class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row g-4 justify-content-center">
-                @foreach ($games as $game)
-                    <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                        <article class="game-card h-100">
-                            <div class="package-image">
-                                <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
-                                    class="img-fluid">
-                            </div>
-                            <div class="card-body">
-                                <header class="mb-3">
-                                    <h3 class="h5 fw-bold mb-3">{{ $game->name }}</h3>
-                                    <div class="genre-badge">
-                                        <span class="badge">{{ $game->genre }}</span>
-                                    </div>
-                                </header>
-                                <div class="game-description mb-4">
-                                    <p class="line-clamp-3">{{ $game->description }}</p>
+            </form>
+
+            @if ($games->count())
+                <div class="row g-4 justify-content-center">
+                    @foreach ($games as $game)
+                        <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                            <article class="game-card h-100">
+                                <div class="package-image">
+                                    <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
+                                        class="img-fluid">
                                 </div>
-                                <footer class="mt-auto">
-                                    <a href="{{ route('pilih-layanan', $game) }}"
-                                        class="btn btn-primary btn-joki w-100">
-                                        Pilih Layanan <i class="bi bi-arrow-right-short"></i>
-                                    </a>
-                                    <div class="mt-2">
-                                        @if ($game->boostingServices->count())
-                                            <span class="badge bg-info">Joki Paket</span>
-                                        @endif
-                                        @if ($game->rankCategories->count())
-                                            <span class="badge bg-success">Joki Kostum</span>
-                                        @endif
+                                <div class="card-body">
+                                    <header class="mb-3">
+                                        <h3 class="h5 fw-bold mb-3">{{ $game->name }}</h3>
+                                        <div class="genre-badge">
+                                            <span class="badge">{{ $game->genre }}</span>
+                                        </div>
+                                    </header>
+                                    <div class="game-description mb-4">
+                                        <p class="line-clamp-3">{{ $game->description }}</p>
                                     </div>
-                                </footer>
-                            </div>
-                        </article>
-                    </div>
-                @endforeach
-            </div>
+                                    <footer class="mt-auto">
+                                        <a href="{{ route('pilih-layanan', $game) }}"
+                                            class="btn btn-primary btn-joki w-100">
+                                            Pilih Layanan <i class="bi bi-arrow-right-short"></i>
+                                        </a>
+                                        <div class="mt-2">
+                                            @if ($game->boostingServices->count())
+                                                <span class="badge bg-info">Joki Paket</span>
+                                            @endif
+                                            @if ($game->rankCategories->count())
+                                                <span class="badge bg-success">Joki Kostum</span>
+                                            @endif
+                                        </div>
+                                    </footer>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <p class="mb-4">Game tidak ditemukan.</p>
+                    <a href="{{ route('joki-game') }}" class="btn btn-secondary">Hapus Pencarian</a>
+                </div>
+            @endif
         </div>
     </section>
 @endsection
