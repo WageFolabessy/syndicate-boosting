@@ -95,7 +95,7 @@
                 <div class="w-100 d-grid gap-2">
                     <button type="button" class="btn btn-primary btn-lg order-button">
                         Konfirmasi Pembayaran Rp.
-                        {{ number_format($service->sale_price ?? $service->original_price, 0, ',', '.') }}
+                        
                         <i class="bi bi-arrow-right-short"></i>
                     </button>
                     <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">

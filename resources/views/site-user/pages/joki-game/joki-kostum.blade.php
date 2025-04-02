@@ -15,11 +15,42 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
+        /* Global Styles */
         body {
             font-family: "Inter", sans-serif;
             background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Header Section */
+        .page-header {
+            padding-top: 4rem;
+            padding-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header .section-tag {
+            display: inline-block;
+            background-color: #0d6efd;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p.lead {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        /* Rank Grid */
         .rank-grid {
             display: flex;
             flex-wrap: wrap;
@@ -30,11 +61,13 @@
         .rank-grid .rank-item {
             cursor: pointer;
             border: 2px solid transparent;
-            border-radius: 5px;
-            transition: border-color 0.3s;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
             width: 100px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+            background: #fff;
         }
 
         .rank-grid .rank-item:hover {
@@ -46,6 +79,7 @@
             height: 80px;
             object-fit: contain;
             display: block;
+            background: #fff;
         }
 
         .rank-grid .rank-item .rank-name {
@@ -54,14 +88,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 5px;
+            transition: opacity 0.3s ease;
             font-weight: 600;
             font-size: 0.9rem;
         }
@@ -74,11 +107,16 @@
             border-color: #0d6efd;
         }
 
+        /* Legend Rank */
         .legend-rank {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 15px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .legend-rank img {
@@ -87,19 +125,33 @@
             object-fit: contain;
         }
 
-        /* Gunakan btn-group Bootstrap untuk subdivisi */
+        .legend-rank h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        /* Subdivision Options */
         .subdivision-options {
             margin-top: 15px;
         }
 
+        /* RP Option */
         .rp-option {
             margin-top: 15px;
             text-align: center;
         }
 
+        /* Star Rating */
         .star-rating {
             margin-top: 15px;
             text-align: center;
+        }
+
+        .star-rating label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .star-display {
@@ -111,20 +163,189 @@
             cursor: pointer;
             margin: 0 2px;
             color: #ccc;
+            transition: color 0.3s ease;
         }
 
         .star-display i.selected {
             color: #f7c02c;
         }
 
+        /* Card Custom */
         .card-custom {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: none;
+            border-radius: 8px;
             margin-bottom: 20px;
+            background: #fff;
         }
 
-        @media (min-width: 992px) {
-            .checkout {
-                margin-top: 0;
+        .card-custom .card-header {
+            padding: 0.75rem 1.25rem;
+            border-bottom: none;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .card-custom .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Checkout Section */
+        .checkout h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkout .card-custom {
+            margin-bottom: 0;
+        }
+
+        .checkout .card-body {
+            padding: 1.5rem;
+        }
+
+        .checkout .list-group-item {
+            border: none;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .checkout .list-group-item strong {
+            color: #333;
+        }
+
+        .checkout button.btn-success {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+        }
+
+        .order-button {
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .order-button i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .order-button:hover {
+            padding-right: 3.5rem;
+        }
+
+        .order-button:hover i {
+            right: 1.5rem;
+            opacity: 1;
+        }
+
+        /* Improved Modal Styles */
+        .modal-content {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header.bg-gradient-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 2.5rem 2rem;
+            border-bottom: none;
+        }
+
+        .modal-header.bg-gradient-primary .icon-wrapper {
+            background: rgba(255, 255, 255, 0.15);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-top: none;
+        }
+
+        .modal-footer .btn-primary {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+        }
+
+        /* Floating Labels Custom */
+        .form-floating label {
+            transition: all 0.3s ease;
+            padding-left: 2.5rem;
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label {
+            transform: scale(0.85) translateY(-0.8rem) translateX(0.5rem);
+            opacity: 0.8;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            padding-left: 2.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .rank-grid .rank-item {
+                width: 80px;
+            }
+
+            .legend-rank h4 {
+                font-size: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .legend-rank {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .legend-rank img {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -342,7 +563,11 @@
                                             <strong>Total</strong> <span id="checkout-total">Rp. 0</span>
                                         </li>
                                     </ul>
-                                    <button class="mt-3 btn btn-success w-100" type="button">Lanjut Checkout</button>
+                                    <button class="btn btn-primary btn-lg order-button w-100" data-bs-toggle="modal"
+                                        data-bs-target="#orderModal">
+                                        Pesan Sekarang
+                                        <i class="bi bi-arrow-right-short"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -351,6 +576,8 @@
             </div>
         </section>
     </main>
+
+    @include('site-user.pages.joki-game.modal-costum-order')
 @endsection
 
 @section('script')
@@ -714,5 +941,18 @@
             }
             updatePriceDifference();
         };
+    </script>
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
     </script>
 @endsection
