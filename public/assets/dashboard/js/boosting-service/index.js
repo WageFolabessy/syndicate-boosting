@@ -22,12 +22,10 @@ $(document).ready(function () {
             {
                 data: "labels",
                 name: "labels",
-                orderable: false,
-                searchable: false,
             },
             { data: "original_price", name: "original_price" },
             { data: "sale_price", name: "sale_price" },
-            { data: "game_name", name: "game.name" },
+            { data: "game_name", name: "game_name" },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
             {

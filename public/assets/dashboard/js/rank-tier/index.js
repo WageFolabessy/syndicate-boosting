@@ -14,11 +14,11 @@ $(document).ready(function () {
             },
             {
                 data: "category_name",
-                name: "game_rank_category.name",
+                name: "category_name",
             },
             {
                 data: "game_name",
-                name: "games.name",
+                name: "game_name",
             },
             {
                 data: "tier",

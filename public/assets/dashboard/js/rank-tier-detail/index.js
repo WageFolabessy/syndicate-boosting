@@ -14,31 +14,31 @@ $(document).ready(function () {
             },
             {
                 data: "game_name",
-                name: "games.name",
+                name: "game_name",
             },
             {
                 data: "category_name",
-                name: "game_rank_categories.name",
+                name: "category_name",
             },
             {
                 data: "tier_name",
-                name: "game_rank_tiers.tier",
+                name: "tier_name",
             },
             {
                 data: "star_number",
-                name: "game_rank_tier_details.star_number",
+                name: "star_number",
             },
             {
                 data: "price",
-                name: "game_rank_tier_details.price",
+                name: "price",
             },
             {
                 data: "created_at",
-                name: "game_rank_tier_details.created_at",
+                name: "created_at",
             },
             {
                 data: "updated_at",
-                name: "game_rank_tier_details.updated_at",
+                name: "updated_at",
             },
             {
                 data: "action",
