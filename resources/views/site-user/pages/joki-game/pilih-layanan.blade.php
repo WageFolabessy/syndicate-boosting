@@ -143,9 +143,9 @@
         <div class="container">
             <div class="row g-4 justify-content-center">
                 @php
-                    // Cek keberadaan layanan package dan custom
-                    $hasPackage = $game->boostingServices->contains('service_type', 'package');
-                    $hasCustom = $game->boostingServices->contains('service_type', 'custom');
+                    // Cek keberadaan layanan paket dan custom
+                    $hasPackage = $game->boostingServices->isNotEmpty();
+                    $hasCustom = $game->rankCategories->isNotEmpty();
                 @endphp
 
                 @if ($hasPackage)
@@ -198,5 +198,6 @@
         </div>
     </section>
 @endsection
+
 @section('script')
 @endsection

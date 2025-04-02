@@ -153,6 +153,16 @@
                                 <div class="package-image">
                                     <img src="{{ $package->image ? asset('storage/' . $package->image) : asset('assets/site-user/images/placeholder.jpg') }}"
                                         alt="{{ $package->title }}" class="img-fluid">
+                                    @if ($package->labels->count())
+                                        <div class="position-absolute top-0 end-0 m-3">
+                                            @foreach ($package->labels as $label)
+                                                <span class="badge"
+                                                    style="background-color: {{ $label->color ?? '#0d6efd' }}; color: #fff;">
+                                                    <i class="bi bi-check-circle me-2"></i>{{ $label->name }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="card-body p-4">

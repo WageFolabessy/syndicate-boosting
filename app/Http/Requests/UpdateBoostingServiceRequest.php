@@ -15,7 +15,6 @@ class UpdateBoostingServiceRequest extends FormRequest
     {
         return [
             'game_id'       => 'sometimes|required|exists:games,id',
-            'service_type'  => 'sometimes|required|in:custom,package',
             'title'   => 'sometimes|required|string|max:255',
             'description'   => 'nullable|string',
             'original_price' => 'sometimes|required|integer|min:0',
@@ -31,8 +30,6 @@ class UpdateBoostingServiceRequest extends FormRequest
         return [
             'game_id.required'       => 'Game harus dipilih jika diubah.',
             'game_id.exists'         => 'Game yang dipilih tidak valid.',
-            'service_type.required'  => 'Service type harus diisi jika diubah.',
-            'service_type.in'        => 'Service type harus custom atau package.',
             'title.required'        => 'Judul akun wajib diisi.',
             'title.string'     => 'Judul akun harus berupa teks.',
             'title.max'        => 'Judul akun maksimal 255 karakter.',

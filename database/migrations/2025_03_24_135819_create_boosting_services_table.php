@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('boosting_services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
-            $table->enum('service_type', ['custom', 'package'])->default('custom');
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('original_price');

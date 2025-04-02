@@ -17,11 +17,9 @@ class BoostingServiceSeeder extends Seeder
     {
         $pointBlankImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\pb-2.jpeg';
         $mobileLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\ml2.jpg';
-        $apexLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legend.jpg';
 
         $dataPBBoosting1 = [
             'game_id' => 3,
-            'service_type' => 'package',
             'title' => '1 Juta Exp Char Bundir',
             'description' => '',
             'original_price' => 15000,
@@ -40,7 +38,6 @@ class BoostingServiceSeeder extends Seeder
 
         $dataPBBoosting2 = [
             'game_id' => 3,
-            'service_type' => 'package',
             'title' => 'JASA ABSEN 1 April - 28 April 2025',
             'description' => '',
             'original_price' => 2500,
@@ -59,7 +56,6 @@ class BoostingServiceSeeder extends Seeder
 
         $dataMLBoosting1 = [
             'game_id' => 2,
-            'service_type' => 'package',
             'title' => 'GM 5 - EPIC 5',
             'description' => '',
             'original_price' => 112500,
@@ -78,8 +74,7 @@ class BoostingServiceSeeder extends Seeder
 
         $dataMLBoosting2 = [
             'game_id' => 2,
-            'service_type' => 'package',
-            'title' => '[PAKET] MYTHIC GRADING ( FINISH MYTHIC *15 )',
+            'title' => 'MYTHIC GRADING ( FINISH MYTHIC *15 )',
             'description' => '',
             'original_price' => 235000,
             // 'sale_price' => '',
@@ -94,43 +89,5 @@ class BoostingServiceSeeder extends Seeder
         }
 
         BoostingService::create($dataMLBoosting2);
-
-        $dataApexLegendBoosting = [
-            'game_id' => 1,
-            'service_type' => 'custom',
-            'title' => 'Rank Boosting',
-            'description' => '',
-            'original_price' => 0,
-            // 'sale_price' => '',
-        ];
-
-        if (file_exists($apexLegendImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($apexLegendImagePath, PATHINFO_EXTENSION);
-            Storage::disk('public')->put($fileName, file_get_contents($apexLegendImagePath));
-            $dataApexLegendBoosting['image'] = $fileName;
-        } else {
-            $dataApexLegendBoosting['image'] = null;
-        }
-
-        BoostingService::create($dataApexLegendBoosting);
-
-        $dataMobileLegendBoosting = [
-            'game_id' => 2,
-            'service_type' => 'custom',
-            'title' => 'Rank Boosting',
-            'description' => '',
-            'original_price' => 0,
-            // 'sale_price' => '',
-        ];
-
-        if (file_exists($mobileLegendImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
-            Storage::disk('public')->put($fileName, file_get_contents($mobileLegendImagePath));
-            $dataMobileLegendBoosting['image'] = $fileName;
-        } else {
-            $dataMobileLegendBoosting['image'] = null;
-        }
-
-        BoostingService::create($dataMobileLegendBoosting);
     }
 }

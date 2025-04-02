@@ -234,24 +234,23 @@
                     <p>Layanan joki profesional untuk game kompetitif terpopuler</p>
                 </div>
                 <div class="row g-4">
-                    @foreach ($boostingServices as $service)
+                    @foreach ($games as $game)
                         <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
                             <article class="game-card h-100">
                                 <div class="card-img-top ratio ratio-16x9">
-                                    <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}"
+                                    <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
                                         class="img-fluid object-fit-cover">
                                 </div>
                                 <div class="card-body p-4">
                                     <div class="d-flex flex-column h-100">
                                         <header class="mb-3">
-                                            <h3 class="h5 fw-bold mb-3">{{ $service->name }}</h3>
+                                            <h3 class="h5 fw-bold mb-3">{{ $game->name }}</h3>
                                             <span class="badge bg-primary bg-opacity-10 text-primary">
-                                                {{ $service->genre }}
+                                                {{ $game->genre }}
                                             </span>
                                         </header>
-                                        <p class="text-muted line-clamp-3 mb-4">{{ $service->description }}</p>
-                                        <a href="{{ route('pilih-layanan', $service->id) }}"
-                                            class="btn btn-primary mt-auto">
+                                        <p class="text-muted line-clamp-3 mb-4">{{ $game->description }}</p>
+                                        <a href="{{ route('pilih-layanan', $game->id) }}" class="btn btn-primary mt-auto">
                                             Pilih Layanan
                                             <i class="bi bi-arrow-right-short"></i>
                                         </a>
@@ -315,7 +314,8 @@
                                                 @endforeach
                                             @endforeach
                                         </ul>
-                                        <div class="d-flex flex-column justify-content-between align-items-center mt-auto mb-4">
+                                        <div
+                                            class="d-flex flex-column justify-content-between align-items-center mt-auto mb-4">
                                             <div class="price-tag">
                                                 @if (!is_null($account->sale_price))
                                                     <span class="current-price">
@@ -330,7 +330,8 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <a href="{{ route('akun-game.detail', $account->id) }}" class="btn btn-primary btn-detail mt-4">
+                                            <a href="{{ route('akun-game.detail', $account->id) }}"
+                                                class="btn btn-primary btn-detail mt-4">
                                                 Detail
                                                 <i class="bi bi-arrow-right-short"></i>
                                             </a>

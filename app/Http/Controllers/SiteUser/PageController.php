@@ -12,20 +12,22 @@ class PageController extends Controller
 {
     public function index()
     {
-        $boostingServices = Game::has('boostingServices')
+        $games = Game::with(['boostingServices', 'rankCategories'])
+            ->where(function ($query) {
+                $query->has('boostingServices')
+                    ->orHas('rankCategories');
+            })
             ->orderBy('updated_at', 'desc')
             ->take(3)
             ->get();
 
-        // Mengambil semua data akun game, bukan data unik berdasarkan game.
         $gameAccounts = GameAccount::with('game')
             ->orderBy('updated_at', 'desc')
             ->take(3)
             ->get();
 
-        return view('site-user.pages.index', compact('boostingServices', 'gameAccounts'));
+        return view('site-user.pages.index', compact('games', 'gameAccounts'));
     }
-
 
     public function akunGame()
     {

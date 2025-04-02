@@ -18,7 +18,6 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
             },
-            { data: "service_type", name: "service_type" },
             { data: "title", name: "title" },
             {
                 data: "labels",

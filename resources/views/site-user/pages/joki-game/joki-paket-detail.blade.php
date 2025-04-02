@@ -219,7 +219,7 @@
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800">
                     <header class="mb-4">
                         @foreach ($service->labels as $label)
-                            <span class="service-type-badge">{{ $label->name }}</span>
+                            <span class="service-type-badge" style="background-color: {{ $label->color ?? '#0d6efd' }}; color: #fff;">{{ $label->name }}</span>
                         @endforeach
                         <h1 class="display-5 fw-bold mb-4">{{ $service->title }}</h1>
                     </header>

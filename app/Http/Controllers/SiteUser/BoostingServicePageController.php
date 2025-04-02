@@ -5,14 +5,16 @@ namespace App\Http\Controllers\SiteUser;
 use App\Http\Controllers\Controller;
 use App\Models\BoostingService;
 use App\Models\Game;
-use App\Models\GameRankCategory;
-use Illuminate\Http\Request;
 
 class BoostingServicePageController extends Controller
 {
     public function index()
     {
-        $games = Game::has('boostingServices')->get();
+        $games = Game::where(function ($query) {
+            $query->has('boostingServices')
+                ->orHas('rankCategories');
+        })->get();
+
         return view('site-user.pages.joki-game.index', compact('games'));
     }
 
@@ -25,9 +27,7 @@ class BoostingServicePageController extends Controller
     public function packageBoosting($gameId)
     {
         $game = Game::findOrFail($gameId);
-        $packages = BoostingService::where('game_id', $gameId)
-            ->where('service_type', 'package')
-            ->get();
+        $packages = BoostingService::where('game_id', $gameId)->get();
 
         return view('site-user.pages.joki-game.joki-paket', compact('game', 'packages'));
     }
@@ -40,7 +40,6 @@ class BoostingServicePageController extends Controller
     public function rankBoosting($gameId)
     {
         $game = Game::with([
-            'boostingServices', // Eager load boostingServices agar bisa dicek
             'rankCategories' => function ($query) {
                 $query->orderBy('display_order', 'asc');
             },
@@ -52,23 +51,21 @@ class BoostingServicePageController extends Controller
             }
         ])->findOrFail($gameId);
 
-        // Cek apakah game memiliki boosting service dengan service_type "custom"
-        if (!$game->boostingServices->contains('service_type', 'custom')) {
+        if ($game->rankCategories->isEmpty()) {
             abort(404);
         }
 
         $defaultRank = $game->rankCategories->sortBy('display_order')->first();
         $defaultTier = $defaultRank->rankTiers->sortBy('display_order')->first();
-        $defaultTierDetail = $defaultTier ? $defaultTier->tierDetails->sortBy('display_order')->first() : null;
+        $defaultTierDetail = $defaultTier
+            ? $defaultTier->tierDetails->sortBy('display_order')->first()
+            : null;
 
         return view('site-user.pages.joki-game.joki-kostum', compact('game', 'defaultRank', 'defaultTier', 'defaultTierDetail'));
     }
 
     public function show(BoostingService $service)
     {
-        if ($service->service_type === 'custom') {
-            abort(404);
-        }
         $service->load('game');
         return view('site-user.pages.joki-game.joki-paket-detail', compact('service'));
     }

@@ -26,9 +26,6 @@ class BoostingServiceController extends Controller
                 }
                 return '-';
             })
-            ->editColumn('service_type', function ($service) {
-                return $service->service_type ? ucfirst($service->service_type) : '-';
-            })
             ->editColumn('created_at', function ($service) {
                 return $service->created_at
                     ? $service->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
@@ -100,7 +97,6 @@ class BoostingServiceController extends Controller
 
         $service->update($data);
 
-        // Sinkronisasi label (jika ada)
         $labels = $request->input('labels', []);
         $service->labels()->sync($labels);
 

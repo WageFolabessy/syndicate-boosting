@@ -203,8 +203,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Cari game..."
-                                aria-label="Search games">
+                            <input type="text" class="form-control" placeholder="Cari game..." aria-label="Search games">
                             <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                         </div>
                     </div>
@@ -218,7 +217,6 @@
                                 <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
                                     class="img-fluid">
                             </div>
-
                             <div class="card-body">
                                 <header class="mb-3">
                                     <h3 class="h5 fw-bold mb-3">{{ $game->name }}</h3>
@@ -226,17 +224,22 @@
                                         <span class="badge">{{ $game->genre }}</span>
                                     </div>
                                 </header>
-
                                 <div class="game-description mb-4">
                                     <p class="line-clamp-3">{{ $game->description }}</p>
                                 </div>
-
                                 <footer class="mt-auto">
                                     <a href="{{ route('pilih-layanan', $game->id) }}"
                                         class="btn btn-primary btn-joki w-100">
-                                        Pilih Layanan
-                                        <i class="bi bi-arrow-right-short"></i>
+                                        Pilih Layanan <i class="bi bi-arrow-right-short"></i>
                                     </a>
+                                    <div class="mt-2">
+                                        @if ($game->boostingServices->count())
+                                            <span class="badge bg-info">Joki Paket</span>
+                                        @endif
+                                        @if ($game->rankCategories->count())
+                                            <span class="badge bg-success">Joki Kostum</span>
+                                        @endif
+                                    </div>
                                 </footer>
                             </div>
                         </article>
@@ -246,5 +249,6 @@
         </div>
     </section>
 @endsection
+
 @section('script')
 @endsection

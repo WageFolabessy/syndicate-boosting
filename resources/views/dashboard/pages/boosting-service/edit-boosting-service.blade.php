@@ -59,19 +59,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <!-- Service Type -->
-                                <div class="mb-3">
-                                    <label for="service_type" class="form-label">Service Type <span
-                                            class="text-danger">*</span></label>
-                                    <select class="form-select" name="service_type" id="service_type" required>
-                                        <option value="custom"
-                                            {{ old('service_type', $service->service_type) == 'custom' ? 'selected' : '' }}>
-                                            Custom</option>
-                                        <option value="package"
-                                            {{ old('service_type', $service->service_type) == 'package' ? 'selected' : '' }}>
-                                            Package</option>
-                                    </select>
-                                </div>
                                 <!-- Title -->
                                 <div class="mb-3">
                                     <label for="title" class="form-label">Title</label>
