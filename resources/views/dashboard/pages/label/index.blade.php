@@ -37,6 +37,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Name</th>
+                                <th class="text-center">Color</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

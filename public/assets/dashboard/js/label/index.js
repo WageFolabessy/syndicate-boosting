@@ -16,6 +16,10 @@ $(document).ready(function () {
                 data: "name",
                 name: "name",
             },
+            {
+                data: "color",
+                name: "color",
+            },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
             {

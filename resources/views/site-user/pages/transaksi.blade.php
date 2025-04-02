@@ -15,6 +15,21 @@
 @section('title')
     - Transaksi
 @endsection
+@section('css')
+    <style>
+        .search-sort-bar .form-control {
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid rgba(13, 110, 253, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-sort-bar .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+    </style>
+@endsection
 @section('content')
     <main>
         <!-- Bagian Header -->
@@ -32,14 +47,15 @@
         <!-- Daftar Transaksi -->
         <section class="transaction-listing py-5">
             <div class="container">
-                <!-- Bar Pencarian -->
-                <div class="search-sort-bar mb-4" data-aos="fade-up">
-                    <div class="row">
-                        <div class="col-md-12">
+                <!-- Search Bar -->
+                <div class="search-sort-bar mb-5" data-aos="fade-up">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
                             <div class="position-relative">
-                                <input type="text" id="searchTransaction" class="form-control"
-                                    placeholder="Masukan nomor transaksi..." />
-                                <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3"></i>
+                                <input type="text" class="form-control" placeholder="Masukan nomor transaksi Anda..."
+                                    aria-label="Search transaction">
+                                <i
+                                    class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                             </div>
                         </div>
                     </div>

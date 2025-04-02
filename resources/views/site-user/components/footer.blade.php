@@ -22,10 +22,10 @@
                 <div class="footer-links">
                     <h4>Tautan Cepat</h4>
                     <ul>
-                        <li><a href="#">Beranda</a></li>
-                        <li><a href="#">Joki Game</a></li>
-                        <li><a href="#">Akun Game</a></li>
-                        <li><a href="#">Transaksi</a></li>
+                        <li><a href="{{ route('index') }}">Beranda</a></li>
+                        <li><a href="{{ route('joki-game') }}">Joki Game</a></li>
+                        <li><a href="{{ route('akun-game') }}">Akun Game</a></li>
+                        <li><a href="{{ route('transaksi') }}">Transaksi</a></li>
                     </ul>
                 </div>
             </div>
@@ -33,10 +33,10 @@
                 <div class="footer-links">
                     <h4>Game</h4>
                     <ul>
-                        <li><a href="#">Mobile Legends</a></li>
-                        <li><a href="#">Valorant</a></li>
-                        <li><a href="#">Genshin Impact</a></li>
-                        <li><a href="#">Semua Game</a></li>
+                        @foreach ($boostingServices as $service)
+                            <li><a href="{{ route('pilih-layanan', $service->id) }}">{{ $service->name }}</a></li>
+                        @endforeach
+                        <li><a href="{{ route('joki-game') }}">Semua Game</a></li>
                     </ul>
                 </div>
             </div>

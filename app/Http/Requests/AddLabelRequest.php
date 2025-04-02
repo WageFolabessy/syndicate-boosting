@@ -14,7 +14,8 @@ class AddLabelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'color' => 'nullable|string|max:255'
         ];
     }
 
@@ -23,7 +24,9 @@ class AddLabelRequest extends FormRequest
         return [
             'name.required' => 'Nama label harus diisi.',
             'name.string'   => 'Nama label harus berupa teks.',
-            'name.max'      => 'Nama label maksimal 255 karakter.'
+            'name.max'      => 'Nama label maksimal 255 karakter.',
+            'color.string'   => 'Warna label harus berupa teks.',
+            'color.max'      => 'Warna label maksimal 255 karakter.'
         ];
     }
 }

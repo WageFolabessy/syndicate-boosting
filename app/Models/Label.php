@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Label extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'color'];
 
     public function games()
     {

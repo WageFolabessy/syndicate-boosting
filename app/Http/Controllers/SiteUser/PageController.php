@@ -20,6 +20,7 @@ class PageController extends Controller
         // Mengambil semua data akun game, bukan data unik berdasarkan game.
         $gameAccounts = GameAccount::with('game')
             ->orderBy('updated_at', 'desc')
+            ->take(3)
             ->get();
 
         return view('site-user.pages.index', compact('boostingServices', 'gameAccounts'));
@@ -28,7 +29,9 @@ class PageController extends Controller
 
     public function akunGame()
     {
-        $gameAccounts = GameAccount::with(['game', 'labels'])->orderBy('updated_at', 'desc')->get();
+        $gameAccounts = GameAccount::with('game')
+            ->orderBy('updated_at', 'desc')
+            ->get();
         return view('site-user.pages.akun-game.index', compact('gameAccounts'));
     }
 }

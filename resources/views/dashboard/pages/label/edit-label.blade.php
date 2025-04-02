@@ -49,6 +49,14 @@
                                     <input type="text" class="form-control" name="name" id="name"
                                         placeholder="Enter label name" required value="{{ old('name', $label->name) }}">
                                 </div>
+                                <div class="mb-3">
+                                    <label for="color" class="form-label">
+                                        Label Color <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="color" id="color"
+                                        placeholder="Enter label color (can be filled either with color name or hex code)"
+                                        value="{{ old('color', $label->color) }}">
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -27,12 +27,17 @@ class LabelController extends Controller
                     ? $label->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '';
             })
+            ->addColumn('color', function ($label) {
+                return '<span style="display:inline-block;width:20px;height:20px;background-color: '
+                    . $label->color . '; border-radius: 4px;"></span>';
+            })
             ->addColumn('action', function ($label) {
                 return view('dashboard.pages.label.action-button')->with('label', $label);
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'color'])
             ->make(true);
     }
+
 
     public function create()
     {

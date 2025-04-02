@@ -53,6 +53,44 @@
         .account-card {
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border: 1px solid rgba(0, 0, 0, 0.075);
+            background: #fff;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .account-card .card-body {
+            padding: 1.5rem;
+            /* bisa disesuaikan */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Batasi tinggi list fitur agar card tidak melebar */
+        .account-card .card-body ul {
+            max-height: 120px;
+            /* sesuaikan sesuai kebutuhan */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Opsional: tambahkan efek gradasi di bagian bawah list untuk memberi tahu ada lebih banyak konten */
+        .account-card .card-body ul::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2rem;
+            background: linear-gradient(transparent, #fff);
+            pointer-events: none;
+        }
+
+        /* Tetap mempertahankan properti flex agar tombol tetap berada di bawah */
+        .account-card .card-body .d-flex {
+            margin-top: auto;
         }
 
         .badge.bg-success {
@@ -61,50 +99,63 @@
             border: 1px solid rgba(25, 135, 84, 0.2);
         }
 
-        /* Buttons */
+        /* Tombol Umum */
         .btn {
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
 
-        .btn-primary:hover {
-            padding-right: 3rem;
-        }
-
-        .btn-primary i {
+        /* Perbaikan Animasi Tombol dengan menghindari perubahan padding */
+        .btn i {
             position: absolute;
             right: 1rem;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(-50%) translateX(0);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* btn-primary */
+        .btn-primary {
+            padding: 1rem 2rem;
         }
 
         .btn-primary:hover i {
             opacity: 1;
-            right: 1.5rem;
+            transform: translateY(-50%) translateX(5px);
         }
 
-        .btn-outline-primary:hover {
-            padding-right: 3rem;
-        }
-
-        .btn-outline-primary i {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: all 0.3s ease;
+        /* btn-outline-primary */
+        .btn-outline-primary {
+            padding: 1rem 2rem;
         }
 
         .btn-outline-primary:hover i {
             opacity: 1;
-            right: 1.5rem;
+            transform: translateY(-50%) translateX(5px);
         }
 
-        /* Responsive */
+        /* Responsive Button Layout */
+        @media (max-width: 576px) {
+
+            /* Stack tombol secara vertikal dan buat full width */
+            .d-flex {
+                flex-direction: column !important;
+            }
+
+            .d-flex .btn {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            /* Opsional: Atur ulang ukuran teks atau padding untuk layar kecil */
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Responsive untuk Hero Section */
         @media (max-width: 768px) {
             .hero-section {
                 padding: 4rem 0;
@@ -113,12 +164,6 @@
             .game-card,
             .account-card {
                 margin-bottom: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-section h1 {
-                font-size: 2rem;
             }
         }
 
@@ -224,17 +269,23 @@
                 <div class="row g-4">
                     @foreach ($gameAccounts as $account)
                         <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
-                            <div class="account-card h-100 bg-white rounded-3 shadow-sm">
+                            <div class="account-card">
                                 <div class="position-relative">
                                     <img src="{{ asset('storage/' . $account->image) }}" alt="{{ $account->game->name }}"
-                                        class="img-fluid card-img-top object-fit-cover" style="height: 200px">
-                                    <div class="position-absolute top-0 end-0 m-3">
-                                        <span class="badge bg-success">
-                                            <i class="bi bi-check-circle me-2"></i>Terverifikasi
-                                        </span>
-                                    </div>
+                                        class="img-fluid card-img-top object-fit-cover"
+                                        style="height: 200px; width: 100%; object-fit: cover;">
+                                    @if ($account->labels->count())
+                                        <div class="position-absolute top-0 end-0 m-3">
+                                            @foreach ($account->labels as $label)
+                                                <span class="badge"
+                                                    style="background-color: {{ $label->color ?? '#0d6efd' }}; color: #fff;">
+                                                    <i class="bi bi-check-circle me-2"></i>{{ $label->name }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="card-body p-4">
+                                <div class="card-body">
                                     <div class="d-flex flex-column h-100">
                                         <h3 class="h5 fw-bold mb-3">{{ $account->account_name }}</h3>
                                         <p class="text-muted small mb-4">{{ $account->game->name }}</p>
@@ -251,7 +302,7 @@
                                                 @endforeach
                                             @endforeach
                                         </ul>
-                                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                                        <div class="d-flex justify-content-between align-items-center">
                                             <span class="text-primary fw-bold">
                                                 Rp
                                                 {{ number_format($account->sale_price ?? $account->original_price, 0, ',', '.') }}
@@ -290,7 +341,7 @@
                 <div class="row g-4">
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-3 p-4 mb-4"
+                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
                                 style="width: 60px; height: 60px;">
                                 <i class="bi bi-shield-check fs-3 text-primary"></i>
                             </div>
@@ -304,7 +355,7 @@
 
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                         <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-3 p-4 mb-4"
+                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
                                 style="width: 60px; height: 60px;">
                                 <i class="bi bi-trophy fs-3 text-primary"></i>
                             </div>
@@ -318,7 +369,7 @@
 
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper bg-primary bg-opacity-10 rounded-3 p-4 mb-4"
+                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
                                 style="width: 60px; height: 60px;">
                                 <i class="bi bi-headset fs-3 text-primary"></i>
                             </div>

@@ -122,6 +122,18 @@
             opacity: 1;
         }
 
+        .search-sort-bar .form-control {
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid rgba(13, 110, 253, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-sort-bar .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .page-header {
@@ -186,6 +198,18 @@
     <!-- Game Listing Section -->
     <section class="game-listing">
         <div class="container">
+            <!-- Search Bar -->
+            <div class="search-sort-bar mb-5" data-aos="fade-up">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Cari game..."
+                                aria-label="Search games">
+                            <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row g-4 justify-content-center">
                 @foreach ($games as $game)
                     <div class="col-12 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
@@ -193,7 +217,7 @@
                             <div class="package-image">
                                 <img src="{{ asset('storage/' . $game->image) }}" alt="{{ $game->name }}"
                                     class="img-fluid">
-                                </div>
+                            </div>
 
                             <div class="card-body">
                                 <header class="mb-3">
