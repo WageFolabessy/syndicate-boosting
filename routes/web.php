@@ -55,6 +55,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game', function () {
         return view('dashboard.pages.game.index');
     })->name('dashboard.game');
+    Route::get('/game/export', [GameController::class, 'export'])->name('dashboard.game.export');
     Route::get('/games/datatables', [GameController::class, 'index']);
     Route::get('/game/add', [GameController::class, 'create'])->name('dashboard.game.create');
     Route::post('/game', [GameController::class, 'store'])->name('dashboard.game.store');
@@ -66,6 +67,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-category', function () {
         return view('dashboard.pages.rank-category.index');
     })->name('dashboard.rank-category');
+    Route::get('/rank-categories/export', [RankCategoryController::class, 'export'])->name('dashboard.rank-category.export');
     Route::get('/rank-categories/datatables', [RankCategoryController::class, 'index']);
     Route::get('/rank-category/add', [RankCategoryController::class, 'create'])->name('dashboard.rank-category.create');
     Route::post('/rank-category', [RankCategoryController::class, 'store'])->name('dashboard.rank-category.store');
@@ -77,6 +79,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-tier', function () {
         return view('dashboard.pages.rank-tier.index');
     })->name('dashboard.rank-tier');
+    Route::get('/rank-tier/export', [RankTierController::class, 'export'])->name('dashboard.rank-tier.export');
     Route::get('/rank-tiers/datatables', [RankTierController::class, 'index']);
     Route::get('/rank-tier/add', [RankTierController::class, 'create'])->name('dashboard.rank-tier.create');
     Route::post('/rank-tier', [RankTierController::class, 'store'])->name('dashboard.rank-tier.store');
@@ -88,6 +91,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-tier-detail', function () {
         return view('dashboard.pages.rank-tier-detail.index');
     })->name('dashboard.rank-tier-detail');
+    Route::get('/rank-tier-detail/export', [RankTierDetailController::class, 'export'])->name('dashboard.rank-tier-detail.export');
     Route::get('/rank-tier-details/datatables', [RankTierDetailController::class, 'index']);
     Route::get('/rank-tier-detail/add', [RankTierDetailController::class, 'create'])->name('dashboard.rank-tier-detail.create');
     Route::post('/rank-tier-detail', [RankTierDetailController::class, 'store'])->name('dashboard.rank-tier-detail.store');
@@ -99,6 +103,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/label', function () {
         return view('dashboard.pages.label.index');
     })->name('dashboard.label');
+    Route::get('/label/export', [LabelController::class, 'export'])->name('dashboard.label.export');
     Route::get('/labels/datatables', [LabelController::class, 'index']);
     Route::get('/label/add', [LabelController::class, 'create'])->name('dashboard.label.create');
     Route::post('/label', [LabelController::class, 'store'])->name('dashboard.label.store');
@@ -110,6 +115,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/boosting-service', function () {
         return view('dashboard.pages.boosting-service.index');
     })->name('dashboard.boosting-service');
+    Route::get('/boosting-service/export', [BoostingServiceController::class, 'export'])->name('dashboard.boosting-service.export');
     Route::get('/boosting-services/datatables', [BoostingServiceController::class, 'index']);
     Route::get('/boosting-service/add', [BoostingServiceController::class, 'create'])->name('dashboard.boosting-service.create');
     Route::post('/boosting-service', [BoostingServiceController::class, 'store'])->name('dashboard.boosting-service.store');
@@ -121,6 +127,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game-account', function () {
         return view('dashboard.pages.game-account.index');
     })->name('dashboard.game-account');
+    Route::get('/game-account/export', [GameAccountController::class, 'export'])->name('dashboard.game-account.export');
     Route::get('/game-accounts/datatables', [GameAccountController::class, 'index']);
     Route::get('/game-account/add', [GameAccountController::class, 'create'])->name('dashboard.game-account.create');
     Route::post('/game-account', [GameAccountController::class, 'store'])->name('dashboard.game-account.store');
@@ -132,6 +139,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/faq', function () {
         return view('dashboard.pages.faq.index');
     })->name('dashboard.faq');
+    Route::get('/faq/export', [FaqController::class, 'export'])->name('dashboard.faq.export');
     Route::get('/faqs/datatables', [FaqController::class, 'index']);
     Route::get('/faq/add', [FaqController::class, 'create'])->name('dashboard.faq.create');
     Route::post('/faq', [FaqController::class, 'store'])->name('dashboard.faq.store');
@@ -143,6 +151,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/admin', function () {
         return view('dashboard.pages.admin.index');
     })->name('dashboard.admin');
+    Route::get('/admin/export', [AdminController::class, 'export'])->name('dashboard.admin.export');
     Route::get('/admins/datatables', [AdminController::class, 'index']);
     Route::get('/admin/add', [AdminController::class, 'create'])->name('dashboard.admin.create');
     Route::post('/admin', [AdminController::class, 'store'])->name('dashboard.admin.store');

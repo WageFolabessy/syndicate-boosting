@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\BoostingServicesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddBoostingServiceRequest;
 use App\Http\Requests\UpdateBoostingServiceRequest;
 use App\Models\BoostingService;
 use App\Models\Game;
 use App\Models\Label;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BoostingServiceController extends Controller
 {
@@ -112,5 +113,10 @@ class BoostingServiceController extends Controller
         $service->delete();
 
         return redirect()->route('dashboard.boosting-service')->with('success', 'Boosting Service berhasil dihapus.');
+    }
+    
+    public function export()
+    {
+        return Excel::download(new BoostingServicesExport, 'boosting services managements.xlsx');
     }
 }

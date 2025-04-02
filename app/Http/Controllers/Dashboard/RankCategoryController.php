@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\GameRankCategoriesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddRankCategoryRequest;
 use App\Http\Requests\UpdateRankCategoryRequest;
@@ -9,6 +10,7 @@ use App\Models\Game;
 use App\Models\GameRankCategory;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RankCategoryController extends Controller
 {
@@ -104,5 +106,10 @@ class RankCategoryController extends Controller
 
         return redirect()->route('dashboard.rank-category')
             ->with('success', 'Kategori game berhasil dihapus.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new GameRankCategoriesExport, 'rank categories managements.xlsx');
     }
 }

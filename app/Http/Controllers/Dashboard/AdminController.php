@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use App\Exports\AdminsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -85,5 +86,10 @@ class AdminController extends Controller
     
             return redirect()->route('dashboard.admin')->with('success', 'Admin berhasil dihapus.');
         }
+    }
+    
+    public function export()
+    {
+        return Excel::download(new AdminsExport, 'admins managements.xlsx');
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateGameRequest;
 use App\Models\Game;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use App\Exports\GamesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GameController extends Controller
 {
@@ -80,7 +82,7 @@ class GameController extends Controller
 
         return redirect()->route('dashboard.game')->with('success', 'Game berhasil diperbarui.');
     }
-    
+
     public function destroy(Game $game)
     {
         if ($game->image && Storage::disk('public')->exists($game->image)) {
@@ -90,5 +92,10 @@ class GameController extends Controller
         $game->delete();
 
         return redirect()->route('dashboard.game')->with('success', 'Game berhasil dihapus.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new GamesExport, 'game managements.xlsx');
     }
 }

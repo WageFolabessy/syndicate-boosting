@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
 use App\Models\Label;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LabelExport;
 
 class LabelController extends Controller
 {
@@ -67,5 +68,10 @@ class LabelController extends Controller
     {
         $label->delete();
         return redirect()->route('dashboard.label')->with('success', 'Label berhasil dihapus.');
+    }
+    
+    public function export()
+    {
+        return Excel::download(new LabelExport, 'labels managements.xlsx');
     }
 }

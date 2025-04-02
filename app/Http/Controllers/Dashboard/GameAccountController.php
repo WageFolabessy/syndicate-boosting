@@ -10,6 +10,8 @@ use App\Models\GameAccount;
 use App\Models\Label;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use App\Exports\GameAccountsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GameAccountController extends Controller
 {
@@ -137,5 +139,10 @@ class GameAccountController extends Controller
         $gameAccount->delete();
 
         return redirect()->route('dashboard.game-account')->with('success', 'Akun game berhasil dihapus.');
+    }
+    
+    public function export()
+    {
+        return Excel::download(new GameAccountsExport, 'game accounts managements.xlsx');
     }
 }

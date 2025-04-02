@@ -17,9 +17,9 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
                 <h1 class="mb-3 mb-md-0 fw-bold">Games Management</h1>
                 <div class="d-flex flex-wrap gap-2">
-                    <button class="btn btn-outline-primary">
+                    <a href="{{ route('dashboard.game.export') }}" class="btn btn-outline-primary">
                         <i class="fas fa-download me-2"></i>Export
-                    </button>
+                    </a>
                     <a href="{{ route('dashboard.game.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus me-2"></i>Add New Game
                     </a>
