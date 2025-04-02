@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('genre');
             $table->string('developer');
             $table->text('description')->nullable();
+            $table->string('slug')->unique();
             $table->string('image');
             $table->timestamps();
         });

@@ -162,7 +162,7 @@
                                 </header>
 
                                 <footer class="mt-auto pt-3">
-                                    <a href="{{ route('joki-paket', $game->id) }}" class="btn btn-success btn-service">
+                                    <a href="{{ route('joki-paket', $game->slug) }}" class="btn btn-success btn-service">
                                         Pilih Paket <i class="bi bi-arrow-right-short"></i>
                                     </a>
                                 </footer>
@@ -185,7 +185,7 @@
                                 </header>
 
                                 <footer class="mt-auto pt-3">
-                                    <a href="{{ route('joki-kostum', $game->id) }}" class="btn btn-primary btn-service">
+                                    <a href="{{ route('joki-kostum', $game) }}" class="btn btn-primary btn-service">
                                         Buat Custom <i class="bi bi-arrow-right-short"></i>
                                     </a>
                                 </footer>

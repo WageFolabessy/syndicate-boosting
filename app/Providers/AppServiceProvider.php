@@ -28,11 +28,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('site-user.components.footer', function ($view) {
-            $boostingServices = Game::has('boostingServices')
+            $games = Game::with(['boostingServices', 'rankCategories'])
+                ->where(function ($query) {
+                    $query->has('boostingServices')
+                        ->orHas('rankCategories');
+                })
                 ->orderBy('updated_at', 'desc')
                 ->take(3)
                 ->get();
-            $view->with('boostingServices', $boostingServices);
+            $view->with('games', $games);
         });
     }
 }

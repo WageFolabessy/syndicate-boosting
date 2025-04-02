@@ -228,7 +228,7 @@
                                     <p class="line-clamp-3">{{ $game->description }}</p>
                                 </div>
                                 <footer class="mt-auto">
-                                    <a href="{{ route('pilih-layanan', $game->id) }}"
+                                    <a href="{{ route('pilih-layanan', $game) }}"
                                         class="btn btn-primary btn-joki w-100">
                                         Pilih Layanan <i class="bi bi-arrow-right-short"></i>
                                     </a>

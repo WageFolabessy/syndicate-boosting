@@ -182,7 +182,7 @@
                                                     {{ number_format($package->original_price, 0, ',', '.') }}</del>
                                             @endif
                                         </div>
-                                        <a href="{{ route('joki-game.detail', $package->id) }}"
+                                        <a href="{{ route('joki-game.detail', [$game, $package->id]) }}"
                                             class="btn btn-primary btn-detail">
                                             Detail
                                             <i class="bi bi-arrow-right-short"></i>

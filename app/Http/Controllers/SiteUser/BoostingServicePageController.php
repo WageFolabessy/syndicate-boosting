@@ -18,28 +18,27 @@ class BoostingServicePageController extends Controller
         return view('site-user.pages.joki-game.index', compact('games'));
     }
 
-    public function serviceSelection($gameId)
+    public function serviceSelection(Game $game)
     {
-        $game = Game::with('boostingServices')->findOrFail($gameId);
+        $game->load('boostingServices');
         return view('site-user.pages.joki-game.pilih-layanan', compact('game'));
     }
 
-    public function packageBoosting($gameId)
+    public function packageBoosting(Game $game)
     {
-        $game = Game::findOrFail($gameId);
-        $packages = BoostingService::where('game_id', $gameId)->get();
+        $packages = BoostingService::where('game_id', $game->id)->get();
 
         return view('site-user.pages.joki-game.joki-paket', compact('game', 'packages'));
     }
 
-    public function customBoosting($gameId)
+    public function customBoosting(Game $game)
     {
-        return $this->rankBoosting($gameId);
+        return $this->rankBoosting($game);
     }
 
-    public function rankBoosting($gameId)
+    public function rankBoosting(Game $game)
     {
-        $game = Game::with([
+        $game->load([
             'rankCategories' => function ($query) {
                 $query->orderBy('display_order', 'asc');
             },
@@ -49,7 +48,7 @@ class BoostingServicePageController extends Controller
             'rankCategories.rankTiers.tierDetails' => function ($query) {
                 $query->orderBy('display_order', 'asc');
             }
-        ])->findOrFail($gameId);
+        ]);
 
         if ($game->rankCategories->isEmpty()) {
             abort(404);
@@ -64,7 +63,7 @@ class BoostingServicePageController extends Controller
         return view('site-user.pages.joki-game.joki-kostum', compact('game', 'defaultRank', 'defaultTier', 'defaultTierDetail'));
     }
 
-    public function show(BoostingService $service)
+    public function show(Game $game, BoostingService $service)
     {
         $service->load('game');
         return view('site-user.pages.joki-game.joki-paket-detail', compact('service'));

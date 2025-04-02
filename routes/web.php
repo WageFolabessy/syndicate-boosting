@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('', [PageController::class, 'index'])->name('index');
 
 Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
-Route::get('/akun-game/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
+Route::get('/akun-game/{game:slug}/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
 
 Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
-Route::get('/joki-game/{gameId}/pilih-layanan', [BoostingServicePageController::class, 'serviceSelection'])->name('pilih-layanan');
-Route::get('/joki-game/{gameId}/joki-paket', [BoostingServicePageController::class, 'packageBoosting'])->name('joki-paket');
-Route::get('/joki-game/{gameId}/joki-kostum', [BoostingServicePageController::class, 'customBoosting'])->name('joki-kostum');
-Route::get('/joki-game/{service}/joki-paket/detail', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
+Route::get('/joki-game/{game:slug}/pilih-layanan', [BoostingServicePageController::class, 'serviceSelection'])->name('pilih-layanan');
+Route::get('/joki-game/{game:slug}/joki-paket', [BoostingServicePageController::class, 'packageBoosting'])->name('joki-paket');
+Route::get('/joki-game/{game:slug}/joki-kostum', [BoostingServicePageController::class, 'customBoosting'])->name('joki-kostum');
+Route::get('/joki-game/{game:slug}/joki-paket/{service}/detail', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
 
 Route::get('/transaksi', function () {
     return view('site-user.pages.transaksi');

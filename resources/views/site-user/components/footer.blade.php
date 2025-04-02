@@ -33,8 +33,8 @@
                 <div class="footer-links">
                     <h4>Joki Game</h4>
                     <ul>
-                        @foreach ($boostingServices as $service)
-                            <li><a href="{{ route('pilih-layanan', $service->id) }}">{{ $service->name }}</a></li>
+                        @foreach ($games as $game)
+                            <li><a href="{{ route('pilih-layanan', $game->id) }}">{{ $game->name }}</a></li>
                         @endforeach
                         <li><a href="{{ route('joki-game') }}">Semua Game</a></li>
                     </ul>

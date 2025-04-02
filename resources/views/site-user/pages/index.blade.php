@@ -250,10 +250,18 @@
                                             </span>
                                         </header>
                                         <p class="text-muted line-clamp-3 mb-4">{{ $game->description }}</p>
-                                        <a href="{{ route('pilih-layanan', $game->id) }}" class="btn btn-primary mt-auto">
+                                        <a href="{{ route('pilih-layanan', $game) }}" class="btn btn-primary mt-auto">
                                             Pilih Layanan
                                             <i class="bi bi-arrow-right-short"></i>
                                         </a>
+                                        <div class="mt-2">
+                                            @if ($game->boostingServices->count())
+                                                <span class="badge bg-info">Joki Paket</span>
+                                            @endif
+                                            @if ($game->rankCategories->count())
+                                                <span class="badge bg-success">Joki Kostum</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </article>
@@ -330,7 +338,7 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <a href="{{ route('akun-game.detail', $account->id) }}"
+                                            <a href="{{ route('akun-game.detail', [$game, $account->id]) }}"
                                                 class="btn btn-primary btn-detail mt-4">
                                                 Detail
                                                 <i class="bi bi-arrow-right-short"></i>
