@@ -50,11 +50,22 @@
                                 </label>
                             </div>
                         </div>
+                        <!-- Nama Panggilan -->
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control rounded-3" id="customer_name"
+                                    name="customer_name" required placeholder="08123456789">
+                                <label for="customer_name" class="text-muted">
+                                    <i class="bi bi-person me-2"></i>Nama Panggilan Anda <span
+                                        class="text-danger">*</span>
+                                </label>
+                            </div>
+                        </div>
                         <!-- Kontak WhatsApp -->
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="tel" class="form-control rounded-3" id="kontak" name="kontak"
-                                    pattern="^\+62\d+" required placeholder="+628123456789">
+                                <input type="text" class="form-control rounded-3" id="kontak" name="kontak"
+                                    required placeholder="08123456789">
                                 <label for="kontak" class="text-muted">
                                     <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
                                 </label>
@@ -95,7 +106,7 @@
                 <div class="w-100 d-grid gap-2">
                     <button type="button" class="btn btn-primary btn-lg order-button">
                         Konfirmasi Pembayaran Rp.
-                        
+
                         <i class="bi bi-arrow-right-short"></i>
                     </button>
                     <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">
