@@ -9,10 +9,11 @@
     <meta property="og:image" content="/images/og-image.jpg" />
 @endsection
 @section('title')
-    - Joki Game
+    - Joki Game Detail
 @endsection
 @section('css')
     <style>
+        /* Style Umum */
         .service-detail {
             padding: 6rem 0;
             background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
@@ -80,6 +81,80 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+        /* Improved Modal Styles */
+        .modal-content {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header.bg-gradient-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 2.5rem 2rem;
+            border-bottom: none;
+        }
+
+        .modal-header.bg-gradient-primary .icon-wrapper {
+            background: rgba(255, 255, 255, 0.15);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-top: none;
+        }
+
+        .modal-footer .btn-primary {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+        }
+
+        /* Floating Labels Custom */
+        .form-floating label {
+            transition: all 0.3s ease;
+            padding-left: 2.5rem;
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label {
+            transform: scale(0.85) translateY(-0.8rem) translateX(0.5rem);
+            opacity: 0.8;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            padding-left: 2.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+
         @media (max-width: 992px) {
             .service-detail {
                 padding: 4rem 0;
@@ -112,7 +187,6 @@
         }
     </style>
 @endsection
-
 @section('content')
     <!-- Header Section -->
     <section class="page-header">
@@ -169,7 +243,14 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-primary btn-lg order-button">
+                            <!-- Description -->
+                            <div class="mb-4">
+                                <h5 class="h6 fw-bold mb-3 text-uppercase text-muted">Deskripsi</h5>
+                                <p class="text-muted mb-0">{{ $service->description ?? '-' }}</p>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg order-button" data-bs-toggle="modal"
+                                data-bs-target="#orderModal">
                                 Pesan Sekarang
                                 <i class="bi bi-arrow-right-short"></i>
                             </button>
@@ -180,6 +261,9 @@
         </div>
     </section>
 
+    <!-- Bagian Modal -->
+    @include('site-user.pages.joki-game.modal-order')
+
     <!-- Bagian Cara Kerja -->
     @include('site-user.components.how-it-works')
 
@@ -187,4 +271,17 @@
     @include('site-user.components.faq')
 @endsection
 @section('script')
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+    </script>
 @endsection
