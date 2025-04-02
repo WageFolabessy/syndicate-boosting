@@ -11,12 +11,15 @@ use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\Dashboard\RankTierDetailController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
+use App\Http\Controllers\SiteUser\GameAccountPageController;
 use App\Http\Controllers\SiteUser\PageController;
 use Illuminate\Support\Facades\Route;
 
 // ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
-Route::get('/akun-game', [PageController::class, 'akunGame'])->name('akun-game');
+
+Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
+Route::get('/akun-game/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
 
 Route::get('/joki-game', [BoostingServicePageController::class, 'index'])->name('joki-game');
 Route::get('/joki-game/{gameId}/pilih-layanan', [BoostingServicePageController::class, 'serviceSelection'])->name('pilih-layanan');

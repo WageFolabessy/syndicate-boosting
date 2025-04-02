@@ -160,7 +160,6 @@
         }
     </style>
 @endsection
-
 @section('content')
     <main>
         <!-- Header Section -->
@@ -262,7 +261,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <a href="#" class="btn btn-primary btn-detail">
+                                        <a href="{{ route('akun-game.detail', $gameAccount->id) }}" class="btn btn-primary btn-detail">
                                             Detail
                                             <i class="bi bi-arrow-right-short"></i>
                                         </a>

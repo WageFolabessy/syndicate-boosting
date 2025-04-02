@@ -301,24 +301,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Server & Platform Selection -->
-                            <div class="row g-3" data-aos="fade-up" data-aos-delay="300">
-                                <div class="col-md-6">
-                                    <label class="form-label" for="server">Server</label>
-                                    <select class="form-select" id="server" name="server">
-                                        <option value="na">North America</option>
-                                        <option value="eu">Europe</option>
-                                        <option value="asia">Asia</option>
-                                        <option value="oceania">Oceania</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label" for="platform">Platform</label>
-                                    <select class="form-select" id="platform" name="platform">
-                                        <option value="pc">PC</option>
-                                    </select>
-                                </div>
-                            </div>
                         </form>
                     </div>
                     <!-- Checkout Summary -->
@@ -353,12 +335,6 @@
                                                 @endif
                                             </span>
                                         </li>
-                                        <li class="list-group-item">
-                                            <strong>Server:</strong> <span id="checkout-server">North America</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <strong>Platform:</strong> <span id="checkout-platform">PC</span>
-                                        </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>Subtotal</strong> <span id="checkout-subtotal">Rp. 0</span>
                                         </li>
@@ -370,9 +346,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- End Checkout Summary -->
-                </div><!-- End Row -->
-            </div><!-- End Container -->
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 @endsection

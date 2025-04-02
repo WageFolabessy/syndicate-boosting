@@ -136,6 +136,19 @@
             transform: translateY(-50%) translateX(5px);
         }
 
+        .price-tag .current-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0d6efd;
+        }
+
+        .price-tag .original-price {
+            font-size: 0.875rem;
+            color: #6c757d;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+
         /* Responsive Button Layout */
         @media (max-width: 576px) {
 
@@ -302,13 +315,24 @@
                                                 @endforeach
                                             @endforeach
                                         </ul>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="text-primary fw-bold">
-                                                Rp
-                                                {{ number_format($account->sale_price ?? $account->original_price, 0, ',', '.') }}
-                                            </span>
-                                            <a href="{{ route('joki-game') }}" class="btn btn-primary">
-                                                Detail <i class="bi bi-arrow-right ms-2"></i>
+                                        <div class="d-flex flex-column justify-content-between align-items-center mt-auto mb-4">
+                                            <div class="price-tag">
+                                                @if (!is_null($account->sale_price))
+                                                    <span class="current-price">
+                                                        Rp {{ number_format($account->sale_price, 0, ',', '.') }}
+                                                    </span>
+                                                    <del class="original-price">
+                                                        Rp {{ number_format($account->original_price, 0, ',', '.') }}
+                                                    </del>
+                                                @else
+                                                    <span class="current-price">
+                                                        Rp {{ number_format($account->original_price, 0, ',', '.') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <a href="{{ route('akun-game.detail', $account->id) }}" class="btn btn-primary btn-detail mt-4">
+                                                Detail
+                                                <i class="bi bi-arrow-right-short"></i>
                                             </a>
                                         </div>
                                     </div>
