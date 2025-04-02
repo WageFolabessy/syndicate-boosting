@@ -59,9 +59,9 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/games/datatables', [GameController::class, 'index']);
     Route::get('/game/add', [GameController::class, 'create'])->name('dashboard.game.create');
     Route::post('/game', [GameController::class, 'store'])->name('dashboard.game.store');
-    Route::get('/game/{game}', [GameController::class, 'show'])->name('dashboard.game.show');
-    Route::put('/game/{game}', [GameController::class, 'update'])->name('dashboard.game.update');
-    Route::delete('/game/{game}', [GameController::class, 'destroy'])->name('dashboard.game.destroy');
+    Route::get('/game/{game:id}', [GameController::class, 'show'])->name('dashboard.game.show');
+    Route::put('/game/{game:id}', [GameController::class, 'update'])->name('dashboard.game.update');
+    Route::delete('/game/{game:id}', [GameController::class, 'destroy'])->name('dashboard.game.destroy');
 
     // Rank Categories Managements
     Route::get('/rank-category', function () {

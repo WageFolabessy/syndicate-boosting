@@ -180,13 +180,13 @@
                                     <div class="icon-wrapper bg-primary bg-opacity-10 mx-auto mb-4">
                                         <i class="bi bi-gear fs-1 text-primary"></i>
                                     </div>
-                                    <h3 class="service-title">Joki Custom</h3>
+                                    <h3 class="service-title">Joki Kostum</h3>
                                     <p class="text-muted mb-0">Kustomisasi kebutuhan boosting sesuai preferensi Anda</p>
                                 </header>
 
                                 <footer class="mt-auto pt-3">
                                     <a href="{{ route('joki-kostum', $game) }}" class="btn btn-primary btn-service">
-                                        Buat Custom <i class="bi bi-arrow-right-short"></i>
+                                        Buat Kostum <i class="bi bi-arrow-right-short"></i>
                                     </a>
                                 </footer>
                             </div>

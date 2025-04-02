@@ -17,9 +17,9 @@
 
         <div class="menu-category">Game Management</div>
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game*') || request()->routeIs('dashboard.game.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.game*') || request()->routeIs('dashboard.game.create*') ? 'active' : '' }}">
                 <i class="fas fa-gamepad menu-icon"></i>
                 <span class="menu-text">Games</span>
             </a>
@@ -34,9 +34,9 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-category') || request()->routeIs('dashboard.rank-category.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-category*') || request()->routeIs('dashboard.rank-category.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.rank-category') || request()->routeIs('dashboard.rank-category.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.rank-category*') || request()->routeIs('dashboard.rank-category.create*') ? 'active' : '' }}">
                 <i class="fas fa-trophy menu-icon"></i>
                 <span class="menu-text">Rank Categories</span>
             </a>
@@ -70,7 +70,7 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-tier-detail') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.rank-tier-detai*') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">
             <a href="#"
                 class="menu-link {{ request()->routeIs('dashboard.rank-tier-detail') || request()->routeIs('dashboard.rank-tier-detail.create') ? 'active' : '' }}">
                 <i class="fas fa-layer-group menu-icon"></i>
@@ -89,9 +89,9 @@
 
         <div class="menu-category">Services</div>
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.label*') || request()->routeIs('dashboard.label.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.label') || request()->routeIs('dashboard.label.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.label*') || request()->routeIs('dashboard.label.create*') ? 'active' : '' }}">
                 <i class="fas fa-tag menu-icon"></i>
                 <span class="menu-text">Labels</span>
             </a>
@@ -106,9 +106,9 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.boosting-service') || request()->routeIs('dashboard.boosting-service.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.boosting-service*') || request()->routeIs('dashboard.boosting-service.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.boosting-service') || request()->routeIs('dashboard.boosting-service.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.boosting-service*') || request()->routeIs('dashboard.boosting-service.create*') ? 'active' : '' }}">
                 <i class="fas fa-rocket menu-icon"></i>
                 <span class="menu-text">Boosting Services</span>
             </a>
@@ -124,9 +124,9 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game-account') || request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game-account*') || request()->routeIs('dashboard.game-account.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.game-account') || request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.game-account*') || request()->routeIs('dashboard.game-account.create*') ? 'active' : '' }}">
                 <i class="fas fa-user-shield menu-icon"></i>
                 <span class="menu-text">Game Accounts</span>
             </a>
@@ -172,9 +172,9 @@
         <div class="menu-category">System</div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.faq') || request()->routeIs('dashboard.faq.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.faq*') || request()->routeIs('dashboard.faq.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.faq') || request()->routeIs('dashboard.faq.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.faq*') || request()->routeIs('dashboard.faq.create*') ? 'active' : '' }}">
                 <i class="fas fa-question menu-icon"></i>
                 <span class="menu-text">FAQ's</span>
             </a>
@@ -189,9 +189,9 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.admin') || request()->routeIs('dashboard.admin.create') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.admin*') || request()->routeIs('dashboard.admin.create*') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.admin') || request()->routeIs('dashboard.admin.create') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.admin*') || request()->routeIs('dashboard.admin.create*') ? 'active' : '' }}">
                 <i class="fas fa-users menu-icon"></i>
                 <span class="menu-text">Admins</span>
             </a>
