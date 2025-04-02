@@ -261,7 +261,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <a href="{{ route('akun-game.detail', $gameAccount->id) }}" class="btn btn-primary btn-detail">
+                                        <a href="{{ route('akun-game.detail', [$gameAccount->game->slug, $gameAccount->id]) }}" class="btn btn-primary btn-detail">
                                             Detail
                                             <i class="bi bi-arrow-right-short"></i>
                                         </a>
