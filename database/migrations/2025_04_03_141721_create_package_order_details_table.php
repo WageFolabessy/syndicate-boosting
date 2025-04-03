@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
 
+            $table->integer('price');
+
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

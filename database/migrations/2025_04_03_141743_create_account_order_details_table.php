@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('customer_name');
             $table->string('customer_contact');
 
+            $table->integer('price');
+
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

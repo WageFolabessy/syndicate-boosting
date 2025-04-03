@@ -11,6 +11,7 @@ class AccountOrderDetail extends Model
         'game_account_id',
         'customer_name',
         'customer_contact',
+        'price',
     ];
 
     public function transaction()

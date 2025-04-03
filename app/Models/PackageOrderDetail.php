@@ -16,6 +16,7 @@ class PackageOrderDetail extends Model
         'customer_contact',
         'username',
         'password',
+        'price',
     ];
 
     public function transaction()
