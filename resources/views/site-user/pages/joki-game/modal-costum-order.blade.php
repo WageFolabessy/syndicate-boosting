@@ -1,5 +1,5 @@
 <!-- Modal Order -->
-<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+<div class="modal fade" id="orderCustomModal" tabindex="-1" aria-labelledby="orderCustomModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 rounded-3 overflow-hidden">
             <!-- Modal Header -->
@@ -9,7 +9,7 @@
                         style="width: 50px; height: 50px;">
                         <i class="bi bi-controller fs-4"></i>
                     </div>
-                    <h5 class="modal-title fs-4 fw-bold mb-2" id="orderModalLabel">Pemesanan Joki Game</h5>
+                    <h5 class="modal-title fs-4 fw-bold mb-2" id="orderCustomModalLabel">Pemesanan Joki Game</h5>
                     <p class="mb-0 opacity-75">Isi data akun dengan teliti dan akurat</p>
                 </div>
                 <button type="button" class="btn-close btn-close-white position-absolute top-3 end-3"
@@ -18,7 +18,7 @@
 
             <!-- Modal Body -->
             <div class="modal-body p-4 p-lg-5">
-                <form id="orderForm" class="needs-validation" novalidate>
+                <form id="orderCustomForm" class="needs-validation" novalidate>
                     <div class="row g-4">
                         <!-- Input Server -->
                         <div class="col-md-12">

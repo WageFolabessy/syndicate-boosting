@@ -88,6 +88,57 @@
             right: 1.5rem;
         }
 
+        /* Improved Modal Styles */
+        .modal-content {
+            border: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header.bg-gradient-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            padding: 2.5rem 2rem;
+            border-bottom: none;
+        }
+
+        .modal-header.bg-gradient-primary .icon-wrapper {
+            background: rgba(255, 255, 255, 0.15);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            background: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-top: none;
+        }
+
+        .modal-footer .btn-primary {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 992px) {
             .account-detail-images {
@@ -209,8 +260,10 @@
 
                                 <!-- Action Button -->
                                 <div class="mt-4">
-                                    <button class="btn btn-primary btn-order w-100">
-                                        Pesan Sekarang Rp. {{ number_format($account->sale_price ?? $account->original_price, 0, ',', '.') }}
+                                    <button class="btn btn-primary btn-order order-button w-100" data-bs-toggle="modal"
+                                        data-bs-target="#orderAccountModal">
+                                        Pesan Sekarang Rp.
+                                        {{ number_format($account->sale_price ?? $account->original_price, 0, ',', '.') }}
                                         <i class="bi bi-arrow-right-short"></i>
                                     </button>
                                 </div>
@@ -220,5 +273,6 @@
                 </div>
             </div>
         </section>
+        @include('site-user.pages.akun-game.modal-akun-order')
     </main>
 @endsection

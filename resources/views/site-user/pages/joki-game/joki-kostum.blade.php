@@ -564,7 +564,7 @@
                                         </li>
                                     </ul>
                                     <button class="btn btn-primary btn-lg order-button w-100" data-bs-toggle="modal"
-                                        data-bs-target="#orderModal">
+                                        data-bs-target="#orderCustomModal">
                                         Pesan Sekarang
                                         <i class="bi bi-arrow-right-short"></i>
                                     </button>
