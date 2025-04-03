@@ -13,15 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            // Nomor transaksi unik dengan prefix misal: boost-xxxxxxxxxxx atau acc-xxxxxxxxxx
             $table->string('transaction_number')->unique();
-            // Relasi polymorphic ke produk (BoostingService atau GameAccount)
             $table->unsignedBigInteger('transactionable_id');
             $table->string('transactionable_type');
-            // Data pelanggan
-            $table->string('customer_name')->nullable();
-            $table->string('customer_contact')->nullable();
-            $table->enum('status', ['pending', 'success', 'failed'])->default('pending');
+            $table->enum('status', ['failed', 'canceled', 'pending', 'processed', 'success'])->default('pending');
             $table->timestamps();
         });
     }
