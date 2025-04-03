@@ -33,9 +33,9 @@
                         <!-- Metode Login -->
                         <div class="col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control rounded-3" id="login" name="login"
-                                    required placeholder="Contoh: Login via Google">
-                                <label for="login" class="text-muted">
+                                <input type="text" class="form-control rounded-3" id="login_method"
+                                    name="login_method" required placeholder="Contoh: Login via Google">
+                                <label for="login_method" class="text-muted">
                                     <i class="bi bi-key me-2"></i>Metode Login
                                 </label>
                             </div>
@@ -43,9 +43,9 @@
                         <!-- Catatan -->
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <textarea class="form-control rounded-3" name="catatan" id="catatan" rows="20"
+                                <textarea class="form-control rounded-3" name="note" id="note" rows="20"
                                     placeholder="Catatan untuk penjoki"></textarea>
-                                <label for="catatan" class="text-muted">
+                                <label for="note" class="text-muted">
                                     <i class="bi bi-pen me-2"></i>Catatan untuk Penjoki
                                 </label>
                             </div>
@@ -54,7 +54,7 @@
                         <div class="col-md-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control rounded-3" id="customer_name"
-                                    name="customer_name" required placeholder="08123456789">
+                                    name="customer_name" required placeholder="Nama panggilan Anda">
                                 <label for="customer_name" class="text-muted">
                                     <i class="bi bi-person me-2"></i>Nama Panggilan Anda <span
                                         class="text-danger">*</span>
@@ -64,9 +64,9 @@
                         <!-- Kontak WhatsApp -->
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control rounded-3" id="kontak" name="kontak"
-                                    required placeholder="08123456789">
-                                <label for="kontak" class="text-muted">
+                                <input type="number" class="form-control rounded-3" id="customer_contact"
+                                    name="customer_contact" required placeholder="+628123456789">
+                                <label for="customer_contact" class="text-muted">
                                     <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
                                 </label>
                             </div>
@@ -105,7 +105,7 @@
             <div class="modal-footer bg-light justify-content-center border-0">
                 <div class="w-100 d-grid gap-2">
                     <button type="button" class="btn btn-primary btn-lg order-button">
-                        Konfirmasi Pembayaran Rp.
+                        Bayar Rp.
 
                         <i class="bi bi-arrow-right-short"></i>
                     </button>

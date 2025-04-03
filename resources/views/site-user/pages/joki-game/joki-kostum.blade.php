@@ -299,27 +299,17 @@
             padding: 1rem 2rem;
         }
 
-        /* Floating Labels Custom */
-        .form-floating label {
-            transition: all 0.3s ease;
-            padding-left: 2.5rem;
+        /* Styling untuk placeholder dan invalid feedback */
+        input.form-control::placeholder {
+            color: #6c757d;
+            opacity: 1;
         }
 
-        .form-floating>.form-control:focus~label,
-        .form-floating>.form-control:not(:placeholder-shown)~label {
-            transform: scale(0.85) translateY(-0.8rem) translateX(0.5rem);
-            opacity: 0.8;
-        }
-
-        .form-control {
-            border: 2px solid #e9ecef;
-            padding-left: 2.5rem !important;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
         }
 
         /* Responsive Styles */

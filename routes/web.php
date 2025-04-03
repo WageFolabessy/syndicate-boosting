@@ -15,12 +15,15 @@ use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\GameAccountPageController;
 use App\Http\Controllers\SiteUser\PageController;
 use App\Http\Controllers\SiteUser\PaymentController;
+use App\Http\Controllers\SiteUser\TransactionPageController;
 use Illuminate\Support\Facades\Route;
 
 // ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
 
 Route::post('/payment/process', [AccountOrderController::class, 'processPayment']);
+Route::post('/midtrans/notification', [AccountOrderController::class, 'handleNotification']);
+
 Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
 Route::get('/akun-game/{game:slug}/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
 
@@ -30,9 +33,7 @@ Route::get('/joki-game/{game:slug}/joki-paket', [BoostingServicePageController::
 Route::get('/joki-game/{game:slug}/joki-kostum', [BoostingServicePageController::class, 'customBoosting'])->name('joki-kostum');
 Route::get('/joki-game/{game:slug}/joki-paket/{service}/detail', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
 
-Route::get('/transaksi', function () {
-    return view('site-user.pages.transaksi');
-})->name('transaksi');
+Route::get('/transaksi', [TransactionPageController::class, 'index'])->name('transaksi');
 
 // ################################################ Route Milik Admin ################################################
 Route::middleware('guest')->group(function () {
