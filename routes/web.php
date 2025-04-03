@@ -10,14 +10,17 @@ use App\Http\Controllers\Dashboard\LabelController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\Dashboard\RankTierDetailController;
+use App\Http\Controllers\SiteUser\AccountOrderController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\GameAccountPageController;
 use App\Http\Controllers\SiteUser\PageController;
+use App\Http\Controllers\SiteUser\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 // ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
 
+Route::post('/payment/process', [AccountOrderController::class, 'processPayment']);
 Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
 Route::get('/akun-game/{game:slug}/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
 

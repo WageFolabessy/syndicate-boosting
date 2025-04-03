@@ -276,3 +276,104 @@
         @include('site-user.pages.akun-game.modal-akun-order')
     </main>
 @endsection
+
+@section('script')
+    <!-- Sertakan Snap.js dari Midtrans (sandbox atau production sesuai environment) -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const gameAccountIdElem = document.getElementById('game_account_id');
+            const priceElem = document.getElementById('price');
+            const customerNameElem = document.getElementById('customer_name');
+            const kontakElem = document.getElementById('kontak');
+
+            console.log('game_account_id:', gameAccountIdElem);
+            console.log('price:', priceElem);
+            console.log('customer_name:', customerNameElem);
+            console.log('kontak:', kontakElem);
+
+            if (!gameAccountIdElem || !priceElem || !customerNameElem || !kontakElem) {
+                alert("Salah satu elemen input tidak ditemukan.");
+                return; // Keluar jika ada yang tidak ditemukan.
+            }
+
+            // Lanjutkan dengan menambahkan event listener ke tombol konfirmasi.
+            const confirmButton = document.querySelector('.confirm-payment-button');
+            if (!confirmButton) {
+                console.error("Tombol konfirmasi pembayaran tidak ditemukan.");
+                return;
+            }
+
+            confirmButton.addEventListener('click', function() {
+                let gameAccountId = gameAccountIdElem.value;
+                let price = priceElem.value;
+                let customerName = customerNameElem.value;
+                let kontak = kontakElem.value;
+
+                // Proses fetch dan seterusnya...
+                fetch('/payment/process', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            game_account_id: gameAccountId,
+                            customer_name: customerName,
+                            kontak: kontak,
+                            price: price
+                        })
+                    })
+                    .then(response => response.text())
+                    .then(text => {
+                        console.log('Response text:', text);
+                        let data;
+                        try {
+                            data = JSON.parse(text);
+                        } catch (error) {
+                            console.error("Parsing JSON gagal:", error);
+                            alert("Terjadi kesalahan dalam format respons dari server.");
+                            return;
+                        }
+
+                        if (data.snap_token) {
+                            snap.pay(data.snap_token, {
+                                onSuccess: function(result) {
+                                    console.log('Payment success:', result);
+                                    alert("Pembayaran Berhasil!");
+                                    window.location.reload();
+                                },
+                                onPending: function(result) {
+                                    console.log('Payment pending:', result);
+                                    alert(
+                                        "Pembayaran pending, silakan cek status pembayaran.");
+                                },
+                                onError: function(result) {
+                                    console.log('Payment error:', result);
+                                    alert("Terjadi kesalahan dalam pembayaran.");
+                                },
+                                onClose: function() {
+                                    console.log(
+                                        'Popup pembayaran ditutup tanpa menyelesaikan pembayaran.'
+                                        );
+                                }
+                            });
+                        } else {
+                            if (data.error) {
+                                alert("Error: " + data.error);
+                            } else {
+                                alert("Gagal mendapatkan snap token. Coba lagi.");
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Terjadi kesalahan saat menghubungkan ke server.");
+                    });
+            });
+        });
+    </script>
+@endsection
