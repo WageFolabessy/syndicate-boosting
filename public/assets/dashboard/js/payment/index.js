@@ -19,6 +19,11 @@ $(document).ready(function () {
                 className: "text-center",
             },
             {
+                data: "midtrans_status",
+                name: "midtrans_status",
+                className: "text-center",
+            },
+            {
                 data: "transaction_type",
                 name: "transaction_type",
                 className: "text-center",
@@ -26,11 +31,6 @@ $(document).ready(function () {
             {
                 data: "midtrans_transaction_id",
                 name: "midtrans_transaction_id",
-                className: "text-center",
-            },
-            {
-                data: "midtrans_status",
-                name: "midtrans_status",
                 className: "text-center",
             },
             {
@@ -51,6 +51,22 @@ $(document).ready(function () {
                 className: "text-center",
             },
         ],
+        createdRow: function (row, data, dataIndex) {
+            console.log(data);
+            if (
+                data.midtrans_status === "Failed" ||
+                data.midtrans_status === "Pending" ||
+                data.midtrans_status === "Expired"
+            ) {
+                $(row).addClass("status-failed");
+            }
+            if (
+                data.midtrans_status === "Settlement" ||
+                data.midtrans_status === "success"
+            ) {
+                $(row).addClass("status-success");
+            }
+        },
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
