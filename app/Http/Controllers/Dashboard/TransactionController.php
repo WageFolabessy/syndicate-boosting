@@ -48,6 +48,9 @@ class TransactionController extends Controller
             ->addColumn('action', function ($transaction) {
                 return '';
             })
+            ->addColumn('payment_status', function ($transaction) {
+                return $transaction->payment->midtrans_status ?? 'pending or failed';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -93,6 +96,9 @@ class TransactionController extends Controller
             })
             ->addColumn('action', function ($transaction) {
                 return '';
+            })
+            ->addColumn('payment_status', function ($transaction) {
+                return $transaction->payment->midtrans_status ?? 'pending or failed';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -149,10 +155,12 @@ class TransactionController extends Controller
             ->addColumn('action', function ($transaction) {
                 return '';
             })
+            ->addColumn('payment_status', function ($detail) {
+                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
+            })
             ->rawColumns(['action'])
             ->make(true);
     }
-
     public function getAllGameAccountTransaction()
     {
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
@@ -192,6 +200,9 @@ class TransactionController extends Controller
             })
             ->addColumn('action', function ($transaction) {
                 return '';
+            })
+            ->addColumn('payment_status', function ($detail) {
+                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
             })
             ->rawColumns(['action'])
             ->make(true);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\SiteUser;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountOrderDetail;
+use App\Models\CustomOrderDetail;
+use App\Models\PackageOrderDetail;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -16,8 +18,20 @@ class TransactionPageController extends Controller
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $transactions = Transaction::where('transaction_number', $search)
-                ->where('transactionable_type', AccountOrderDetail::class)
-                ->with(['transactionable.gameAccount'])
+                ->whereIn('transactionable_type', [
+                    AccountOrderDetail::class,
+                    PackageOrderDetail::class,
+                    CustomOrderDetail::class,
+                ])
+                ->with([
+                    'transactionable' => function ($morphTo) {
+                        $morphTo->morphWith([
+                            AccountOrderDetail::class => ['gameAccount'],
+                            PackageOrderDetail::class => ['boostingService'],
+                            CustomOrderDetail::class => []
+                        ]);
+                    }
+                ])
                 ->get();
         }
 

@@ -4,6 +4,22 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/dashboard/plugins/datatables/datatables.min.css') }}">
+    <style>
+        .status-failed {
+            background-color: #f8d7da;
+            /* background merah muda */
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            /* background kuning muda */
+        }
+
+        .status-success {
+            background-color: #d6efe3;
+            /* background kuning muda */
+        }
+    </style>
 @endsection
 @section('content')
     <!-- Main Content -->
@@ -34,6 +50,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Transaction Number</th>
+                                <th class="text-center">Payment Status</th>
                                 <th class="text-center">Order Type</th>
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Customer Contact</th>

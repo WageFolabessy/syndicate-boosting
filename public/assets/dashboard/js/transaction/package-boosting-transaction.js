@@ -19,6 +19,11 @@ $(document).ready(function () {
                 className: "text-center",
             },
             {
+                data: "payment_status",
+                name: "payment_status",
+                className: "text-center",
+            },
+            {
                 data: "game",
                 name: "game",
                 className: "text-center",
@@ -41,7 +46,15 @@ $(document).ready(function () {
             { data: "server", name: "server", className: "text-center" },
             { data: "login", name: "login", className: "text-center" },
             { data: "username", name: "username", className: "text-center" },
-            { data: "password", name: "password", className: "text-center" },
+            {
+                data: "password",
+                name: "password",
+                className: "text-center",
+                render: function (data, type, row, meta) {
+                    return `<span class="password-text" data-password="${data}">******</span> 
+                            <button type="button" class="btn btn-sm btn-outline-primary toggle-password">Show</button>`;
+                },
+            },
             { data: "price", name: "price", className: "text-center" },
             {
                 data: "created_at",
@@ -61,6 +74,22 @@ $(document).ready(function () {
                 className: "text-center",
             },
         ],
+        createdRow: function (row, data, dataIndex) {
+            console.log(data);
+            if (
+                data.payment_status === "failed" ||
+                data.payment_status === "pending" ||
+                data.payment_status === "pending or failed"
+            ) {
+                $(row).addClass("status-failed");
+            }
+            if (
+                data.payment_status === "settlement" ||
+                data.payment_status === "success"
+            ) {
+                $(row).addClass("status-success");
+            }
+        },
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -72,4 +101,24 @@ $(document).ready(function () {
             },
         },
     });
+    // Event delegation untuk tombol toggle password
+    $("#packageBoostingTransactionTable tbody").on(
+        "click",
+        "button.toggle-password",
+        function () {
+            var $btn = $(this);
+            var $span = $btn.siblings(".password-text");
+            // Jika tombol bertuliskan "Show", maka tampilkan password asli dan ubah teksnya menjadi "Hide"
+            if ($btn.text() === "Show") {
+                $span.text($span.attr("data-password"));
+                $btn.text("Hide");
+            }
+            // Jika sudah dalam keadaan terlihat, kembali set ke tanda bintang dan tombol "Show"
+            else {
+                $span.text("******");
+                $btn.text("Show");
+            }
+        }
+    );
 });
+

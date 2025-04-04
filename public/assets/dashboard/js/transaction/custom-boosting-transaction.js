@@ -19,6 +19,11 @@ $(document).ready(function () {
                 className: "text-center",
             },
             {
+                data: "payment_status",
+                name: "payment_status",
+                className: "text-center",
+            },
+            {
                 data: "customer_name",
                 name: "customer_name",
                 className: "text-center",
@@ -50,6 +55,22 @@ $(document).ready(function () {
                 className: "text-center",
             },
         ],
+        createdRow: function (row, data, dataIndex) {
+            console.log(data);
+            if (
+                data.payment_status === "failed" ||
+                data.payment_status === "pending" ||
+                data.payment_status === "pending or failed"
+            ) {
+                $(row).addClass("status-failed");
+            }
+            if (
+                data.payment_status === "settlement" ||
+                data.payment_status === "success"
+            ) {
+                $(row).addClass("status-success");
+            }
+        },
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
