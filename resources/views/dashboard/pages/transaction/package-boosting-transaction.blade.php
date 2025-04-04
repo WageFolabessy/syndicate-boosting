@@ -34,11 +34,12 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Transaction Number</th>
+                                <th class="text-center">Game</th>
                                 <th class="text-center">Boosting Service</th>
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Customer Contact</th>
                                 <th class="text-center">Server</th>
-                                <th class="text-center">Login</th>
+                                <th class="text-center">Login Method</th>
                                 <th class="text-center">Username</th>
                                 <th class="text-center">Password</th>
                                 <th class="text-center">Price</th>

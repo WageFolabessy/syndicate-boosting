@@ -15,12 +15,17 @@ $(document).ready(function () {
             },
             {
                 data: "transaction_number",
-                name: "transaction.transaction_number",
+                name: "transaction_number",
+                className: "text-center",
+            },
+            {
+                data: "game",
+                name: "game",
                 className: "text-center",
             },
             {
                 data: "boosting_service",
-                name: "boostingService.name",
+                name: "boosting_service",
                 className: "text-center",
             },
             {

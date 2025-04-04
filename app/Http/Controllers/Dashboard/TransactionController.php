@@ -109,9 +109,11 @@ class TransactionController extends Controller
             ->addColumn('transaction_number', function ($detail) {
                 return $detail->transaction->transaction_number ?? '-';
             })
+            ->addColumn('game', function ($detail) {
+                return $detail->boostingService->game->name ?? 'N/A';
+            })
             ->addColumn('boosting_service', function ($detail) {
-                // Misal property 'name' ada pada model BoostingService
-                return $detail->boostingService->name ?? 'N/A';
+                return $detail->boostingService->title ?? 'N/A';
             })
             ->editColumn('customer_name', function ($detail) {
                 return $detail->customer_name ?? '-';

@@ -262,6 +262,86 @@
     @include('site-user.components.faq')
 @endsection
 @section('script')
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const orderButton = document.querySelector('.confirm-payment-button');
+            const form = document.getElementById('orderForm');
+
+            if (!orderButton || !form) return;
+
+            orderButton.addEventListener('click', function() {
+                document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+                document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                console.log(data);
+                
+
+                fetch('/package-order/process', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(async response => {
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                const errorData = await response.json();
+                                if (errorData.errors) {
+                                    for (const field in errorData.errors) {
+                                        const input = document.getElementById(field);
+                                        if (input) {
+                                            input.classList.add('is-invalid');
+                                            let errorElem = input.nextElementSibling;
+                                            if (!errorElem || !errorElem.classList.contains(
+                                                    'invalid-feedback')) {
+                                                errorElem = document.createElement('div');
+                                                errorElem.classList.add('invalid-feedback');
+                                                input.parentNode.appendChild(errorElem);
+                                            }
+                                            errorElem.textContent = errorData.errors[field][0];
+                                        }
+                                    }
+                                }
+                                throw new Error("Validasi gagal.");
+                            } else {
+                                throw new Error("Terjadi kesalahan saat menghubungi server.");
+                            }
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.snap_token) {
+                            snap.pay(data.snap_token, {
+                                onSuccess: function(result) {
+                                    alert("Pembayaran Berhasil!");
+                                    window.location.reload();
+                                },
+                                onPending: function(result) {
+                                    alert(
+                                        "Pembayaran sedang pending, silakan cek status pembayaran."
+                                        );
+                                },
+                                onError: function(result) {
+                                    alert("Terjadi kesalahan dalam proses pembayaran.");
+                                }
+                            });
+                        } else {
+                            alert("Gagal mendapatkan snap token. Silakan coba lagi.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
     <script>
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');

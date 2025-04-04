@@ -312,7 +312,7 @@
                 const customerName = customerNameElem.value;
                 const customerContact = customerContactElem.value;
 
-                fetch('/payment/process', {
+                fetch('/account-order/process', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

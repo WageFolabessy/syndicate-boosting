@@ -15,6 +15,7 @@ use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\SiteUser\AccountOrderController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\GameAccountPageController;
+use App\Http\Controllers\SiteUser\PackageOrderController;
 use App\Http\Controllers\SiteUser\PageController;
 use App\Http\Controllers\SiteUser\TransactionPageController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,8 @@ use Illuminate\Support\Facades\Route;
 // ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
 
-Route::post('/payment/process', [AccountOrderController::class, 'processPayment']);
+Route::post('/account-order/process', [AccountOrderController::class, 'processPayment']);
+Route::post('/package-order/process', [PackageOrderController::class, 'processPayment']);
 Route::post('/midtrans/notification', [AccountOrderController::class, 'handleNotification']);
 
 Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
