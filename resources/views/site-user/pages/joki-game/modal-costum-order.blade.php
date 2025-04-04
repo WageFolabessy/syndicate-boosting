@@ -104,8 +104,38 @@
             <!-- Modal Footer -->
             <div class="modal-footer bg-light justify-content-center border-0">
                 <div class="w-100 d-grid gap-2">
+                    {{-- <button type="button" class="btn btn-primary btn-lg order-button">
+                        <p id="currentPosition">Rank anda saat ini: </p>
+                        <p id="desiredPosition">Rank yang anda inginkan: </p>
+                    </button> --}}
+                    <!-- Posisi Rank -->
+                    <div class="col-12">
+                        <div class="row g-2">
+                            <!-- Posisi Saat Ini -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control rounded-3" id="currentPosition"
+                                        name="currentPosition" readonly>
+                                    <label for="currentPosition" class="text-muted">
+                                        <i class="bi bi-trophy me-2"></i>Posisi Rank Saat Ini
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Posisi Yang Diinginkan -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control rounded-3" id="desiredPosition"
+                                        name="desiredPosition" readonly>
+                                    <label for="desiredPosition" class="text-muted">
+                                        <i class="bi bi-graph-up me-2"></i>Posisi Rank yang Diinginkan
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="button" class="btn btn-primary btn-lg order-button">
-                        Bayar Rp.
+                        Bayar <span id="price-confirm"></span>
 
                         <i class="bi bi-arrow-right-short"></i>
                     </button>

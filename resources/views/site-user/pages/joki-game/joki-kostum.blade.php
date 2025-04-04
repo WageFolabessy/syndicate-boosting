@@ -547,14 +547,11 @@
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <strong>Subtotal</strong> <span id="checkout-subtotal">Rp. 0</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>Total</strong> <span id="checkout-total">Rp. 0</span>
                                         </li>
                                     </ul>
                                     <button class="btn btn-primary btn-lg order-button w-100" data-bs-toggle="modal"
-                                        data-bs-target="#orderCustomModal">
+                                        data-bs-target="#orderCustomModal" onclick="updateRankPositions()">
                                         Pesan Sekarang
                                         <i class="bi bi-arrow-right-short"></i>
                                     </button>
@@ -907,7 +904,6 @@
         const updatePriceDifference = () => {
             let diff = desiredSelectedPrice - currentSelectedPrice;
             if (diff < 0) diff = 0;
-            document.getElementById('checkout-subtotal').innerText = 'Rp. ' + diff;
             document.getElementById('checkout-total').innerText = 'Rp. ' + diff;
         };
 
@@ -944,5 +940,33 @@
                 icon.classList.replace('bi-eye-slash', 'bi-eye');
             }
         }
+    </script>
+
+    <script>
+        function updateRankPositions() {
+            const currentRank = document.getElementById("checkout-current-rank-name").innerText;
+            const currentTier = document.getElementById("checkout-current-tier").innerText;
+            const currentStar = document.getElementById("checkout-current-stars").innerText;
+            const desiredRank = document.getElementById("checkout-desired-rank-name").innerText;
+            const desiredTier = document.getElementById("checkout-desired-tier").innerText;
+            const desiredStar = document.getElementById("checkout-desired-stars").innerText;
+            
+            const checkoutTotal = document.getElementById("checkout-total").innerText;
+
+
+            document.getElementById("currentPosition").value = `${currentRank} - ${currentTier} - ${currentStar}`;
+            document.getElementById("desiredPosition").value = `${desiredRank} - ${desiredTier} - ${desiredStar}`;
+            document.getElementById("price-confirm").innerText = checkoutTotal;
+        }
+
+        document.getElementById("checkout-current-rank-name").addEventListener("change", updateRankPositions);
+        document.getElementById("checkout-current-tier").addEventListener("change", updateRankPositions);
+        document.getElementById("checkout-current-stars").addEventListener("change", updateRankPositions);
+        document.getElementById("checkout-desired-rank-name").addEventListener("change", updateRankPositions);
+        document.getElementById("checkout-desired-tier").addEventListener("change", updateRankPositions);
+        document.getElementById("checkout-desired-stars").addEventListener("change", updateRankPositions);
+
+        // Jalankan pertama kali saat modal dibuka
+        document.addEventListener("DOMContentLoaded", updateRankPositions);
     </script>
 @endsection
