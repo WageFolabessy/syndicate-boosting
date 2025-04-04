@@ -17,9 +17,9 @@
 
         <div class="menu-category">Game Management</div>
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game*') || request()->routeIs('dashboard.game.create*') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.game*') || request()->routeIs('dashboard.game.create*') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.game') || request()->routeIs('dashboard.game.create') ? 'active' : '' }}">
                 <i class="fas fa-gamepad menu-icon"></i>
                 <span class="menu-text">Games</span>
             </a>
@@ -124,9 +124,9 @@
         </div>
 
         <div
-            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game-account*') || request()->routeIs('dashboard.game-account.create*') ? 'active' : '' }}">
+            class="menu-item has-dropdown {{ request()->routeIs('dashboard.game-account') || request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">
             <a href="#"
-                class="menu-link {{ request()->routeIs('dashboard.game-account*') || request()->routeIs('dashboard.game-account.create*') ? 'active' : '' }}">
+                class="menu-link {{ request()->routeIs('dashboard.game-account') || request()->routeIs('dashboard.game-account.create') ? 'active' : '' }}">
                 <i class="fas fa-user-shield menu-icon"></i>
                 <span class="menu-text">Game Accounts</span>
             </a>
@@ -142,21 +142,43 @@
         </div>
 
         <div class="menu-category">Sales</div>
-        <div class="menu-item has-dropdown">
-            <a href="#" class="menu-link">
+        <div
+            class="menu-item has-dropdown 
+            {{ ((request()->routeIs('dashboard.all-transactions') || request()->routeIs('dashboard.custom-boosting-transaction')
+                        ? 'active'
+                        : '' || request()->routeIs('dashboard.package-boosting-transaction'))
+                    ? 'active'
+                    : '' || request()->routeIs('dashboard.game-account-transaction'))
+                ? 'active'
+                : '' }}">
+            <a href="#"
+                class="menu-link 
+                {{ ((request()->routeIs('dashboard.all-transactions') || request()->routeIs('dashboard.custom-boosting-transaction')
+                            ? 'active'
+                            : '' || request()->routeIs('dashboard.package-boosting-transaction'))
+                        ? 'active'
+                        : '' || request()->routeIs('dashboard.game-account-transaction'))
+                    ? 'active'
+                    : '' }}">
                 <i class="fas fa-shopping-cart menu-icon"></i>
                 <span class="menu-text">Transactions</span>
             </a>
-            <div class="submenu">
-                <a href="#" class="submenu-link">All Transactions</a>
-                <a href="#" class="submenu-link">Pending</a>
-                <a href="#" class="submenu-link">Successful</a>
-                <a href="#" class="submenu-link">Failed</a>
+            <div class="submenu {{ ((request()->routeIs('dashboard.all-transactions') || request()->routeIs('dashboard.custom-boosting-transaction')
+                            ? 'open'
+                            : '' || request()->routeIs('dashboard.package-boosting-transaction'))
+                        ? 'open'
+                        : '' || request()->routeIs('dashboard.game-account-transaction'))
+                    ? 'open'
+                    : '' }}">
+                <a href="{{ route('dashboard.all-transactions') }}" class="submenu-link {{ request()->routeIs('dashboard.all-transactions') ? 'active' : '' }}">All Transactions</a>
+                <a href="{{ route('dashboard.custom-boosting-transaction') }}" class="submenu-link {{ request()->routeIs('dashboard.custom-boosting-transaction') ? 'active' : '' }}">Custom Boosting</a>
+                <a href="{{ route('dashboard.package-boosting-transaction') }}" class="submenu-link {{ request()->routeIs('dashboard.package-boosting-transaction') ? 'active' : '' }}">Package Boosting</a>
+                <a href="{{ route('dashboard.game-account-transaction') }}" class="submenu-link {{ request()->routeIs('dashboard.game-account-transaction') ? 'active' : '' }}">Game Account</a>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{ route('dashboard.payment') }}" class="menu-link {{ request()->routeIs('dashboard.payment*') ? 'active' : '' }}">
                 <i class="fas fa-credit-card menu-icon"></i>
                 <span class="menu-text">Payments</span>
             </a>

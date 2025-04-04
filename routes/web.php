@@ -7,14 +7,15 @@ use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\GameAccountController;
 use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\LabelController;
+use App\Http\Controllers\Dashboard\PaymentController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\Dashboard\RankTierDetailController;
+use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\SiteUser\AccountOrderController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
 use App\Http\Controllers\SiteUser\GameAccountPageController;
 use App\Http\Controllers\SiteUser\PageController;
-use App\Http\Controllers\SiteUser\PaymentController;
 use App\Http\Controllers\SiteUser\TransactionPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -90,7 +91,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/rank-tier/{rankTier}', [RankTierController::class, 'show'])->name('dashboard.rank-tier.show');
     Route::put('/rank-tier/{rankTier}', [RankTierController::class, 'update'])->name('dashboard.rank-tier.update');
     Route::delete('/rank-tier/{rankTier}', [RankTierController::class, 'destroy'])->name('dashboard.rank-tier.destroy');
-    
+
     // Rank Tier Details Managements
     Route::get('/rank-tier-detail', function () {
         return view('dashboard.pages.rank-tier-detail.index');
@@ -138,6 +139,36 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/game-account/{gameAccount}', [GameAccountController::class, 'show'])->name('dashboard.game-account.show');
     Route::put('/game-account/{gameAccount}', [GameAccountController::class, 'update'])->name('dashboard.game-account.update');
     Route::delete('/game-account/{gameAccount}', [GameAccountController::class, 'destroy'])->name('dashboard.game-account.destroy');
+
+    // All Transactions Managements
+    Route::get('/transactions/all', function () {
+        return view('dashboard.pages.transaction.all-transaction');
+    })->name('dashboard.all-transactions');
+    Route::get('/transactions/all/datatables', [TransactionController::class, 'getAllTransactions']);
+
+    // Custom Boosting Transactions Managements
+    Route::get('/transactions/custom-boosting', function () {
+        return view('dashboard.pages.transaction.custom-boosting-transaction');
+    })->name('dashboard.custom-boosting-transaction');
+    Route::get('/transactions/custom-boosting/datatables', [TransactionController::class, 'getAllcustomBoostingTransaction']);
+
+    // Package Boosting Transactions Managements
+    Route::get('/transactions/package-boosting', function () {
+        return view('dashboard.pages.transaction.package-boosting-transaction');
+    })->name('dashboard.package-boosting-transaction');
+    Route::get('/transactions/package-boosting/datatables', [TransactionController::class, 'getAllpackageBoostingTransaction']);
+
+    // Account Game Transactions Managements
+    Route::get('/transactions/game-account', function () {
+        return view('dashboard.pages.transaction.game-account-transaction');
+    })->name('dashboard.game-account-transaction');
+    Route::get('/transactions/game-account/datatables', [TransactionController::class, 'getAllgameAccountTransaction']);
+
+    // Payments Managements
+    Route::get('/payment', function () {
+        return view('dashboard.pages.payment.index');
+    })->name('dashboard.payment');
+    Route::get('/payments/datatables', [PaymentController::class, 'getAllPayments']);
 
     // FAQ'S Managements
     Route::get('/faq', function () {
