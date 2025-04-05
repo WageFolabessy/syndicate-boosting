@@ -92,3 +92,21 @@ $("#customBoostingTransactionTable").DataTable({
         },
     },
 });
+$("#customBoostingTransactionTable tbody").on(
+    "click",
+    "button.toggle-password",
+    function () {
+        var $btn = $(this);
+        var $span = $btn.siblings(".password-text");
+        // Jika tombol bertuliskan "Show", maka tampilkan password asli dan ubah teksnya menjadi "Hide"
+        if ($btn.text() === "Show") {
+            $span.text($span.attr("data-password"));
+            $btn.text("Hide");
+        }
+        // Jika sudah dalam keadaan terlihat, kembali set ke tanda bintang dan tombol "Show"
+        else {
+            $span.text("******");
+            $btn.text("Show");
+        }
+    }
+);
