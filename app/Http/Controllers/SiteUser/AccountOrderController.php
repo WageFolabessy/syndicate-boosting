@@ -68,7 +68,7 @@ class AccountOrderController extends Controller
             [
                 'transaction_id'  => $transaction->id,
                 'midtrans_status' => $transactionStatus,
-                'payload'         => json_encode($notification)
+                'payload'         => json_encode($request->all())
             ]
         );
 

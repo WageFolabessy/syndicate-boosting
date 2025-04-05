@@ -8,9 +8,12 @@ class CustomOrderDetail extends Model
 {
     protected $fillable = [
         'transaction_id',
-        'game_rank_category_id',
-        'game_rank_tier_id',
-        'game_rank_tier_detail_id',
+        'current_game_rank_category_id',
+        'current_game_rank_tier_id',
+        'current_game_rank_tier_detail_id',
+        'desired_game_rank_category_id',
+        'desired_game_rank_tier_id',
+        'desired_game_rank_tier_detail_id',
         'server',
         'login',
         'note',
@@ -39,5 +42,36 @@ class CustomOrderDetail extends Model
     public function gameRankTierDetail()
     {
         return $this->belongsTo(GameRankTierDetail::class, 'game_rank_tier_detail_id');
+    }
+
+    // Di CustomOrderDetail.php
+    public function currentGameRankCategory()
+    {
+        return $this->belongsTo(GameRankCategory::class, 'current_game_rank_category_id');
+    }
+
+    public function currentGameRankTier()
+    {
+        return $this->belongsTo(GameRankTier::class, 'current_game_rank_tier_id');
+    }
+
+    public function currentGameRankTierDetail()
+    {
+        return $this->belongsTo(GameRankTierDetail::class, 'current_game_rank_tier_detail_id');
+    }
+
+    public function desiredGameRankCategory()
+    {
+        return $this->belongsTo(GameRankCategory::class, 'desired_game_rank_category_id');
+    }
+
+    public function desiredGameRankTier()
+    {
+        return $this->belongsTo(GameRankTier::class, 'desired_game_rank_tier_id');
+    }
+
+    public function desiredGameRankTierDetail()
+    {
+        return $this->belongsTo(GameRankTierDetail::class, 'desired_game_rank_tier_detail_id');
     }
 }

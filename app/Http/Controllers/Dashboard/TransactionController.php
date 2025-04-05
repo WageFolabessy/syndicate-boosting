@@ -24,7 +24,18 @@ class TransactionController extends Controller
                 return $transaction->transaction_number;
             })
             ->editColumn('order_type', function ($transaction) {
-                return class_basename($transaction->transactionable);
+                if(class_basename($transaction->transactionable) == "CustomOrderDetail")
+                {
+                    return "CustomOrder";
+                }
+                if(class_basename($transaction->transactionable) == "PackageOrderDetail")
+                {
+                    return "PackageOrder";
+                }
+                if(class_basename($transaction->transactionable) == "AccountOrderDetail")
+                {
+                    return "AccountOrder";
+                }
             })
             ->editColumn('customer_name', function ($transaction) {
                 return $transaction->transactionable->customer_name ?? 'N/A';
@@ -57,48 +68,72 @@ class TransactionController extends Controller
 
     public function getAllCustomBoostingTransaction()
     {
-        $transactions = CustomOrderDetail::with('transaction')
+        $transactions = CustomOrderDetail::with([
+            'transaction',
+            'currentGameRankCategory',
+            'currentGameRankTier',
+            'currentGameRankTierDetail',
+            'desiredGameRankCategory',
+            'desiredGameRankTier',
+            'desiredGameRankTierDetail'
+        ])
             ->orderBy('updated_at', 'desc')
             ->get();
 
         return DataTables::of($transactions)
             ->addIndexColumn()
-            ->addColumn('transaction_number', function ($transaction) {
-                return $transaction->transaction->transaction_number ?? 'N/A';
+            ->addColumn('transaction_number', function ($detail) {
+                return $detail->transaction->transaction_number ?? 'N/A';
             })
-            ->editColumn('customer_name', function ($transaction) {
-                return $transaction->customer_name ?? 'N/A';
+            ->addColumn('payment_status', function ($detail) {
+                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
             })
-            ->editColumn('customer_contact', function ($transaction) {
-                return $transaction->customer_contact ?? 'N/A';
+            ->addColumn('game', function ($detail) {
+                // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
+                return $detail->currentGameRankCategory->game->name ?? 'N/A';
             })
-            ->editColumn('server', function ($transaction) {
-                return $transaction->server ?? 'N/A';
+            ->addColumn('current_rank', function ($detail) {
+                $category = $detail->currentGameRankCategory->name ?? '-';
+                $tier     = $detail->currentGameRankTier->tier ?? '-';
+                $star     = $detail->currentGameRankTierDetail->star_number ?? '-';
+                return "{$category} - {$tier} ({$star})";
             })
-            ->editColumn('login', function ($transaction) {
-                return $transaction->login ?? 'N/A';
+            ->addColumn('desired_rank', function ($detail) {
+                $category = $detail->desiredGameRankCategory->name ?? '-';
+                $tier     = $detail->desiredGameRankTier->tier ?? '-';
+                $star     = $detail->desiredGameRankTierDetail->star_number ?? '-';
+                return "{$category} - {$tier} ({$star})";
             })
-            ->editColumn('password', function ($transaction) {
-                return $transaction->password ?? 'N/A';
+            ->editColumn('customer_name', function ($detail) {
+                return $detail->customer_name ?? 'N/A';
             })
-            ->editColumn('price', function ($transaction) {
-                return number_format($transaction->price ?? 0, 0, ',', '.');
+            ->editColumn('customer_contact', function ($detail) {
+                return $detail->customer_contact ?? 'N/A';
             })
-            ->editColumn('created_at', function ($transaction) {
-                return $transaction->created_at
-                    ? $transaction->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
+            ->editColumn('server', function ($detail) {
+                return $detail->server ?? 'N/A';
+            })
+            ->editColumn('login', function ($detail) {
+                return $detail->login ?? 'N/A';
+            })
+            ->editColumn('password', function ($detail) {
+                return $detail->password ?? 'N/A';
+            })
+            ->editColumn('price', function ($detail) {
+                return number_format($detail->price ?? 0, 0, ',', '.');
+            })
+            ->editColumn('created_at', function ($detail) {
+                return $detail->created_at
+                    ? $detail->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
             })
-            ->editColumn('updated_at', function ($transaction) {
-                return $transaction->updated_at
-                    ? $transaction->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
+            ->editColumn('updated_at', function ($detail) {
+                return $detail->updated_at
+                    ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
             })
-            ->addColumn('action', function ($transaction) {
-                return '';
-            })
-            ->addColumn('payment_status', function ($transaction) {
-                return $transaction->payment->midtrans_status ?? 'pending or failed';
+            ->addColumn('action', function ($detail) {
+                return ''; // Sesuaikan dengan aksi yang diinginkan (misalnya edit/hapus)
             })
             ->rawColumns(['action'])
             ->make(true);

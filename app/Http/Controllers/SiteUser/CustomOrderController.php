@@ -19,11 +19,11 @@ class CustomOrderController extends Controller
 {
     private function initMidtrans()
     {
-        Config::$serverKey       = config('midtrans.server_key');
-        Config::$isProduction    = config('midtrans.is_production');
-        Config::$isSanitized     = config('midtrans.is_sanitized');
-        Config::$is3ds           = config('midtrans.is_3ds');
-        Config::$appendNotifUrl  = env('NGROK_HTTP_8000');
+        Config::$serverKey      = config('midtrans.server_key');
+        Config::$isProduction   = config('midtrans.is_production');
+        Config::$isSanitized    = config('midtrans.is_sanitized');
+        Config::$is3ds          = config('midtrans.is_3ds');
+        Config::$appendNotifUrl = env('NGROK_HTTP_8000');
     }
 
     public function handleNotification(Request $request)
@@ -63,15 +63,15 @@ class CustomOrderController extends Controller
         }
         $transaction->save();
 
+        Log::info('Midtrans Notification Payload:', $request->all());
         Payment::updateOrCreate(
             ['midtrans_transaction_id' => $notification->transaction_id],
             [
                 'transaction_id'  => $transaction->id,
                 'midtrans_status' => $transactionStatus,
-                'payload'         => json_encode($notification)
+                'payload'         => json_encode($request->all())
             ]
         );
-
         Log::info('Midtrans notification processed for transaction: ' . $transaction->transaction_number);
         return response()->json(['message' => 'Notification processed'], 200);
     }
@@ -81,25 +81,31 @@ class CustomOrderController extends Controller
         $this->initMidtrans();
         $data = $request->validated();
 
-        $currentTier = GameRankTierDetail::find($data['current_game_rank_tier_detail_id']);
-        $desiredTier = GameRankTierDetail::find($data['desired_game_rank_tier_detail_id']);
+        $currentTier = GameRankTierDetail::with('tier')->find($data['current_game_rank_tier_detail_id']);
+        $desiredTier = GameRankTierDetail::with('tier')->find($data['desired_game_rank_tier_detail_id']);
 
         if (!$currentTier || !$desiredTier) {
             return response()->json(['error' => 'Detail tier tidak valid atau tidak ditemukan.'], 422);
         }
 
-        // Pastikan rank tujuan lebih tinggi dari rank saat ini
+        // Opsional: validasi konsistensi data antara kategori/tier yang dipilih dengan relasi tier_detail
+        if (
+            $currentTier->tier->game_rank_category_id != $data['current_game_rank_category_id'] ||
+            $desiredTier->tier->game_rank_category_id != $data['desired_game_rank_category_id'] ||
+            $currentTier->tier->id != $data['current_game_rank_tier_id'] ||
+            $desiredTier->tier->id != $data['desired_game_rank_tier_id']
+        ) {
+            return response()->json(['error' => 'Data kategori atau tier tidak konsisten dengan detail tier yang dipilih.'], 422);
+        }
+
         if ($currentTier->id >= $desiredTier->id) {
             return response()->json(['error' => 'Rank tujuan harus lebih tinggi dari rank saat ini.'], 422);
         }
 
-        // Hitung selisih tier
-        $tiers = GameRankTierDetail::whereBetween('id', [$currentTier->id, $desiredTier->id])->get();
-        $price = $tiers->sum('price');
+        $price = $desiredTier->price - $currentTier->price;
 
         DB::beginTransaction();
         try {
-            // Buat transaksi dengan status pending.
             $transaction = Transaction::create([
                 'transaction_number'   => 'CustomBoost-' . strtoupper(uniqid()),
                 'transactionable_id'   => 0, // nantinya akan diupdate dengan ID order detail
@@ -107,27 +113,27 @@ class CustomOrderController extends Controller
                 'status'               => 'pending',
             ]);
 
-            // Simpan data order custom boosting.
             $order = CustomOrderDetail::create([
-                'transaction_id'           => $transaction->id,
-                'game_rank_category_id'    => $data['game_rank_category_id'],
-                'game_rank_tier_id'        => $data['game_rank_tier_id'],
-                'game_rank_tier_detail_id' => $data['game_rank_tier_detail_id'],
-                'server'                   => $data['server'] ?? null,
-                'login'                    => $data['login'] ?? null,
-                'note'                     => $data['note'] ?? null,
-                'customer_name'            => $data['customer_name'],
-                'customer_contact'         => $data['customer_contact'],
-                'username'                 => $data['username'],
-                'password'                 => $data['password'],
-                'price'                    => $price,
+                'transaction_id'                   => $transaction->id,
+                'current_game_rank_category_id'    => $data['current_game_rank_category_id'],
+                'current_game_rank_tier_id'          => $data['current_game_rank_tier_id'],
+                'current_game_rank_tier_detail_id'   => $data['current_game_rank_tier_detail_id'],
+                'desired_game_rank_category_id'      => $data['desired_game_rank_category_id'],
+                'desired_game_rank_tier_id'            => $data['desired_game_rank_tier_id'],
+                'desired_game_rank_tier_detail_id'     => $data['desired_game_rank_tier_detail_id'],
+                'server'                           => $data['server'] ?? null,
+                'login'                            => $data['login'] ?? null,
+                'note'                             => $data['note'] ?? null,
+                'customer_name'                    => $data['customer_name'],
+                'customer_contact'                 => $data['customer_contact'],
+                'username'                         => $data['username'],
+                'password'                         => $data['password'],
+                'price'                            => $price,
             ]);
 
-            // Update transaksi dengan mengisi transactionable_id dengan ID order yang baru dibuat.
             $transaction->update([
                 'transactionable_id' => $order->id,
             ]);
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -135,13 +141,12 @@ class CustomOrderController extends Controller
             return response()->json(['error' => 'Error creating order: ' . $e->getMessage()], 500);
         }
 
-        // Siapkan parameter untuk Midtrans.
         $params = [
             'transaction_details' => [
                 'order_id'     => $transaction->transaction_number,
                 'gross_amount' => $order->price,
             ],
-            'customer_details' => [
+            'customer_details'    => [
                 'first_name' => $order->customer_name,
                 'phone'      => $order->customer_contact,
             ],

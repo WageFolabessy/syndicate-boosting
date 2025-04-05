@@ -600,13 +600,14 @@
             @endforeach
         };
 
-        // Mapping untuk harga: setiap tier id ke array detail (harga dan star_number / point)
+        // Mapping untuk harga: setiap tier id ke array detail (harga, star_number/point, dan id detail)
         const rpOptionsMap = {
             @foreach ($game->rankCategories as $category)
                 @foreach ($category->rankTiers as $tier)
                     "{{ $tier->id }}": [
                         @foreach ($tier->tierDetails->sortBy('display_order') as $detail)
                             {
+                                id: "{{ $detail->id }}",
                                 price: parseInt("{{ $detail->price }}"),
                                 star_number: "{{ $detail->star_number }}"
                             },
@@ -616,7 +617,7 @@
             @endforeach
         };
 
-        // Fungsi untuk mengatur tampilan bintang (hanya digunakan jika sistem star)
+        // Fungsi untuk mengatur tampilan bintang (untuk sistem star)
         const setStarSelection = (type, starValue) => {
             const container = document.getElementById(`${type}-stars-input`)?.querySelector('.star-display');
             if (!container) return;
@@ -631,23 +632,19 @@
 
         // Fungsi untuk reset pilihan tier dan bintang/dropdown ketika rank baru dipilih
         const resetTierAndStar = (type) => {
-            // Reset container sesuai sistem
             if (systemType === 'star') {
                 document.getElementById(`${type}-subdivisions-container`).innerHTML = '';
                 document.getElementById(`${type}-stars-input`).querySelector('.star-display').innerHTML = '';
                 document.getElementById(`${type}-stars`).value = 0;
             } else {
-                // Untuk sistem point, kosongkan container dropdown RP
                 document.getElementById(`${type}-subdivisions-container`).innerHTML = '';
                 document.getElementById(`${type}-rp-dropdown`).innerHTML = '';
             }
-            // Reset nilai harga dan tier id
             if (type === 'current') {
                 currentSelectedPrice = 0;
                 currentTierId = null;
                 const tierEl = document.getElementById('checkout-current-tier');
                 if (tierEl) tierEl.innerText = '';
-                // Update summary untuk star atau point
                 if (systemType === 'star') {
                     const starEl = document.getElementById('checkout-current-stars');
                     if (starEl) starEl.innerText = 0;
@@ -671,29 +668,37 @@
             updatePriceDifference();
         };
 
-        // Saat halaman dimuat, set nilai awal tanpa memilih rank/tier
+        // Inisialisasi saat halaman dimuat
         document.addEventListener("DOMContentLoaded", () => {
+            // Set default hidden field kategori berdasarkan defaultRank
+            const defaultRankId = "{{ $defaultRank->id }}";
+            document.getElementById('current_game_rank_category_id').value = defaultRankId;
+            document.getElementById('desired_game_rank_category_id').value = defaultRankId;
+            // Set juga field global kategori
+            document.getElementById('game_rank_category_id').value = defaultRankId;
+
             if (systemType === 'star') {
                 document.getElementById("current-stars").value = 0;
                 document.getElementById("desired-stars").value = 0;
                 setStarSelection('current', 0);
                 setStarSelection('desired', 0);
             } else {
-                // Untuk sistem point, pastikan container dropdown RP dalam keadaan kosong sebelum inisialisasi
-                document.getElementById("current-rp-dropdown").innerHTML = '';
-                document.getElementById("desired-rp-dropdown").innerHTML = '';
+                // Untuk sistem point, langsung update dropdownnya dengan default tier
+                updateRPDropdown('current', "{{ $defaultTier->id }}");
+                updateRPDropdown('desired', "{{ $defaultTier->id }}");
             }
             updatePriceDifference();
 
-            // Inisialisasi default tier berdasarkan data server
+            // Set default tier dan hidden field tier
             const defaultTierId = "{{ $defaultTier->id }}";
-            if (systemType === 'star') {
-                selectTier('current', defaultTierId);
-                selectTier('desired', defaultTierId);
-            } else {
-                updateRPDropdown('current', defaultTierId);
-                updateRPDropdown('desired', defaultTierId);
-            }
+            document.getElementById('current_game_rank_tier_id').value = defaultTierId;
+            document.getElementById('desired_game_rank_tier_id').value = defaultTierId;
+            // Set juga field global tier
+            document.getElementById('game_rank_tier_id').value = defaultTierId;
+
+            // Panggil selectTier untuk menginisialisasi detail tier (hidden field detail)
+            selectTier('current', defaultTierId);
+            selectTier('desired', defaultTierId);
         });
 
         // Fungsi untuk update subdivisi (tier) secara dinamis ketika rank dipilih
@@ -709,7 +714,6 @@
             });
             html += '</div>';
             container.innerHTML = html;
-            // Jika ada setidaknya satu tier, otomatis pilih tier pertama
             if (tiers.length > 0) {
                 selectTier(type, tiers[0].id);
             }
@@ -721,23 +725,31 @@
                 item.classList.remove('selected');
             });
             element.classList.add('selected');
+
             const selectedImgSrc = element.querySelector('img').src;
             const selectedName = element.querySelector('.rank-name').innerText;
             document.getElementById(`${type}-selected-img`).src = selectedImgSrc;
-            document.getElementById(`${type}-selected-text`).innerText = (type === 'current' ? 'Rank saat ini: ' :
-                'Rank yang diinginkan: ') + selectedName;
+            document.getElementById(`${type}-selected-text`).innerText =
+                (type === 'current' ? 'Rank saat ini: ' : 'Rank yang diinginkan: ') + selectedName;
+
             const rankId = element.getAttribute('data-id');
-            // Reset pilihan tier dan terkait (bintang atau dropdown RP)
+            if (type === 'current') {
+                document.getElementById('current_game_rank_category_id').value = rankId;
+                document.getElementById('game_rank_category_id').value = rankId;
+            } else if (type === 'desired') {
+                document.getElementById('desired_game_rank_category_id').value = rankId;
+            }
+
             resetTierAndStar(type);
-            // Update daftar tier untuk rank yang baru dipilih
             updateSubdivisions(type, rankId);
+
             const summaryRankEl = document.getElementById(`checkout-${type}-rank-name`);
             if (summaryRankEl) {
                 summaryRankEl.innerText = selectedName;
             }
         };
 
-        // Fungsi untuk render star rating (digunakan jika sistem star)
+        // Fungsi untuk render star rating (untuk sistem star)
         const renderStarRating = (type, tierId) => {
             const container = document.getElementById(`${type}-stars-input`).querySelector('.star-display');
             const radio = document.querySelector(`input[name="${type}-tier"][value="${tierId}"]`);
@@ -748,11 +760,11 @@
             }
             container.innerHTML = html;
 
-            // Ambil input tersembunyi untuk menyimpan nilai bintang
+            // Ambil input hidden untuk menyimpan nilai bintang
             const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
 
+            const options = rpOptionsMap[tierId] || [];
             if (type === 'desired') {
-                const options = rpOptionsMap[tierId] || [];
                 const optionForOne = options.find(opt => parseInt(opt.star_number) === 1);
                 if (optionForOne) {
                     hiddenInput.value = optionForOne.star_number;
@@ -760,27 +772,30 @@
                     desiredSelectedPrice = optionForOne.price;
                     const summaryEl = document.getElementById('checkout-desired-stars');
                     if (summaryEl) summaryEl.innerText = optionForOne.star_number;
+                    // Update hidden field detail tier
+                    document.getElementById('desired_game_rank_tier_detail_id').value = optionForOne.id;
                 } else {
                     hiddenInput.value = 0;
                     setStarSelection(type, 0);
                     desiredSelectedPrice = 0;
                     const summaryEl = document.getElementById('checkout-desired-stars');
                     if (summaryEl) summaryEl.innerText = 0;
+                    document.getElementById('desired_game_rank_tier_detail_id').value = '';
                 }
             } else {
                 hiddenInput.value = 0;
                 setStarSelection(type, 0);
-                const options = rpOptionsMap[tierId] || [];
-                const optionForZero = options.find(opt => parseInt(opt.star_number) === 0);
+                const optionForZero = (rpOptionsMap[tierId] || []).find(opt => parseInt(opt.star_number) === 0);
                 currentSelectedPrice = optionForZero ? optionForZero.price : 0;
                 const summaryEl = document.getElementById('checkout-current-stars');
                 if (summaryEl) summaryEl.innerText = 0;
+                document.getElementById('current_game_rank_tier_detail_id').value = optionForZero ? optionForZero.id :
+                    '';
             }
 
             updateSelectedPrice(type, tierId, hiddenInput.value);
             updatePriceDifference();
 
-            // Pasang event listener pada tiap bintang agar setiap klik memperbarui harga
             container.querySelectorAll('.star-option').forEach(star => {
                 star.addEventListener('click', () => {
                     const value = star.getAttribute('data-value');
@@ -790,11 +805,22 @@
                     const summaryEl = document.getElementById(`checkout-${type}-stars`);
                     if (summaryEl) summaryEl.innerText = value;
                     updatePriceDifference();
+                    const selectedOption = options.find(opt => parseInt(opt.star_number) === parseInt(
+                        value));
+                    if (selectedOption) {
+                        if (type === 'current') {
+                            document.getElementById('current_game_rank_tier_detail_id').value =
+                                selectedOption.id;
+                        } else {
+                            document.getElementById('desired_game_rank_tier_detail_id').value =
+                                selectedOption.id;
+                        }
+                    }
                 });
             });
         };
 
-        // Fungsi untuk update dropdown RP (digunakan jika sistem point)
+        // Fungsi untuk update dropdown RP (untuk sistem point)
         const updateRPDropdown = (type, tierId) => {
             const container = document.getElementById(`${type}-rp-dropdown`);
             const options = rpOptionsMap[tierId] || [];
@@ -802,32 +828,38 @@
                 `<label class="form-label" for="${type}-rp">RP ${type === 'current' ? 'saat ini' : 'yang diinginkan'}</label>`;
             html += `<select class="form-select" id="${type}-rp" name="${type}-rp">`;
             options.forEach(option => {
-                html += `<option value="${option.price}">${option.star_number}</option>`;
+                html +=
+                    `<option value="${option.price}" data-detail-id="${option.id}">${option.star_number}</option>`;
             });
             html += '</select>';
             container.innerHTML = html;
             const selectEl = document.getElementById(`${type}-rp`);
-            const defaultPrice = options.length > 0 ? parseInt(options[0].price) : 0;
+            const defaultOption = options.length > 0 ? options[0] : null;
             if (type === 'current') {
-                currentSelectedPrice = defaultPrice;
+                currentSelectedPrice = defaultOption ? parseInt(defaultOption.price) : 0;
+                document.getElementById('current_game_rank_tier_detail_id').value = defaultOption ? defaultOption.id :
+                    '';
             } else {
-                desiredSelectedPrice = defaultPrice;
+                desiredSelectedPrice = defaultOption ? parseInt(defaultOption.price) : 0;
+                document.getElementById('desired_game_rank_tier_detail_id').value = defaultOption ? defaultOption.id :
+                    '';
             }
             selectEl.addEventListener('change', () => {
-                const selectedText = selectEl.options[selectEl.selectedIndex].text;
-                const selectedPrice = parseInt(selectEl.value);
+                const selectedIndex = selectEl.selectedIndex;
+                const selectedOption = options[selectedIndex];
                 if (type === 'current') {
-                    currentSelectedPrice = selectedPrice;
+                    currentSelectedPrice = parseInt(selectedOption.price);
                     const el = document.getElementById('checkout-current-rp');
-                    if (el) el.innerText = selectedText;
+                    if (el) el.innerText = selectedOption.star_number;
+                    document.getElementById('current_game_rank_tier_detail_id').value = selectedOption.id;
                 } else {
-                    desiredSelectedPrice = selectedPrice;
+                    desiredSelectedPrice = parseInt(selectedOption.price);
                     const el = document.getElementById('checkout-desired-rp');
-                    if (el) el.innerText = selectedText;
+                    if (el) el.innerText = selectedOption.star_number;
+                    document.getElementById('desired_game_rank_tier_detail_id').value = selectedOption.id;
                 }
                 updatePriceDifference();
             });
-            // Update summary dropdown
             if (options.length > 0) {
                 const defaultText = selectEl.options[selectEl.selectedIndex].text;
                 if (type === 'current') {
@@ -843,28 +875,27 @@
 
         // Fungsi untuk memilih tier (subdivisi)
         const selectTier = (type, tierId) => {
-            // Tandai radio button tier yang dipilih
             const radios = document.getElementsByName(`${type}-tier`);
             radios.forEach(radio => {
                 radio.checked = false;
             });
             document.getElementById(`${type}-tier-${tierId}`).checked = true;
 
-            // Simpan tier id yang dipilih
             if (type === 'current') {
                 currentTierId = tierId;
+                document.getElementById('current_game_rank_tier_id').value = tierId;
+                document.getElementById('game_rank_tier_id').value = tierId;
             } else {
                 desiredTierId = tierId;
+                document.getElementById('desired_game_rank_tier_id').value = tierId;
             }
 
-            // Sesuaikan tampilan opsi berdasarkan sistem
             if (systemType === 'star') {
                 renderStarRating(type, tierId);
             } else {
                 updateRPDropdown(type, tierId);
             }
 
-            // Update tampilan summary tier
             const tierLabel = document.querySelector(`label[for="${type}-tier-${tierId}"]`).innerText;
             if (type === 'current') {
                 const el = document.getElementById('checkout-current-tier');
@@ -875,14 +906,13 @@
             }
         };
 
-        // Fungsi untuk update harga yang dipilih (digunakan untuk sistem star)
+        // Fungsi untuk update harga yang dipilih (untuk sistem star)
         const updateSelectedPrice = (type, tierId, starValue) => {
             const options = rpOptionsMap[tierId] || [];
             const starVal = parseInt(starValue);
             const optionForZero = options.find(opt => parseInt(opt.star_number) === 0);
 
             if (starVal > 0) {
-                // Pilih harga sesuai nilai bintang yang diklik
                 const selected = options.find(opt => parseInt(opt.star_number) === starVal);
                 if (selected) {
                     if (type === 'current') {
@@ -907,7 +937,7 @@
             document.getElementById('checkout-total').innerText = 'Rp. ' + diff;
         };
 
-        // Fungsi untuk mengosongkan pilihan bintang (hanya untuk sistem star)
+        // Fungsi untuk mengosongkan pilihan bintang (untuk sistem star)
         const clearStarSelection = (type) => {
             if (systemType !== 'star') return;
             const container = document.getElementById(`${type}-stars-input`).querySelector('.star-display');
@@ -928,6 +958,151 @@
             updatePriceDifference();
         };
     </script>
+
+    <script>
+        function updateRankPositions() {
+            // Ambil nilai rank dan tier (untuk kedua sistem)
+            const currentRank = document.getElementById("checkout-current-rank-name").innerText;
+            const currentTier = document.getElementById("checkout-current-tier").innerText;
+            const desiredRank = document.getElementById("checkout-desired-rank-name").innerText;
+            const desiredTier = document.getElementById("checkout-desired-tier").innerText;
+            const checkoutTotal = document.getElementById("checkout-total").innerText;
+
+            // Untuk sistem star, ambil dari elemen stars; untuk sistem point, ambil dari dropdown RP
+            let currentIndicator = "";
+            let desiredIndicator = "";
+            if (document.getElementById("checkout-current-stars")) {
+                currentIndicator = document.getElementById("checkout-current-stars").innerText;
+                desiredIndicator = document.getElementById("checkout-desired-stars").innerText;
+            } else {
+                currentIndicator = document.getElementById("checkout-current-rp").innerText;
+                desiredIndicator = document.getElementById("checkout-desired-rp").innerText;
+            }
+
+            document.getElementById("currentPosition").value = `${currentRank} - ${currentTier} - ${currentIndicator}`;
+            document.getElementById("desiredPosition").value = `${desiredRank} - ${desiredTier} - ${desiredIndicator}`;
+            document.getElementById("price-confirm").innerText = checkoutTotal;
+        }
+
+        // Daftar id elemen yang mungkin berubah (baik untuk sistem star maupun point)
+        const triggerIds = [
+            "checkout-current-rank-name",
+            "checkout-current-tier",
+            "checkout-current-stars",
+            "checkout-current-rp",
+            "checkout-desired-rank-name",
+            "checkout-desired-tier",
+            "checkout-desired-stars",
+            "checkout-desired-rp"
+        ];
+
+        triggerIds.forEach(function(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("change", updateRankPositions);
+            }
+        });
+
+        // Jalankan update saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", updateRankPositions);
+    </script>
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+    <script>
+        // Fungsi untuk menampilkan error validasi di atas field terkait
+        function displayValidationErrors(errors) {
+            // Daftar field yang ada di form
+            const fields = ['server', 'login_method', 'note', 'customer_name', 'customer_contact', 'username', 'password'];
+            // Bersihkan error message sebelumnya
+            fields.forEach(field => {
+                const errorDiv = document.getElementById('error-' + field);
+                if (errorDiv) {
+                    errorDiv.innerText = '';
+                }
+            });
+            // Tampilkan error yang diterima dari backend
+            Object.keys(errors).forEach(field => {
+                const errorDiv = document.getElementById('error-' + field);
+                if (errorDiv) {
+                    // Tampilkan pesan error pertama untuk field tersebut
+                    errorDiv.innerText = errors[field][0];
+                }
+            });
+        }
+
+        document.querySelector('.confirm-payment-button').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Ambil data dari form order
+            const form = document.getElementById('orderCustomForm');
+            const formData = new FormData(form);
+            // Konversi FormData ke objek, kemudian ke JSON
+            const data = Object.fromEntries(formData.entries());
+            console.log(data);
+
+            // Opsional: tampilkan loading state di tombol
+            const btn = document.querySelector('.confirm-payment-button');
+            btn.disabled = true;
+            btn.innerHTML = 'Processing...';
+
+            // Kirim data form ke endpoint backend sebagai JSON
+            fetch('/custom-order/process', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 422) {
+                            return response.json().then(data => {
+                                displayValidationErrors(data.errors);
+                                throw new Error('Validation error');
+                            });
+                        }
+                        throw new Error('Error processing payment');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.snap_token) {
+                        window.snap.pay(data.snap_token, {
+                            onSuccess: function(result) {
+                                alert("Pembayaran Berhasil!");
+                                window.location.reload();
+                            },
+                            onPending: function(result) {
+                                alert("Pembayaran sedang pending, silakan cek status pembayaran.");
+                            },
+                            onError: function(result) {
+                                alert("Terjadi kesalahan dalam proses pembayaran.");
+                            },
+                            onClose: function() {
+                                console.log('Popup ditutup oleh user');
+                            }
+                        });
+                    } else if (data.error) {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    if (error.message !== 'Validation error') {
+                        alert('Terjadi kesalahan saat memproses pembayaran.');
+                    }
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML =
+                        'Bayar <span id="price-confirm"></span> <i class="bi bi-arrow-right-short"></i>';
+                });
+        });
+    </script>
+
     <script>
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
@@ -940,33 +1115,5 @@
                 icon.classList.replace('bi-eye-slash', 'bi-eye');
             }
         }
-    </script>
-
-    <script>
-        function updateRankPositions() {
-            const currentRank = document.getElementById("checkout-current-rank-name").innerText;
-            const currentTier = document.getElementById("checkout-current-tier").innerText;
-            const currentStar = document.getElementById("checkout-current-stars").innerText;
-            const desiredRank = document.getElementById("checkout-desired-rank-name").innerText;
-            const desiredTier = document.getElementById("checkout-desired-tier").innerText;
-            const desiredStar = document.getElementById("checkout-desired-stars").innerText;
-            
-            const checkoutTotal = document.getElementById("checkout-total").innerText;
-
-
-            document.getElementById("currentPosition").value = `${currentRank} - ${currentTier} - ${currentStar}`;
-            document.getElementById("desiredPosition").value = `${desiredRank} - ${desiredTier} - ${desiredStar}`;
-            document.getElementById("price-confirm").innerText = checkoutTotal;
-        }
-
-        document.getElementById("checkout-current-rank-name").addEventListener("change", updateRankPositions);
-        document.getElementById("checkout-current-tier").addEventListener("change", updateRankPositions);
-        document.getElementById("checkout-current-stars").addEventListener("change", updateRankPositions);
-        document.getElementById("checkout-desired-rank-name").addEventListener("change", updateRankPositions);
-        document.getElementById("checkout-desired-tier").addEventListener("change", updateRankPositions);
-        document.getElementById("checkout-desired-stars").addEventListener("change", updateRankPositions);
-
-        // Jalankan pertama kali saat modal dibuka
-        document.addEventListener("DOMContentLoaded", updateRankPositions);
     </script>
 @endsection
