@@ -216,9 +216,6 @@ class TransactionController extends Controller
                     ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
             })
-            ->addColumn('action', function ($detail) {
-                return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);
-            })
             ->addColumn('payment_status', function ($detail) {
                 return $detail->transaction->payment
                     ? ucfirst($detail->transaction->payment->midtrans_status)

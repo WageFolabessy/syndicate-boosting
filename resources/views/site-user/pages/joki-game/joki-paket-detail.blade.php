@@ -277,8 +277,6 @@
 
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
-                console.log(data);
-                
 
                 fetch('/package-order/process', {
                         method: 'POST',
@@ -318,18 +316,25 @@
                     })
                     .then(data => {
                         if (data.snap_token) {
+                            const transactionNumber = data.transaction_number;
                             snap.pay(data.snap_token, {
                                 onSuccess: function(result) {
-                                    alert("Pembayaran Berhasil!");
-                                    window.location.reload();
+                                    alert("Pembayaran Berhasil! Catat nomor transaksi Anda: " +
+                                        transactionNumber);
+                                        window.location.href = "/transaksi?search=" +
+                                        transactionNumber;
                                 },
                                 onPending: function(result) {
                                     alert(
-                                        "Pembayaran sedang pending, silakan cek status pembayaran."
-                                        );
+                                        "Pembayaran pending, silakan cek status pembayaran.");
+                                    window.location.reload();
                                 },
                                 onError: function(result) {
-                                    alert("Terjadi kesalahan dalam proses pembayaran.");
+                                    alert("Terjadi kesalahan dalam pembayaran.");
+                                    window.location.reload();
+                                },
+                                onClose: function() {
+                                    alert("Pembayaran dibatalkan.");
                                 }
                             });
                         } else {

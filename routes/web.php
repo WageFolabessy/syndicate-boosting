@@ -40,6 +40,7 @@ Route::get('/joki-game/{game:slug}/joki-kostum', [BoostingServicePageController:
 Route::get('/joki-game/{game:slug}/joki-paket/{service}/detail', [BoostingServicePageController::class, 'show'])->name('joki-game.detail');
 
 Route::get('/transaksi', [TransactionPageController::class, 'index'])->name('transaksi');
+Route::post('/review', [TransactionPageController::class, 'storeReview'])->name('review.store');
 
 // ################################################ Route Milik Admin ################################################
 Route::middleware('guest')->group(function () {

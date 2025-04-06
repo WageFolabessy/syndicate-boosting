@@ -58,7 +58,6 @@
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
-                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody></tbody>

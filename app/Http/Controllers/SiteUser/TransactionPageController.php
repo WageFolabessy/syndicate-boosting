@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\SiteUser;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddReviewRequest;
 use App\Models\AccountOrderDetail;
 use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
+use App\Models\Review;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -36,5 +38,12 @@ class TransactionPageController extends Controller
         }
 
         return view('site-user.pages.transaksi', compact('transactions'));
+    }
+
+    public function storeReview(AddReviewRequest $request)
+    {
+        $data = $request->validated();
+        Review::create($data);
+        return redirect()->back()->with('success', 'Review berhasil dikirim.');
     }
 }

@@ -15,6 +15,7 @@
 @section('title')
     - Transaksi
 @endsection
+
 @section('css')
     <style>
         .search-sort-bar .form-control {
@@ -28,15 +29,44 @@
             border-color: #0d6efd;
             box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
         }
+
+        .transaction-results table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            font-size: 2rem;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ddd;
+            font-size: 2rem;
+            padding: 0 0.1rem;
+            cursor: pointer;
+        }
+
+        .star-rating input[type="radio"]:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: #ffc107;
+        }
     </style>
 @endsection
 
 @section('content')
     <main>
-        <section class="page-header">
+        <section class="page-header py-5 bg-light">
             <div class="container">
                 <div class="row">
-                    <div class="col-12 text-center mt-4">
+                    <div class="col-12 text-center">
                         <span class="section-tag">Transaksi</span>
                         <h1>Cari Transaksi</h1>
                         <p class="lead">Cari riwayat transaksi Anda dengan mudah</p>
@@ -47,7 +77,6 @@
 
         <section class="transaction-listing py-5">
             <div class="container">
-                <!-- Flash Message dari query search -->
                 @if (request('search'))
                     <div class="alert alert-success">
                         Catat nomor transaksi Anda: <strong>{{ request('search') }}</strong>
@@ -69,142 +98,201 @@
                 @if (request('search'))
                     <div class="transaction-results">
                         @if ($transactions->count() > 0)
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Nomor Transaksi</th>
-                                        <th>Status Pembayaran</th>
-                                        <th>Tanggal</th>
-                                        <th>Progress Pekerjaan</th>
-                                        <th>Detail Transaksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($transactions as $transaction)
-                                        @php
-                                            $orderDetail = $transaction->transactionable;
-                                            $transactionType = class_basename($transaction->transactionable_type);
-                                        @endphp
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
                                         <tr>
-                                            <td>{{ $transaction->transaction_number }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge bg-{{ $transaction->status == 'success' ? 'success' : 'warning' }}">
-                                                    {{ ucfirst($transaction->status) }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $transaction->created_at->format('d M Y, H:i') }}</td>
-                                            <td>
-                                                @if (in_array($transactionType, ['PackageOrderDetail', 'CustomOrderDetail']))
-                                                    @php
-                                                        $progressStatus = $orderDetail->status ?? null;
-                                                    @endphp
-                                                    @if ($progressStatus)
-                                                        @switch($progressStatus)
-                                                            @case('failed')
-                                                                <span class="badge bg-danger">Gagal</span>
-                                                            @break
+                                            <th>Nomor Transaksi</th>
+                                            <th>Status Pembayaran</th>
+                                            <th>Tanggal</th>
+                                            <th>Progress Pekerjaan</th>
+                                            <th>Detail Transaksi</th>
+                                            <th>Review</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($transactions as $transaction)
+                                            @php
+                                                $orderDetail = $transaction->transactionable;
+                                                $transactionType = class_basename($transaction->transactionable_type);
+                                            @endphp
+                                            <tr>
+                                                <td>{{ $transaction->transaction_number }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge bg-{{ $transaction->status == 'success' ? 'success' : 'warning' }}">
+                                                        {{ ucfirst($transaction->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ $transaction->created_at->format('d M Y, H:i') }}</td>
+                                                <td>
+                                                    @if (in_array($transactionType, ['PackageOrderDetail', 'CustomOrderDetail']))
+                                                        @php
+                                                            $progressStatus = $orderDetail->status ?? null;
+                                                        @endphp
+                                                        @if ($progressStatus)
+                                                            @switch($progressStatus)
+                                                                @case('failed')
+                                                                    <span class="badge bg-danger">Gagal</span>
+                                                                @break
 
-                                                            @case('canceled')
-                                                                <span class="badge bg-secondary">Dibatalkan</span>
-                                                            @break
+                                                                @case('canceled')
+                                                                    <span class="badge bg-secondary">Dibatalkan</span>
+                                                                @break
 
-                                                            @case('pending')
-                                                                <span class="badge bg-warning">Belum dikerjakan</span>
-                                                            @break
+                                                                @case('pending')
+                                                                    <span class="badge bg-warning">Belum dikerjakan</span>
+                                                                @break
 
-                                                            @case('processed')
-                                                                <span class="badge bg-info">Sedang dikerjakan</span>
-                                                            @break
+                                                                @case('processed')
+                                                                    <span class="badge bg-info">Sedang dikerjakan</span>
+                                                                @break
 
-                                                            @case('success')
-                                                                <span class="badge bg-success">Selesai</span>
-                                                            @break
+                                                                @case('success')
+                                                                    <span class="badge bg-success">Selesai</span>
+                                                                @break
 
-                                                            @default
-                                                                <span class="badge bg-light text-dark">-</span>
-                                                        @endswitch
+                                                                @default
+                                                                    <span class="badge bg-light text-dark">-</span>
+                                                            @endswitch
+                                                        @else
+                                                            <span class="text-muted">-</span>
+                                                        @endif
                                                     @else
                                                         <span class="text-muted">-</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($transactionType == 'AccountOrderDetail')
-                                                    @php
-                                                        $gameAccount = $orderDetail->gameAccount;
-                                                    @endphp
-                                                    @if ($gameAccount)
+                                                </td>
+                                                <td>
+                                                    @if ($transactionType == 'AccountOrderDetail')
+                                                        @php
+                                                            $gameAccount = $orderDetail->gameAccount;
+                                                        @endphp
+                                                        @if ($gameAccount)
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li><strong>{{ $gameAccount->account_name }}</strong></li>
+                                                                <li>Game: {{ $gameAccount->game->name ?? '-' }}</li>
+                                                                <li>Level: {{ $gameAccount->level ?? '-' }}</li>
+                                                                <li>Usia Akun: {{ $gameAccount->account_age ?? '-' }}</li>
+                                                                <li>Harga: Rp
+                                                                    {{ number_format($orderDetail->price, 0, ',', '.') }}
+                                                                </li>
+                                                            </ul>
+                                                        @else
+                                                            <span class="text-muted">Data akun tidak tersedia.</span>
+                                                        @endif
+                                                    @elseif ($transactionType == 'PackageOrderDetail')
+                                                        @php
+                                                            $boostingService = $orderDetail->boostingService;
+                                                        @endphp
+                                                        @if ($boostingService)
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li><strong>{{ $boostingService->title }}</strong></li>
+                                                                <li>Game: {{ $boostingService->game->name ?? '-' }}</li>
+                                                                <li>Harga: Rp
+                                                                    {{ number_format($orderDetail->price, 0, ',', '.') }}
+                                                                </li>
+                                                                <li>Server: {{ $orderDetail->server ?? '-' }}</li>
+                                                                <li>Login: {{ $orderDetail->login ?? '-' }}</li>
+                                                            </ul>
+                                                        @else
+                                                            <span class="text-muted">Data boosting tidak tersedia.</span>
+                                                        @endif
+                                                    @elseif ($transactionType == 'CustomOrderDetail')
                                                         <ul class="list-unstyled mb-0">
-                                                            <li><strong>{{ $gameAccount->account_name }}</strong></li>
-                                                            <li>Game: {{ $gameAccount->game->name ?? '-' }}</li>
-                                                            <li>Level: {{ $gameAccount->level ?? '-' }}</li>
-                                                            <li>Usia Akun: {{ $gameAccount->account_age ?? '-' }}</li>
+                                                            <li><strong>Custom Boosting Order</strong></li>
+                                                            <li>Customer: {{ $orderDetail->customer_name }}</li>
+                                                            <li>
+                                                                Current Rank:
+                                                                @if (
+                                                                    $orderDetail->currentGameRankCategory ||
+                                                                        $orderDetail->currentGameRankTier ||
+                                                                        $orderDetail->currentGameRankTierDetail)
+                                                                    {{ $orderDetail->currentGameRankCategory->name ?? '-' }}
+                                                                    -
+                                                                    {{ $orderDetail->currentGameRankTier->tier ?? '-' }} -
+                                                                    {{ $orderDetail->currentGameRankTierDetail->star_number ?? '-' }}
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </li>
+                                                            <li>
+                                                                Desired Rank:
+                                                                @if (
+                                                                    $orderDetail->desiredGameRankCategory ||
+                                                                        $orderDetail->desiredGameRankTier ||
+                                                                        $orderDetail->desiredGameRankTierDetail)
+                                                                    {{ $orderDetail->desiredGameRankCategory->name ?? '-' }}
+                                                                    -
+                                                                    {{ $orderDetail->desiredGameRankTier->tier ?? '-' }} -
+                                                                    {{ $orderDetail->desiredGameRankTierDetail->star_number ?? '-' }}
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </li>
                                                             <li>Harga: Rp
                                                                 {{ number_format($orderDetail->price, 0, ',', '.') }}</li>
                                                         </ul>
                                                     @else
-                                                        <span class="text-muted">Data akun tidak tersedia.</span>
+                                                        <span class="text-muted">Tipe transaksi tidak dikenal.</span>
                                                     @endif
-                                                @elseif ($transactionType == 'PackageOrderDetail')
-                                                    @php
-                                                        $boostingService = $orderDetail->boostingService;
-                                                    @endphp
-                                                    @if ($boostingService)
-                                                        <ul class="list-unstyled mb-0">
-                                                            <li><strong>{{ $boostingService->title }}</strong></li>
-                                                            <li>Game: {{ $boostingService->game->name ?? '-' }}</li>
-                                                            <li>Harga: Rp
-                                                                {{ number_format($orderDetail->price, 0, ',', '.') }}</li>
-                                                            <li>Server: {{ $orderDetail->server ?? '-' }}</li>
-                                                            <li>Login: {{ $orderDetail->login ?? '-' }}</li>
-                                                        </ul>
+                                                </td>
+                                                <td>
+                                                    @if ($transaction->status == 'success')
+                                                        @if ($transaction->review)
+                                                            <!-- Tampilkan review jika sudah ada -->
+                                                            <div class="review-display">
+                                                                <div class="star-rating" style="direction: ltr;">
+                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                        @if ($i <= $transaction->review->rating)
+                                                                            <span style="color: #ffc107;">&#9733;</span>
+                                                                        @else
+                                                                            <span style="color: #ddd;">&#9733;</span>
+                                                                        @endif
+                                                                    @endfor
+                                                                </div>
+                                                                <p>{{ $transaction->review->comment }}</p>
+                                                            </div>
+                                                        @else
+                                                            <!-- Tombol toggle form review -->
+                                                            <button class="btn btn-sm btn-primary review-toggle-btn"
+                                                                type="button" data-bs-toggle="collapse"
+                                                                data-bs-target="#reviewForm-{{ $transaction->id }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="reviewForm-{{ $transaction->id }}">
+                                                                Beri Review
+                                                            </button>
+                                                            <div class="collapse mt-2"
+                                                                id="reviewForm-{{ $transaction->id }}">
+                                                                <form action="{{ route('review.store') }}" method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="transaction_id"
+                                                                        value="{{ $transaction->id }}">
+                                                                    <div class="star-rating" style="direction: rtl;">
+                                                                        @for ($i = 5; $i >= 1; $i--)
+                                                                            <input type="radio"
+                                                                                id="star{{ $i }}-{{ $transaction->id }}"
+                                                                                name="rating" value="{{ $i }}">
+                                                                            <label
+                                                                                for="star{{ $i }}-{{ $transaction->id }}">&#9733;</label>
+                                                                        @endfor
+                                                                    </div>
+                                                                    <div class="mb-2 mt-2">
+                                                                        <textarea name="comment" class="form-control" rows="2" placeholder="Tulis komentar review..."></textarea>
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-success">Kirim Review</button>
+                                                                </form>
+                                                            </div>
+                                                        @endif
                                                     @else
-                                                        <span class="text-muted">Data boosting tidak tersedia.</span>
+                                                        <span class="text-muted">-</span>
                                                     @endif
-                                                @elseif ($transactionType == 'CustomOrderDetail')
-                                                    <ul class="list-unstyled mb-0">
-                                                        <li><strong>Custom Boosting Order</strong></li>
-                                                        <li>Customer: {{ $orderDetail->customer_name }}</li>
-                                                        <li>
-                                                            Current Rank:
-                                                            @if (
-                                                                $orderDetail->currentGameRankCategory ||
-                                                                    $orderDetail->currentGameRankTier ||
-                                                                    $orderDetail->currentGameRankTierDetail)
-                                                                {{ $orderDetail->currentGameRankCategory->name ?? '-' }} -
-                                                                {{ $orderDetail->currentGameRankTier->tier ?? '-' }} -
-                                                                {{ $orderDetail->currentGameRankTierDetail->star_number ?? '-' }}
-                                                            @else
-                                                                -
-                                                            @endif
-                                                        </li>
-                                                        <li>
-                                                            Desired Rank:
-                                                            @if (
-                                                                $orderDetail->desiredGameRankCategory ||
-                                                                    $orderDetail->desiredGameRankTier ||
-                                                                    $orderDetail->desiredGameRankTierDetail)
-                                                                {{ $orderDetail->desiredGameRankCategory->name ?? '-' }} -
-                                                                {{ $orderDetail->desiredGameRankTier->tier ?? '-' }} -
-                                                                {{ $orderDetail->desiredGameRankTierDetail->star_number ?? '-' }}
-                                                            @else
-                                                                -
-                                                            @endif
-                                                        </li>
-                                                        <li>Harga: Rp {{ number_format($orderDetail->price, 0, ',', '.') }}
-                                                        </li>
-                                                    </ul>
-                                                @else
-                                                    <span class="text-muted">Tipe transaksi tidak dikenal.</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         @else
                             <p class="text-center">Transaksi dengan nomor <strong>{{ request('search') }}</strong> tidak
                                 ditemukan.</p>
@@ -215,3 +303,24 @@
         </section>
     </main>
 @endsection
+
+@section('script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var reviewToggleButtons = document.querySelectorAll('.review-toggle-btn');
+
+            reviewToggleButtons.forEach(function(button) {
+                var targetSelector = button.getAttribute('data-bs-target');
+                var collapseEl = document.querySelector(targetSelector);
+
+                collapseEl.addEventListener('shown.bs.collapse', function() {
+                    button.textContent = 'Tutup Review';
+                });
+                collapseEl.addEventListener('hidden.bs.collapse', function() {
+                    button.textContent = 'Beri Review';
+                });
+            });
+        });
+    </script>
+@endsection
+

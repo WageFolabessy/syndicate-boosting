@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BoostingService;
 use App\Models\Game;
 use App\Models\GameAccount;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -27,7 +28,11 @@ class PageController extends Controller
             ->take(3)
             ->get();
 
-        return view('site-user.pages.index', compact('games', 'gameAccounts'));
+        $reviews = Review::where('rating', '>=', 3)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('site-user.pages.index', compact('games', 'gameAccounts', 'reviews'));
     }
 
     public function akunGame()

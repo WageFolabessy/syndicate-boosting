@@ -360,7 +360,9 @@
                                 },
                                 onPending: function(result) {
                                     alert(
-                                        "Pembayaran pending, silakan cek status pembayaran.");
+                                        "Pembayaran pending, silakan cek status pembayaran."
+                                    );
+                                    window.location.reload();
                                 },
                                 onError: function(result) {
                                     alert("Terjadi kesalahan dalam pembayaran.");

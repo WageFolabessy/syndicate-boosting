@@ -961,14 +961,12 @@
 
     <script>
         function updateRankPositions() {
-            // Ambil nilai rank dan tier (untuk kedua sistem)
             const currentRank = document.getElementById("checkout-current-rank-name").innerText;
             const currentTier = document.getElementById("checkout-current-tier").innerText;
             const desiredRank = document.getElementById("checkout-desired-rank-name").innerText;
             const desiredTier = document.getElementById("checkout-desired-tier").innerText;
             const checkoutTotal = document.getElementById("checkout-total").innerText;
 
-            // Untuk sistem star, ambil dari elemen stars; untuk sistem point, ambil dari dropdown RP
             let currentIndicator = "";
             let desiredIndicator = "";
             if (document.getElementById("checkout-current-stars")) {
@@ -984,7 +982,6 @@
             document.getElementById("price-confirm").innerText = checkoutTotal;
         }
 
-        // Daftar id elemen yang mungkin berubah (baik untuk sistem star maupun point)
         const triggerIds = [
             "checkout-current-rank-name",
             "checkout-current-tier",
@@ -1003,29 +1000,23 @@
             }
         });
 
-        // Jalankan update saat halaman dimuat
         document.addEventListener("DOMContentLoaded", updateRankPositions);
     </script>
 
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
     </script>
     <script>
-        // Fungsi untuk menampilkan error validasi di atas field terkait
         function displayValidationErrors(errors) {
-            // Daftar field yang ada di form
             const fields = ['server', 'login_method', 'note', 'customer_name', 'customer_contact', 'username', 'password'];
-            // Bersihkan error message sebelumnya
             fields.forEach(field => {
                 const errorDiv = document.getElementById('error-' + field);
                 if (errorDiv) {
                     errorDiv.innerText = '';
                 }
             });
-            // Tampilkan error yang diterima dari backend
             Object.keys(errors).forEach(field => {
                 const errorDiv = document.getElementById('error-' + field);
                 if (errorDiv) {
-                    // Tampilkan pesan error pertama untuk field tersebut
                     errorDiv.innerText = errors[field][0];
                 }
             });
@@ -1034,19 +1025,15 @@
         document.querySelector('.confirm-payment-button').addEventListener('click', function(e) {
             e.preventDefault();
 
-            // Ambil data dari form order
             const form = document.getElementById('orderCustomForm');
             const formData = new FormData(form);
-            // Konversi FormData ke objek, kemudian ke JSON
-            const data = Object.fromEntries(formData.entries());
-            console.log(data);
 
-            // Opsional: tampilkan loading state di tombol
+            const data = Object.fromEntries(formData.entries());
+
             const btn = document.querySelector('.confirm-payment-button');
             btn.disabled = true;
             btn.innerHTML = 'Processing...';
 
-            // Kirim data form ke endpoint backend sebagai JSON
             fetch('/custom-order/process', {
                     method: 'POST',
                     headers: {
@@ -1070,19 +1057,27 @@
                 })
                 .then(data => {
                     if (data.snap_token) {
+                        const transactionNumber = data.transaction_number;
                         window.snap.pay(data.snap_token, {
                             onSuccess: function(result) {
-                                alert("Pembayaran Berhasil!");
-                                window.location.reload();
+                                alert("Pembayaran Berhasil! Catat nomor transaksi Anda: " +
+                                    transactionNumber);
+                                window.location.href = "/transaksi?search=" +
+                                    transactionNumber;
                             },
                             onPending: function(result) {
-                                alert("Pembayaran sedang pending, silakan cek status pembayaran.");
+                                alert(
+                                    "Pembayaran pending, silakan cek status pembayaran."
+                                );
+                                window.location.reload();
                             },
                             onError: function(result) {
-                                alert("Terjadi kesalahan dalam proses pembayaran.");
+                                alert("Terjadi kesalahan dalam pembayaran.");
+                                window.location.reload();
                             },
                             onClose: function() {
-                                console.log('Popup ditutup oleh user');
+                                alert("Terjadi kesalahan dalam pembayaran.");
+                                window.location.reload();
                             }
                         });
                     } else if (data.error) {

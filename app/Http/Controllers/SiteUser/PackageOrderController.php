@@ -83,13 +83,11 @@ class PackageOrderController extends Controller
 
         $data = $request->validated();
 
-        // Ambil data layanan boosting
         $service = BoostingService::findOrFail($data['boosting_service_id']);
         $price = $service->sale_price ?? $service->original_price;
 
         DB::beginTransaction();
         try {
-            // Buat transaksi dengan status pending
             $transaction = Transaction::create([
                 'transaction_number'   => 'JokiPaket-' . strtoupper(uniqid()),
                 'transactionable_id'   => 0, // akan diupdate setelah order dibuat
@@ -97,7 +95,6 @@ class PackageOrderController extends Controller
                 'status'               => 'pending',
             ]);
 
-            // Buat order detail untuk package boosting
             $order = PackageOrderDetail::create([
                 'transaction_id'      => $transaction->id,
                 'boosting_service_id' => $data['boosting_service_id'],
@@ -111,7 +108,6 @@ class PackageOrderController extends Controller
                 'price'               => $price,
             ]);
 
-            // Update transaksi dengan id order detail
             $transaction->update([
                 'transactionable_id' => $order->id,
             ]);
@@ -141,6 +137,9 @@ class PackageOrderController extends Controller
             return response()->json(['error' => 'Midtrans Error: ' . $e->getMessage()], 500);
         }
 
-        return response()->json(['snap_token' => $snapToken]);
+        return response()->json([
+            'snap_token'         => $snapToken,
+            'transaction_number' => $transaction->transaction_number,
+        ]);
     }
 }

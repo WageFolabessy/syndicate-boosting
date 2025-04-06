@@ -10,12 +10,6 @@
                 style="text-decoration: none;" class="action-btn view" title="View">
                 <i class="fas fa-eye"></i>
             </a>
-        @elseif(class_basename($detail->transactionable) == 'AccountOrderDetail')
-            <!-- Misalnya jika ada halaman detail untuk AccountOrderDetail -->
-            <a href="#"
-                style="text-decoration: none;" class="action-btn view" title="View">
-                <i class="fas fa-eye"></i>
-            </a>
         @endif
     </div>
 </div>

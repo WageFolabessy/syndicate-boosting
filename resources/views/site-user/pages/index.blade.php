@@ -187,6 +187,86 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        /* Review Section */
+        .review-section {
+            background: linear-gradient(135deg, #f0f2f5, #e4e7eb);
+            padding: 4rem 0;
+            overflow: hidden;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-rating {
+            font-size: 1.6rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .review-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #495057;
+            margin-bottom: 1.5rem;
+            position: relative;
+            font-style: italic;
+        }
+
+        /* Carousel Controls */
+        .carousel-control-prev,
+        .carousel-control-next {
+            height: 45px;
+            width: 45px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 1;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background: rgba(13, 110, 253, 0.9);
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: invert(1);
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .review-section {
+                padding: 3rem 0;
+            }
+
+            .review-card {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                height: 40px;
+                width: 40px;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -360,62 +440,56 @@
             </div>
         </section>
 
+        <!-- Review Section -->
+        @if ($reviews->isNotEmpty())
+            <section class="review-section">
+                <div class="container">
+                    <div class="text-center mb-5" data-aos="fade-up">
+                        <span class="badge bg-primary rounded-pill fs-6 px-4 py-2 mb-3">Testimonials</span>
+                        <h2 class="display-5 fw-bold mb-3">What Our Customers Say</h2>
+                        <p class="lead text-muted">Discover why thousands of gamers trust our services</p>
+                    </div>
+
+                    <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner text-center">
+                            @foreach ($reviews as $review)
+                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8">
+                                            <div class="review-card">
+                                                <div class="review-rating">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i
+                                                            class="bi bi-star{{ $i <= $review->rating ? '-fill' : '' }}"></i>
+                                                    @endfor
+                                                </div>
+                                                <p class="review-text">
+                                                    "{{ $review->comment }}"
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         <!-- Why Choose Us Section -->
-        <section class="why-us-section py-6 bg-light">
-            <div class="container">
-                <div class="section-header text-center mb-5" data-aos="fade-up">
-                    <span class="section-tag">Mengapa Memilih Kami</span>
-                    <h2 class="display-5 fw-bold mb-3">Keunggulan The Syndicate</h2>
-                    <p class="text-muted">
-                        Kami menyediakan layanan gaming premium dengan fokus pada kualitas, keamanan, dan kepuasan pelanggan
-                    </p>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
-                                style="width: 60px; height: 60px;">
-                                <i class="bi bi-shield-check fs-3 text-primary"></i>
-                            </div>
-                            <h3 class="h5 fw-bold mb-3">Aman & Terpercaya</h3>
-                            <p class="text-muted mb-0">
-                                Semua transaksi dienkripsi dan aman. Kami melindungi data serta akun game Anda dengan
-                                standar keamanan industri.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
-                                style="width: 60px; height: 60px;">
-                                <i class="bi bi-trophy fs-3 text-primary"></i>
-                            </div>
-                            <h3 class="h5 fw-bold mb-3">Joki Profesional</h3>
-                            <p class="text-muted mb-0">
-                                Tim joki kami terdiri dari pemain profesional dengan rekam jejak yang terbukti di dunia game
-                                kompetitif.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="feature-card h-100 p-4 rounded-3 bg-white shadow-sm">
-                            <div class="icon-wrapper d-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-3 mb-4"
-                                style="width: 60px; height: 60px;">
-                                <i class="bi bi-headset fs-3 text-primary"></i>
-                            </div>
-                            <h3 class="h5 fw-bold mb-3">Dukungan 24/7</h3>
-                            <p class="text-muted mb-0">
-                                Tim dukungan pelanggan kami siap membantu 24 jam sehari untuk menjawab pertanyaan atau
-                                mengatasi masalah Anda.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        @include('site-user.components.why-choose-us')
 
         <!-- Bagian Cara Kerja -->
         @include('site-user.components.how-it-works')

@@ -54,13 +54,6 @@ $(document).ready(function () {
                 name: "updated_at",
                 className: "text-center",
             },
-            {
-                data: "action",
-                name: "action",
-                orderable: false,
-                searchable: false,
-                className: "text-center",
-            },
         ],
         createdRow: function (row, data, dataIndex) {
             console.log(data);
