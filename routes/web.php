@@ -12,6 +12,7 @@ use App\Http\Controllers\Dashboard\PaymentController;
 use App\Http\Controllers\Dashboard\RankCategoryController;
 use App\Http\Controllers\Dashboard\RankTierController;
 use App\Http\Controllers\Dashboard\RankTierDetailController;
+use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\SiteUser\AccountOrderController;
 use App\Http\Controllers\SiteUser\BoostingServicePageController;
@@ -178,6 +179,12 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     })->name('dashboard.payment');
     Route::get('/payments/datatables', [PaymentController::class, 'getAllPayments']);
     Route::get('/payment/{payment}', [PaymentController::class, 'show'])->name('dashboard.payment.show');
+
+    // Reviews Managements
+    Route::get('/review', function () {
+        return view('dashboard.pages.review.index');
+    })->name('dashboard.review');
+    Route::get('/reviews/datatables', [ReviewController::class, 'index']);
 
     // FAQ'S Managements
     Route::get('/faq', function () {
