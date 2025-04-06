@@ -43,18 +43,6 @@ $("#customBoostingTransactionTable").DataTable({
             name: "customer_contact",
             className: "text-center",
         },
-        { data: "server", name: "server", className: "text-center" },
-        { data: "login", name: "login", className: "text-center" },
-        { data: "username", name: "username", className: "text-center" },
-        {
-            data: "password",
-            name: "password",
-            className: "text-center",
-            render: function (data, type, row, meta) {
-                return `<span class="password-text" data-password="${data}">******</span> 
-                        <button type="button" class="btn btn-sm btn-outline-primary toggle-password">Show</button>`;
-            },
-        },
         { data: "price", name: "price", className: "text-center" },
         { data: "created_at", name: "created_at", className: "text-center" },
         { data: "updated_at", name: "updated_at", className: "text-center" },
@@ -67,16 +55,17 @@ $("#customBoostingTransactionTable").DataTable({
         },
     ],
     createdRow: function (row, data, dataIndex) {
+        console.log(data);
         if (
-            data.payment_status === "failed" ||
-            data.payment_status === "pending" ||
-            data.payment_status === "pending or failed"
+            data.payment_status === "Failed" ||
+            data.payment_status === "Pending" ||
+            data.payment_status === "Pending Or Failed"
         ) {
             $(row).addClass("status-failed");
         }
         if (
-            data.payment_status === "settlement" ||
-            data.payment_status === "success"
+            data.payment_status === "Settlement" ||
+            data.payment_status === "Success"
         ) {
             $(row).addClass("status-success");
         }
@@ -92,21 +81,3 @@ $("#customBoostingTransactionTable").DataTable({
         },
     },
 });
-$("#customBoostingTransactionTable tbody").on(
-    "click",
-    "button.toggle-password",
-    function () {
-        var $btn = $(this);
-        var $span = $btn.siblings(".password-text");
-        // Jika tombol bertuliskan "Show", maka tampilkan password asli dan ubah teksnya menjadi "Hide"
-        if ($btn.text() === "Show") {
-            $span.text($span.attr("data-password"));
-            $btn.text("Hide");
-        }
-        // Jika sudah dalam keadaan terlihat, kembali set ke tanda bintang dan tombol "Show"
-        else {
-            $span.text("******");
-            $btn.text("Show");
-        }
-    }
-);

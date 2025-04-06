@@ -34,15 +34,15 @@ $(document).ready(function () {
         createdRow: function (row, data, dataIndex) {
             console.log(data);
             if (
-                data.payment_status === "failed" ||
-                data.payment_status === "pending" ||
-                data.payment_status === "pending or failed"
+                data.payment_status === "Failed" ||
+                data.payment_status === "Pending" ||
+                data.payment_status === "Pending Or Failed"
             ) {
                 $(row).addClass("status-failed");
             }
             if (
-                data.payment_status === "settlement" ||
-                data.payment_status === "success"
+                data.payment_status === "Settlement" ||
+                data.payment_status === "Success"
             ) {
                 $(row).addClass("status-success");
             }

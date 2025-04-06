@@ -56,10 +56,6 @@
                                 <th class="text-center">Desired Rank</th>
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Customer Contact</th>
-                                <th class="text-center">Server</th>
-                                <th class="text-center">Login</th>
-                                <th class="text-center">Username</th>
-                                <th class="text-center">Password</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>

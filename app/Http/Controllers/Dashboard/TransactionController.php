@@ -56,11 +56,11 @@ class TransactionController extends Controller
                     ? $transaction->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '';
             })
-            ->addColumn('action', function ($transaction) {
-                return '';
+            ->addColumn('action', function ($detail) {
+                return view('dashboard.pages.transaction.action-button.all-transaction')->with('detail', $detail);
             })
             ->addColumn('payment_status', function ($transaction) {
-                return $transaction->payment->midtrans_status ?? 'pending or failed';
+                return ucfirst($transaction->payment->midtrans_status) ?? ucfirst('pending or failed');
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -86,7 +86,7 @@ class TransactionController extends Controller
                 return $detail->transaction->transaction_number ?? 'N/A';
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
+                return ucfirst($detail->transaction->payment->midtrans_status) ?? ucfirst('pending or failed');
             })
             ->addColumn('game', function ($detail) {
                 // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
@@ -110,15 +110,6 @@ class TransactionController extends Controller
             ->editColumn('customer_contact', function ($detail) {
                 return $detail->customer_contact ?? 'N/A';
             })
-            ->editColumn('server', function ($detail) {
-                return $detail->server ?? 'N/A';
-            })
-            ->editColumn('login', function ($detail) {
-                return $detail->login ?? 'N/A';
-            })
-            ->editColumn('password', function ($detail) {
-                return $detail->password ?? 'N/A';
-            })
             ->editColumn('price', function ($detail) {
                 return number_format($detail->price ?? 0, 0, ',', '.');
             })
@@ -133,7 +124,7 @@ class TransactionController extends Controller
                     : '-';
             })
             ->addColumn('action', function ($detail) {
-                return ''; // Sesuaikan dengan aksi yang diinginkan (misalnya edit/hapus)
+                return view('dashboard.pages.transaction.action-button.custom-boosting')->with('detail', $detail);
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -162,18 +153,6 @@ class TransactionController extends Controller
             ->editColumn('customer_contact', function ($detail) {
                 return $detail->customer_contact ?? '-';
             })
-            ->editColumn('server', function ($detail) {
-                return $detail->server ?? '-';
-            })
-            ->editColumn('login', function ($detail) {
-                return $detail->login ?? '-';
-            })
-            ->editColumn('username', function ($detail) {
-                return $detail->username ?? '-';
-            })
-            ->editColumn('password', function ($detail) {
-                return $detail->password ?? '-';
-            })
             ->editColumn('price', function ($detail) {
                 return number_format($detail->price, 0, ',', '.');
             })
@@ -187,11 +166,11 @@ class TransactionController extends Controller
                     ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
             })
-            ->addColumn('action', function ($transaction) {
-                return '';
+            ->addColumn('action', function ($detail) {
+                return view('dashboard.pages.transaction.action-button.package-boosting')->with('detail', $detail);
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
+                return ucfirst($detail->transaction->payment->midtrans_status) ?? ucfirst('pending or failed');
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -237,7 +216,7 @@ class TransactionController extends Controller
                 return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment->midtrans_status ?? 'pending or failed';
+                return ucfirst($detail->transaction->payment->midtrans_status) ?? ucfirst('pending or failed');
             })
             ->rawColumns(['action'])
             ->make(true);
