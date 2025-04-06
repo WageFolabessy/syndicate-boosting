@@ -15,8 +15,8 @@ class BoostingServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        $pointBlankImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\pb-2.jpeg';
-        $mobileLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\ml2.jpg';
+        $pointBlankImagePath = public_path('images/games/pb.jpeg');
+        $mobileLegendImagePath = public_path('images/games/ml.jpg');
 
         $dataPBBoosting1 = [
             'game_id' => 3,

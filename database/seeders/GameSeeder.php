@@ -15,9 +15,9 @@ class GameSeeder extends Seeder
      */
     public function run(): void
     {
-        $apexLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\apex-legend.jpg';
-        $mobileLegendImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\ml2.jpg';
-        $pointBlankImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\pb-2.jpeg';
+        $apexLegendImagePath = public_path('images/games/apex-legend.jpg');
+        $mobileLegendImagePath = public_path('images/games/ml.jpg');;
+        $pointBlankImagePath = public_path('images/games/pb.jpeg');;
 
         // Data untuk Apex Legends
         $dataApex = [

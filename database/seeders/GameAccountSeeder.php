@@ -15,7 +15,7 @@ class GameAccountSeeder extends Seeder
      */
     public function run(): void
     {
-        $pointBlankImagePath = 'D:\Endricho\RandomTechnology\syndicate-boosting\images\pb-2.jpeg';
+        $pointBlankImagePath = public_path('images/games/pb.jpeg');
 
         $dataPBGameAccount1 = [
             'game_id' => 3,
