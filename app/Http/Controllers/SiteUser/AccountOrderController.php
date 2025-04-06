@@ -142,6 +142,9 @@ class AccountOrderController extends Controller
             return response()->json(['error' => 'Midtrans Error: ' . $e->getMessage()], 500);
         }
 
-        return response()->json(['snap_token' => $snapToken]);
+        return response()->json([
+            'snap_token'         => $snapToken,
+            'transaction_number' => $transaction->transaction_number,
+        ]);
     }
 }

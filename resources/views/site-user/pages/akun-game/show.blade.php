@@ -350,20 +350,26 @@
                     })
                     .then(data => {
                         if (data.snap_token) {
+                            const transactionNumber = data.transaction_number;
                             snap.pay(data.snap_token, {
                                 onSuccess: function(result) {
-                                    alert("Pembayaran Berhasil!");
-                                    window.location.reload();
+                                    alert("Pembayaran Berhasil! Catat nomor transaksi Anda: " +
+                                        transactionNumber);
+                                    window.location.href = "/transaksi?search=" +
+                                        transactionNumber;
                                 },
                                 onPending: function(result) {
                                     alert(
-                                        "Pembayaran pending, silakan cek status pembayaran."
-                                    );
+                                        "Pembayaran pending, silakan cek status pembayaran.");
                                 },
                                 onError: function(result) {
                                     alert("Terjadi kesalahan dalam pembayaran.");
+                                    window.location.reload();
                                 },
-                                onClose: function() {}
+                                onClose: function() {
+                                    alert("Terjadi kesalahan dalam pembayaran.");
+                                    window.location.reload();
+                                }
                             });
                         } else {
                             alert("Gagal mendapatkan snap token. Silakan coba lagi.");
