@@ -261,24 +261,34 @@
                                                                 aria-controls="reviewForm-{{ $transaction->id }}">
                                                                 Beri Review
                                                             </button>
-                                                            <div class="collapse mt-2"
+                                                            <div class="collapse mt-2 {{ $errors->has('rating') || $errors->has('comment') ? 'show' : '' }}"
                                                                 id="reviewForm-{{ $transaction->id }}">
                                                                 <form action="{{ route('review.store') }}" method="POST">
                                                                     @csrf
                                                                     <input type="hidden" name="transaction_id"
                                                                         value="{{ $transaction->id }}">
+
                                                                     <div class="star-rating" style="direction: rtl;">
                                                                         @for ($i = 5; $i >= 1; $i--)
                                                                             <input type="radio"
                                                                                 id="star{{ $i }}-{{ $transaction->id }}"
-                                                                                name="rating" value="{{ $i }}">
+                                                                                name="rating" value="{{ $i }}"
+                                                                                {{ old('rating') == $i ? 'checked' : '' }}>
                                                                             <label
                                                                                 for="star{{ $i }}-{{ $transaction->id }}">&#9733;</label>
                                                                         @endfor
                                                                     </div>
+                                                                    @error('rating')
+                                                                        <div class="text-danger">{{ $message }}</div>
+                                                                    @enderror
+
                                                                     <div class="mb-2 mt-2">
-                                                                        <textarea name="comment" class="form-control" rows="2" placeholder="Tulis komentar review..."></textarea>
+                                                                        <textarea name="comment" class="form-control" rows="2" placeholder="Tulis komentar review...">{{ old('comment') }}</textarea>
                                                                     </div>
+                                                                    @error('comment')
+                                                                        <div class="text-danger">{{ $message }}</div>
+                                                                    @enderror
+
                                                                     <button type="submit"
                                                                         class="btn btn-sm btn-success">Kirim Review</button>
                                                                 </form>
@@ -323,4 +333,3 @@
         });
     </script>
 @endsection
-
