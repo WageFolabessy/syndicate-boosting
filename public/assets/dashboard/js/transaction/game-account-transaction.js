@@ -67,7 +67,7 @@ $(document).ready(function () {
             if (
                 data.payment_status === "Failed" ||
                 data.payment_status === "Pending" ||
-                data.payment_status === "Pending Or Failed"
+                data.payment_status === "Pending or Failed"
             ) {
                 $(row).addClass("status-failed");
             }
