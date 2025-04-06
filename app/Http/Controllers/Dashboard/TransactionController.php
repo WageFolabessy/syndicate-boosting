@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateStatusCustomOrderRequest;
+use App\Http\Requests\UpdateStatusPackageOrderRequest;
 use App\Models\AccountOrderDetail;
 use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
@@ -202,7 +204,6 @@ class TransactionController extends Controller
                 return $detail->gameAccount->game->name ?? 'N/A';
             })
             ->editColumn('price', function ($detail) {
-                // Menampilkan harga yang dibayar user
                 return number_format($detail->price, 0, ',', '.');
             })
             ->editColumn('created_at', function ($detail) {
@@ -231,9 +232,31 @@ class TransactionController extends Controller
     {
         return view('dashboard.pages.transaction.detail.package-boosting', compact('package'));
     }
-    
+
     public function showCustomBoostingOrder(CustomOrderDetail $custom)
     {
         return view('dashboard.pages.transaction.detail.custom-boosting', compact('custom'));
+    }
+
+    public function updatePackageBoostingOrder(UpdateStatusPackageOrderRequest $request, PackageOrderDetail $package)
+    {
+        $data = $request->validated();
+
+        if ($package->update($data)) {
+            return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal memperbarui status.');
+        }
+    }
+
+    public function updateCustomBoostingOrder(UpdateStatusCustomOrderRequest $request, CustomOrderDetail $custom)
+    {
+        $data = $request->validated();
+
+        if ($custom->update($data)) {
+            return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal memperbarui status.');
+        }
     }
 }

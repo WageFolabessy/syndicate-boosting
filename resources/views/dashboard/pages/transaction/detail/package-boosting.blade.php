@@ -6,6 +6,18 @@
     <!-- Main Content -->
     <main class="main-content" id="main-content">
         <div class="content-container">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <a href="{{ route('dashboard.package-boosting-transaction') }}" class="btn btn-outline-primary">
@@ -35,7 +47,6 @@
                                             <td>{{ ucfirst(optional($package->transaction->payment)->midtrans_status ?? 'Pending or Failed') }}
                                             </td>
                                         </tr>
-
                                         <tr>
                                             <th>Game</th>
                                             <td>{{ $package->boostingService->game->name ?? '-' }}</td>
@@ -80,15 +91,42 @@
                                                 </button>
                                             </td>
                                         </tr>
-
                                         <tr>
                                             <th>Note</th>
                                             <td>{{ $package->note ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Created At</th>
+                                            <td>{{ $package->created_at ? $package->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s') : '' }}
+                                            </td>
+                                        </tr>
+                                        <!-- Form untuk update status -->
+                                        <tr>
+                                            <th>Progress Status</th>
                                             <td>
-                                                {{ $package->created_at ? $package->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s') : '' }}
+                                                <form id="updateStatusForm"
+                                                    action="{{ route('dashboard.package-boosting-transaction.update', $package->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <select name="status" id="status" class="form-select" required>
+                                                        <option value="failed"
+                                                            {{ $package->status == 'failed' ? 'selected' : '' }}>Failed
+                                                        </option>
+                                                        <option value="canceled"
+                                                            {{ $package->status == 'canceled' ? 'selected' : '' }}>Canceled
+                                                        </option>
+                                                        <option value="pending"
+                                                            {{ $package->status == 'pending' ? 'selected' : '' }}>Pending
+                                                        </option>
+                                                        <option value="processed"
+                                                            {{ $package->status == 'processed' ? 'selected' : '' }}>
+                                                            Processed</option>
+                                                        <option value="success"
+                                                            {{ $package->status == 'success' ? 'selected' : '' }}>Success
+                                                        </option>
+                                                    </select>
+                                                </form>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -97,13 +135,18 @@
                         </div>
                     </div>
                     <div class="form-footer d-flex justify-content-end gap-2">
+                        <button type="submit" form="updateStatusForm" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Status
+                        </button>
                         <button type="button" class="btn btn-outline-secondary"
                             onclick="window.history.back();">Cancel</button>
                     </div>
                 </div>
             </div>
+        </div>
     </main>
 @endsection
+
 @section('script')
     <script>
         function togglePassword() {

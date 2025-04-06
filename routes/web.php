@@ -155,13 +155,15 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     })->name('dashboard.custom-boosting-transaction');
     Route::get('/transactions/custom-boosting/datatables', [TransactionController::class, 'getAllcustomBoostingTransaction']);
     Route::get('/transaction/custom-boosting/{custom}', [TransactionController::class, 'showCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.detail');
-
+    Route::put('/transaction/custom-boosting/{custom}', [TransactionController::class, 'updateCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.update');
+    
     // Package Boosting Transactions Managements
     Route::get('/transactions/package-boosting', function () {
         return view('dashboard.pages.transaction.package-boosting-transaction');
     })->name('dashboard.package-boosting-transaction');
     Route::get('/transactions/package-boosting/datatables', [TransactionController::class, 'getAllpackageBoostingTransaction']);
     Route::get('/transaction/package-boosting/{package}', [TransactionController::class, 'showPackageBoostingOrder'])->name('dashboard.package-boosting-transaction.detail');
+    Route::put('/transaction/package-boosting/{package}', [TransactionController::class, 'updatePackageBoostingOrder'])->name('dashboard.package-boosting-transaction.update');
 
     // Account Game Transactions Managements
     Route::get('/transactions/game-account', function () {

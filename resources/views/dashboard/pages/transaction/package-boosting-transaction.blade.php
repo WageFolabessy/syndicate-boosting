@@ -7,17 +7,48 @@
     <style>
         .status-failed {
             background-color: #f8d7da;
-            /* background merah muda */
         }
 
         .status-pending {
             background-color: #fff3cd;
-            /* background kuning muda */
         }
 
         .status-success {
             background-color: #d6efe3;
-            /* background kuning muda */
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 0.5rem;
+            text-align: center;
+            min-width: 80px;
+            text-transform: capitalize;
+        }
+
+        .status-badge.success {
+            background-color: #28a745;
+            color: #212529;
+        }
+
+        .status-badge.failed {
+            background-color: #dc3545;
+        }
+
+        .status-badge.canceled {
+            background-color: #6c757d;
+        }
+
+        .status-badge.pending {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .status-badge.processed {
+            background-color: #17a2b8;
         }
     </style>
 @endsection
@@ -56,6 +87,7 @@
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Customer Contact</th>
                                 <th class="text-center">Price</th>
+                                <th class="text-center">Progress Status</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

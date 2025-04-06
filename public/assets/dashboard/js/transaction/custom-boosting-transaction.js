@@ -44,6 +44,43 @@ $("#customBoostingTransactionTable").DataTable({
             className: "text-center",
         },
         { data: "price", name: "price", className: "text-center" },
+        {
+            data: "status",
+            name: "status",
+            className: "text-center",
+            render: function (data, type, row, meta) {
+                var statusText = data.toLowerCase();
+                var badgeClass = "";
+                switch (statusText) {
+                    case "failed":
+                        badgeClass = "status-badge failed";
+                        break;
+                    case "canceled":
+                        badgeClass = "status-badge canceled";
+                        break;
+                    case "pending":
+                        badgeClass = "status-badge pending";
+                        break;
+                    case "processed":
+                        badgeClass = "status-badge processed";
+                        break;
+                    case "success":
+                        badgeClass = "status-badge success";
+                        break;
+                    default:
+                        badgeClass = "status-badge";
+                }
+                var displayText =
+                    statusText.charAt(0).toUpperCase() + statusText.slice(1);
+                return (
+                    '<span class="' +
+                    badgeClass +
+                    '">' +
+                    displayText +
+                    "</span>"
+                );
+            },
+        },
         { data: "created_at", name: "created_at", className: "text-center" },
         { data: "updated_at", name: "updated_at", className: "text-center" },
         {
