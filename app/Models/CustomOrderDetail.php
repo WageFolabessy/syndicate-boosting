@@ -44,7 +44,6 @@ class CustomOrderDetail extends Model
         return $this->belongsTo(GameRankTierDetail::class, 'game_rank_tier_detail_id');
     }
 
-    // Di CustomOrderDetail.php
     public function currentGameRankCategory()
     {
         return $this->belongsTo(GameRankCategory::class, 'current_game_rank_category_id');

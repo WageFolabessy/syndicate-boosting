@@ -226,4 +226,14 @@ class TransactionController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
+
+    public function showPackageBoostingOrder(PackageOrderDetail $package)
+    {
+        return view('dashboard.pages.transaction.detail.package-boosting', compact('package'));
+    }
+    
+    public function showCustomBoostingOrder(CustomOrderDetail $custom)
+    {
+        return view('dashboard.pages.transaction.detail.custom-boosting', compact('custom'));
+    }
 }

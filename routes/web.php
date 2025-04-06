@@ -154,12 +154,14 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         return view('dashboard.pages.transaction.custom-boosting-transaction');
     })->name('dashboard.custom-boosting-transaction');
     Route::get('/transactions/custom-boosting/datatables', [TransactionController::class, 'getAllcustomBoostingTransaction']);
+    Route::get('/transaction/custom-boosting/{custom}', [TransactionController::class, 'showCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.detail');
 
     // Package Boosting Transactions Managements
     Route::get('/transactions/package-boosting', function () {
         return view('dashboard.pages.transaction.package-boosting-transaction');
     })->name('dashboard.package-boosting-transaction');
     Route::get('/transactions/package-boosting/datatables', [TransactionController::class, 'getAllpackageBoostingTransaction']);
+    Route::get('/transaction/package-boosting/{package}', [TransactionController::class, 'showPackageBoostingOrder'])->name('dashboard.package-boosting-transaction.detail');
 
     // Account Game Transactions Managements
     Route::get('/transactions/game-account', function () {
