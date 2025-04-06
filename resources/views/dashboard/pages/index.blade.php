@@ -9,59 +9,71 @@
 
             <!-- Stats Cards -->
             <div class="row g-3 mb-4">
-                <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                        <div class="stat-title">Total Games</div>
-                        <div class="stat-value">24</div>
-                        <div class="stat-description">
-                            <span class="positive"><i class="fas fa-arrow-up me-1"></i>12%</span> since last month
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon purple">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <div class="stat-title">Boosting Services</div>
-                        <div class="stat-value">105</div>
-                        <div class="stat-description">
-                            <span class="positive"><i class="fas fa-arrow-up me-1"></i>8%</span> since last month
-                        </div>
-                    </div>
-                </div>
-
+                <!-- Total Gross Revenue -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-icon green">
-                            <i class="fas fa-shopping-cart"></i>
+                            <i class="fas fa-dollar"></i>
                         </div>
-                        <div class="stat-title">Total Sales</div>
-                        <div class="stat-value">$12,580</div>
+                        <div class="stat-title">Total Gross Revenue</div>
+                        <div class="stat-value">Rp. {{ number_format($totalGrossRevenue, 0, ',', '.') }}</div>
                         <div class="stat-description">
-                            <span class="positive"><i class="fas fa-arrow-up me-1"></i>24%</span> since last month
+                            <span class="positive">
+                                <i class="fas fa-arrow-up me-1"></i>{{ $totalGrossChange }}%
+                            </span> since last month
                         </div>
                     </div>
                 </div>
 
+                <!-- Custom Boosting Order -->
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="bi bi-gear fs-1 text-primary"></i>
+                        </div>
+                        <div class="stat-title">Custom Boosting Order</div>
+                        <div class="stat-value">Rp. {{ number_format($currentCustomRevenue, 0, ',', '.') }}</div>
+                        <div class="stat-description">
+                            <span class="positive">
+                                <i class="fas fa-arrow-up me-1"></i>{{ $customBoostingChange }}%
+                            </span> since last month
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package Boosting Order -->
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="bi bi-box-seam fs-1 text-success"></i>
+                        </div>
+                        <div class="stat-title">Package Boosting Order</div>
+                        <div class="stat-value">Rp. {{ number_format($currentPackageRevenue, 0, ',', '.') }}</div>
+                        <div class="stat-description">
+                            <span class="positive">
+                                <i class="fas fa-arrow-up me-1"></i>{{ $packageBoostingChange }}%
+                            </span> since last month
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Account Order -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="stat-card">
                         <div class="stat-icon orange">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-user-shield"></i>
                         </div>
-                        <div class="stat-title">Total Customers</div>
-                        <div class="stat-value">392</div>
+                        <div class="stat-title">Game Account Order</div>
+                        <div class="stat-value">Rp. {{ number_format($currentGameAccountRevenue, 0, ',', '.') }}</div>
                         <div class="stat-description">
-                            <span class="positive"><i class="fas fa-arrow-up me-1"></i>18%</span> since last month
+                            <span class="positive">
+                                <i class="fas fa-arrow-up me-1"></i>{{ $gameAccountOrderChange }}%
+                            </span> since last month
                         </div>
                     </div>
                 </div>
             </div>
-
+{{-- 
             <!-- Recent Transactions Table -->
             <div class="table-card">
                 <div class="table-header">
@@ -286,7 +298,7 @@
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </main>
 @endsection

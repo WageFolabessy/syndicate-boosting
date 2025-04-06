@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\BoostingServiceController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\GameAccountController;
 use App\Http\Controllers\Dashboard\GameController;
@@ -56,9 +57,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     // Overview
-    Route::get('/', function () {
-        return view('dashboard.pages.index');
-    })->name('dashboard')->middleware('auth');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
     // Games Managements
     Route::get('/game', function () {
