@@ -35,15 +35,25 @@ class PaymentController extends Controller
                 return ucfirst(str_replace('_', ' ', $payment->midtrans_status));
             })
             ->editColumn('created_at', function ($payment) {
-                return $payment->created_at->format('d-m-Y H:i:s');
+                return $payment->created_at
+                    ? $payment->created_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
+                    : '';
             })
             ->editColumn('updated_at', function ($payment) {
-                return $payment->updated_at->format('d-m-Y H:i:s');
+                return $payment->updated_at
+                    ? $payment->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
+                    : '';
             })
             ->addColumn('action', function ($payment) {
-                return '<a href="#" class="btn btn-sm btn-primary">Detail</a>';
+                return view('dashboard.pages.payment.action-button')->with('payments', $payment);
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function show(Payment $payment)
+    {
+        $data = $payment->payload;
+        return view('dashboard.pages.payment.detail', compact('data'));
     }
 }

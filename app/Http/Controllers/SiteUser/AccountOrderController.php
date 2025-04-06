@@ -61,14 +61,26 @@ class AccountOrderController extends Controller
         } elseif (in_array($transactionStatus, ['deny', 'expired', 'cancel'])) {
             $transaction->status = 'canceled';
         }
+
         $transaction->save();
+
+        if ($transaction->status === 'success') {
+            $orderDetail = AccountOrderDetail::find($transaction->transactionable_id);
+            if ($orderDetail) {
+                $gameAccount = GameAccount::find($orderDetail->game_account_id);
+                if ($gameAccount) {
+                    $gameAccount->for_sale = false;
+                    $gameAccount->save();
+                }
+            }
+        }
 
         Payment::updateOrCreate(
             ['midtrans_transaction_id' => $notification->transaction_id],
             [
                 'transaction_id'  => $transaction->id,
                 'midtrans_status' => $transactionStatus,
-                'payload'         => json_encode($request->all())
+                'payload'         => $request->all()
             ]
         );
 

@@ -128,6 +128,14 @@
                                         placeholder="Enter account age (e.g. '2+ Years')"
                                         value="{{ old('account_age', $gameAccount->account_age) }}">
                                 </div>
+                                <!-- Toggle For Sale -->
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="for_sale" id="for_sale"
+                                            value="1" {{ old('for_sale', $gameAccount->for_sale) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="for_sale">Available for Sale</label>
+                                    </div>
+                                </div>
                                 <!-- Game Account Image -->
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Account Image <span

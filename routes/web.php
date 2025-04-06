@@ -173,6 +173,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         return view('dashboard.pages.payment.index');
     })->name('dashboard.payment');
     Route::get('/payments/datatables', [PaymentController::class, 'getAllPayments']);
+    Route::get('/payment/{payment}', [PaymentController::class, 'show'])->name('dashboard.payment.show');
 
     // FAQ'S Managements
     Route::get('/faq', function () {

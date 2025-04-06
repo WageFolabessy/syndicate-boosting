@@ -18,6 +18,7 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
             },
+            { data: "for_sale", name: "for_sale"},
             { data: "game_id", name: "game_id"},
             { data: "account_name", name: "account_name" },
             { data: "level", name: "level"},

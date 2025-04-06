@@ -22,6 +22,7 @@ class PageController extends Controller
             ->get();
 
         $gameAccounts = GameAccount::with('game')
+            ->where('for_sale', true)
             ->orderBy('updated_at', 'desc')
             ->take(3)
             ->get();
@@ -32,6 +33,7 @@ class PageController extends Controller
     public function akunGame()
     {
         $gameAccounts = GameAccount::with('game')
+            ->where('for_sale', true)
             ->orderBy('updated_at', 'desc')
             ->get();
         return view('site-user.pages.akun-game.index', compact('gameAccounts'));

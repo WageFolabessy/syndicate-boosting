@@ -8,7 +8,7 @@ class GameAccount extends Model
 {
     protected $fillable = [
         'game_id', 'account_name', 'description', 'features',
-        'sale_price', 'original_price', 'image', 'level', 'account_age'
+        'sale_price', 'original_price', 'image', 'level', 'account_age', 'for_sale'
     ];
 
     public function game()
@@ -25,4 +25,8 @@ class GameAccount extends Model
     {
         return $this->morphToMany(Label::class, 'labelable', 'labelables', 'labelable_id', 'label_id');
     }
+
+    protected $casts = [
+        'for_sale' => 'boolean',
+    ];
 }

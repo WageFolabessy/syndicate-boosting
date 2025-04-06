@@ -51,6 +51,10 @@ class GameAccountController extends Controller
                 }
                 return '-';
             })
+            ->editColumn('for_sale', function ($gameAccount) {
+                return $gameAccount->for_sale ? 'Yes' : 'No';
+                
+            })
             ->editColumn('game_id', function ($gameAccount) {
                 return $gameAccount->game ? $gameAccount->game->name : '-';
             })
@@ -88,6 +92,8 @@ class GameAccountController extends Controller
     {
         $data = $request->validated();
 
+        $data['for_sale'] = $request->has('for_sale');
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('game-accounts', 'public');
         }
@@ -121,6 +127,8 @@ class GameAccountController extends Controller
             $data['image'] = $gameAccount->image;
         }
 
+        $data['for_sale'] = $request->has('for_sale');
+        
         $gameAccount->update($data);
 
         // Sinkronisasi label (jika ada)

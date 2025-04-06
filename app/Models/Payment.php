@@ -12,4 +12,8 @@ class Payment extends Model
     {
         return $this->belongsTo(Transaction::class, 'transaction_id');
     }
+
+    protected $casts = [
+        'payload' => 'array',
+    ];
 }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('level')->nullable();
             $table->string('account_age')->nullable();
+            $table->boolean('for_sale')->default(true);
             $table->timestamps();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
         });

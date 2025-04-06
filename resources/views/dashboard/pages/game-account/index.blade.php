@@ -37,6 +37,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Image</th>
+                                <th class="text-center">For Sale</th>
                                 <th class="text-center">Game</th>
                                 <th class="text-center">Account Name</th>
                                 <th class="text-center">Level</th>

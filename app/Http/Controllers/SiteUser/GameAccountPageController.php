@@ -12,6 +12,7 @@ class GameAccountPageController extends Controller
     public function index(Request $request)
     {
         $query = GameAccount::with('game')
+            ->where('for_sale', true)
             ->orderBy('updated_at', 'desc');
 
         if ($request->filled('search')) {
@@ -31,8 +32,12 @@ class GameAccountPageController extends Controller
 
     public function show(Game $game, GameAccount $account)
     {
-        $account->load('game');
-
-        return view('site-user.pages.akun-game.show', compact('account'));
+        if($account->for_sale == true)
+        {
+            $account->load('game');
+    
+            return view('site-user.pages.akun-game.show', compact('account'));
+        }
+        abort(404);
     }
 }
