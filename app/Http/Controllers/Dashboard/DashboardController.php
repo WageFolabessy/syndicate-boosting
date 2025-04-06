@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountOrderDetail;
+use App\Models\CustomOrderDetail;
+use App\Models\PackageOrderDetail;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,15 +15,31 @@ class DashboardController extends Controller
         $currentMonth = now()->month;
         $previousMonth = now()->subMonth()->month;
 
-        $currentCustomRevenue = \App\Models\CustomOrderDetail::whereMonth('created_at', $currentMonth)->sum('price');
-        $currentPackageRevenue = \App\Models\PackageOrderDetail::whereMonth('created_at', $currentMonth)->sum('price');
-        $currentGameAccountRevenue = \App\Models\AccountOrderDetail::whereMonth('created_at', $currentMonth)->sum('price');
+        $currentCustomRevenue = CustomOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $currentMonth)->sum('price');
+
+        $currentPackageRevenue = PackageOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $currentMonth)->sum('price');
+
+        $currentGameAccountRevenue = AccountOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $currentMonth)->sum('price');
 
         $totalGrossRevenue = $currentCustomRevenue + $currentPackageRevenue + $currentGameAccountRevenue;
 
-        $previousCustomRevenue = \App\Models\CustomOrderDetail::whereMonth('created_at', $previousMonth)->sum('price');
-        $previousPackageRevenue = \App\Models\PackageOrderDetail::whereMonth('created_at', $previousMonth)->sum('price');
-        $previousGameAccountRevenue = \App\Models\AccountOrderDetail::whereMonth('created_at', $previousMonth)->sum('price');
+        $previousCustomRevenue = CustomOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $previousMonth)->sum('price');
+
+        $previousPackageRevenue = PackageOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $previousMonth)->sum('price');
+
+        $previousGameAccountRevenue = AccountOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->whereMonth('created_at', $previousMonth)->sum('price');
 
         $previousTotalGrossRevenue = $previousCustomRevenue + $previousPackageRevenue + $previousGameAccountRevenue;
 

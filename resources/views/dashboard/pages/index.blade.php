@@ -1,4 +1,11 @@
 @extends('dashboard.components.main')
+@section('css')
+    <style>
+        a:link {
+            text-decoration: none;
+        }
+    </style>
+@endsection
 @section('content')
     <!-- Main Content -->
     <main class="main-content" id="main-content">
@@ -11,69 +18,78 @@
             <div class="row g-3 mb-4">
                 <!-- Total Gross Revenue -->
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fas fa-dollar"></i>
+                    <a href="{{ route('dashboard.all-transactions') }}">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-dollar"></i>
+                            </div>
+                            <div class="stat-title">Total Gross Revenue</div>
+                            <div class="stat-value">Rp. {{ number_format($totalGrossRevenue, 0, ',', '.') }}</div>
+                            <div class="stat-description">
+                                <span class="positive">
+                                    <i class="fas fa-arrow-up me-1"></i>{{ $totalGrossChange }}%
+                                </span> since last month
+                            </div>
                         </div>
-                        <div class="stat-title">Total Gross Revenue</div>
-                        <div class="stat-value">Rp. {{ number_format($totalGrossRevenue, 0, ',', '.') }}</div>
-                        <div class="stat-description">
-                            <span class="positive">
-                                <i class="fas fa-arrow-up me-1"></i>{{ $totalGrossChange }}%
-                            </span> since last month
-                        </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Custom Boosting Order -->
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="bi bi-gear fs-1 text-primary"></i>
+                    <a href="{{ route('dashboard.custom-boosting-transaction') }}">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="bi bi-gear fs-1 text-primary"></i>
+                            </div>
+                            <div class="stat-title">Custom Boosting Order</div>
+                            <div class="stat-value">Rp. {{ number_format($currentCustomRevenue, 0, ',', '.') }}</div>
+                            <div class="stat-description">
+                                <span class="positive">
+                                    <i class="fas fa-arrow-up me-1"></i>{{ $customBoostingChange }}%
+                                </span> since last month
+                            </div>
                         </div>
-                        <div class="stat-title">Custom Boosting Order</div>
-                        <div class="stat-value">Rp. {{ number_format($currentCustomRevenue, 0, ',', '.') }}</div>
-                        <div class="stat-description">
-                            <span class="positive">
-                                <i class="fas fa-arrow-up me-1"></i>{{ $customBoostingChange }}%
-                            </span> since last month
-                        </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Package Boosting Order -->
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="bi bi-box-seam fs-1 text-success"></i>
+                    <a href="{{ route('dashboard.package-boosting-transaction') }}">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="bi bi-box-seam fs-1 text-success"></i>
+                            </div>
+                            <div class="stat-title">Package Boosting Order</div>
+                            <div class="stat-value">Rp. {{ number_format($currentPackageRevenue, 0, ',', '.') }}</div>
+                            <div class="stat-description">
+                                <span class="positive">
+                                    <i class="fas fa-arrow-up me-1"></i>{{ $packageBoostingChange }}%
+                                </span> since last month
+                            </div>
                         </div>
-                        <div class="stat-title">Package Boosting Order</div>
-                        <div class="stat-value">Rp. {{ number_format($currentPackageRevenue, 0, ',', '.') }}</div>
-                        <div class="stat-description">
-                            <span class="positive">
-                                <i class="fas fa-arrow-up me-1"></i>{{ $packageBoostingChange }}%
-                            </span> since last month
-                        </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Game Account Order -->
                 <div class="col-12 col-sm-6 col-xl-3">
-                    <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <i class="fas fa-user-shield"></i>
+                    <a href="{{ route('dashboard.game-account-transaction') }}">
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="stat-title">Game Account Order</div>
+                            <div class="stat-value">Rp. {{ number_format($currentGameAccountRevenue, 0, ',', '.') }}</div>
+                            <div class="stat-description">
+                                <span class="positive">
+                                    <i class="fas fa-arrow-up me-1"></i>{{ $gameAccountOrderChange }}%
+                                </span> since last month
+                            </div>
                         </div>
-                        <div class="stat-title">Game Account Order</div>
-                        <div class="stat-value">Rp. {{ number_format($currentGameAccountRevenue, 0, ',', '.') }}</div>
-                        <div class="stat-description">
-                            <span class="positive">
-                                <i class="fas fa-arrow-up me-1"></i>{{ $gameAccountOrderChange }}%
-                            </span> since last month
-                        </div>
-                    </div>
+                    </a>
                 </div>
             </div>
-{{-- 
+
+            {{-- 
             <!-- Recent Transactions Table -->
             <div class="table-card">
                 <div class="table-header">

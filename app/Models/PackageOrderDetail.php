@@ -17,6 +17,7 @@ class PackageOrderDetail extends Model
         'username',
         'password',
         'price',
+        'status',
     ];
 
     public function transaction()

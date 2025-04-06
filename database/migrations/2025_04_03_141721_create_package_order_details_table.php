@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->integer('price');
 
+            $table->enum('status', ['failed', 'canceled', 'pending', 'processed', 'success'])->default('pending');
+
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
