@@ -446,8 +446,8 @@
                 <div class="container">
                     <div class="text-center mb-5" data-aos="fade-up">
                         <span class="badge bg-primary rounded-pill fs-6 px-4 py-2 mb-3">Testimonials</span>
-                        <h2 class="display-5 fw-bold mb-3">What Our Customers Say</h2>
-                        <p class="lead text-muted">Discover why thousands of gamers trust our services</p>
+                        <h2 class="display-5 fw-bold mb-3">Apa Yang Dikatakan Oleh Pelanggan Kami</h2>
+                        <p class="lead text-muted">Temukan apa yang membuat banyak gamer menggunakan layanan kami</p>
                     </div>
 
                     <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
