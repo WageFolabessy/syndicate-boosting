@@ -191,7 +191,7 @@
                                                                     {{ number_format($orderDetail->price, 0, ',', '.') }}
                                                                 </li>
                                                                 <li>Deskirpsi:
-                                                                    {{ $gameAccount->game->description ?? '-' }}
+                                                                    {{ $gameAccount->description ?? '-' }}
                                                                 </li>
                                                             </ul>
                                                         @else
