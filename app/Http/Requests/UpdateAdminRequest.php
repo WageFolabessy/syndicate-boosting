@@ -4,12 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateAdminRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     public function rules()

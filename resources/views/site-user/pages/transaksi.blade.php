@@ -79,7 +79,7 @@
             <div class="container">
                 @if (request('search'))
                     <div class="alert alert-success">
-                        Catat nomor transaksi Anda: <strong>{{ request('search') }}</strong>
+                        Jangan disebarkan kepada orang lain dan Catat nomor transaksi Anda: <strong>{{ request('search') }}</strong>
                     </div>
                 @endif
 
