@@ -15,6 +15,8 @@ class UpdateGameAccountRequest extends FormRequest
     {
         return [
             'game_id'        => 'sometimes|required|exists:games,id',
+            'username'        => 'sometimes|string|max:255',
+            'password'        => 'sometimes|string|max:255',
             'account_name'   => 'sometimes|required|string|max:255',
             'description'    => 'nullable|string',
             'features'       => 'nullable|string',
@@ -33,6 +35,10 @@ class UpdateGameAccountRequest extends FormRequest
         return [
             'game_id.required'        => 'Game harus dipilih.',
             'game_id.exists'          => 'Game yang dipilih tidak valid.',
+            'username.string'      => 'Username akun game harus berupa teks.',
+            'username.max'         => 'Username akun game tidak boleh lebih dari 255 karakter.',
+            'password.string'      => 'Password akun game harus berupa teks.',
+            'password.max'         => 'Password akun game tidak boleh lebih dari 255 karakter.',
             'account_name.required'   => 'Nama akun wajib diisi.',
             'account_name.string'     => 'Nama akun harus berupa teks.',
             'account_name.max'        => 'Nama akun maksimal 255 karakter.',

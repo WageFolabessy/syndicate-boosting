@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GameAccount extends Model
 {
     protected $fillable = [
-        'game_id', 'account_name', 'description', 'features',
+        'game_id', 'username', 'password', 'account_name', 'description', 'features',
         'sale_price', 'original_price', 'image', 'level', 'account_age', 'for_sale'
     ];
 

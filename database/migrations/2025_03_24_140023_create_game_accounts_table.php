@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('game_accounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
+            $table->string('username');
+            $table->string('password');
             $table->string('account_name');
             $table->text('description')->nullable();
             $table->text('features')->nullable();

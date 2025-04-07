@@ -69,6 +69,24 @@
                                         placeholder="Enter account name" required
                                         value="{{ old('account_name', $gameAccount->account_name) }}">
                                 </div>
+                                <!-- Username Account -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">
+                                        Username Account <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="username" id="username"
+                                        placeholder="Enter account name" required
+                                        value="{{ old('username', $gameAccount->username) }}">
+                                </div>
+                                <!-- Password Account -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        Password Account <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="password" id="password"
+                                        placeholder="Enter account name" required
+                                        value="{{ old('password', $gameAccount->password) }}">
+                                </div>
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>

@@ -171,10 +171,27 @@
                                                             <ul class="list-unstyled mb-0">
                                                                 <li><strong>{{ $gameAccount->account_name }}</strong></li>
                                                                 <li>Game: {{ $gameAccount->game->name ?? '-' }}</li>
-                                                                <li>Level: {{ $gameAccount->level ?? '-' }}</li>
-                                                                <li>Usia Akun: {{ $gameAccount->account_age ?? '-' }}</li>
+                                                                <li>
+                                                                    ID Akun:
+                                                                    <span
+                                                                        id="username-{{ $transaction->id }}">********</span>
+                                                                    <i class="fa fa-eye"
+                                                                        style="cursor: pointer; margin-left: 5px;"
+                                                                        onclick="toggleVisibility('username-{{ $transaction->id }}', '{{ $gameAccount->username }}', this)"></i>
+                                                                </li>
+                                                                <li>
+                                                                    Password Akun:
+                                                                    <span
+                                                                        id="password-{{ $transaction->id }}">********</span>
+                                                                    <i class="fa fa-eye"
+                                                                        style="cursor: pointer; margin-left: 5px;"
+                                                                        onclick="toggleVisibility('password-{{ $transaction->id }}', '{{ $gameAccount->password }}', this)"></i>
+                                                                </li>
                                                                 <li>Harga: Rp
                                                                     {{ number_format($orderDetail->price, 0, ',', '.') }}
+                                                                </li>
+                                                                <li>Deskirpsi:
+                                                                    {{ $gameAccount->game->description ?? '-' }}
                                                                 </li>
                                                             </ul>
                                                         @else
@@ -331,5 +348,22 @@
                 });
             });
         });
+
+        function toggleVisibility(elementId, realText, iconEl) {
+            var spanEl = document.getElementById(elementId);
+            if (spanEl.getAttribute('data-visible') === 'true') {
+                // Sembunyikan data
+                spanEl.textContent = '********';
+                spanEl.setAttribute('data-visible', 'false');
+                iconEl.classList.remove('fa-eye-slash');
+                iconEl.classList.add('fa-eye');
+            } else {
+                // Tampilkan data asli
+                spanEl.textContent = realText;
+                spanEl.setAttribute('data-visible', 'true');
+                iconEl.classList.remove('fa-eye');
+                iconEl.classList.add('fa-eye-slash');
+            }
+        }
     </script>
 @endsection

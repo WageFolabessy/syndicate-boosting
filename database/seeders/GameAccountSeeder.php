@@ -20,6 +20,8 @@ class GameAccountSeeder extends Seeder
         $dataPBGameAccount1 = [
             'game_id' => 3,
             'account_name' => 'Bintang 2',
+            'username' => 'gmpsl336',
+            'password' => 'bintang2',
             'description' => '',
             'features' => 'QC 220 hari+HK,Butterfly, Idol CT Tero Permanent+Pindad, Ninjato, 2 Karakter Permanent+Inventory 636/600+EXP 74jt+FREE GB KE B3/ B4/HERO',
             'original_price' => 1250000,
@@ -41,6 +43,8 @@ class GameAccountSeeder extends Seeder
         $dataPBGameAccount2 = [
             'game_id' => 3,
             'account_name' => 'Major',
+            'username' => 'pb123',
+            'password' => 'pb123456',
             'description' => '',
             'features' => 'QC 10 hari+Inventory 175an',
             'original_price' => 25000,
