@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\AllTransactionExport;
+use App\Exports\CustomBoostingTransactionExport;
+use App\Exports\GameAccountTransactionExport;
+use App\Exports\PackageBoostingTransactionExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateStatusCustomOrderRequest;
 use App\Http\Requests\UpdateStatusPackageOrderRequest;
@@ -10,6 +14,7 @@ use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
@@ -255,5 +260,22 @@ class TransactionController extends Controller
         } else {
             return redirect()->back()->with('error', 'Gagal memperbarui status.');
         }
+    }
+
+    public function allTransactionExport()
+    {
+        return Excel::download(new AllTransactionExport, 'all transaction managements.xlsx');
+    }
+    public function customBoostingTransactionExport()
+    {
+        return Excel::download(new CustomBoostingTransactionExport, 'custom boosting transaction managements.xlsx');
+    }
+    public function packageBoostingTransactionExport()
+    {
+        return Excel::download(new PackageBoostingTransactionExport, 'package boosting transaction managements.xlsx');
+    }
+    public function gameAccountTransactionExport()
+    {
+        return Excel::download(new GameAccountTransactionExport, 'game account transaction managements.xlsx');
     }
 }

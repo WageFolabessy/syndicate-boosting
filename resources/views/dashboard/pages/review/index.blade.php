@@ -12,7 +12,7 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
                 <h1 class="mb-3 mb-md-0 fw-bold">Reviews Management</h1>
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('dashboard.label.export') }}" class="btn btn-outline-primary">
+                    <a href="{{ route('dashboard.review.export') }}" class="btn btn-outline-primary">
                         <i class="fas fa-download me-2"></i>Export
                     </a>
                 </div>

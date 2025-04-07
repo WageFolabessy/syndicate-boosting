@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\PaymentExport;
 use App\Http\Controllers\Controller;
 use App\Models\AccountOrderDetail;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class PaymentController extends Controller
@@ -55,5 +57,10 @@ class PaymentController extends Controller
     {
         $data = $payment->payload;
         return view('dashboard.pages.payment.detail', compact('data'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new PaymentExport, 'payment managements.xlsx');
     }
 }

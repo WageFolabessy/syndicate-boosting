@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\ReviewExport;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class ReviewController extends Controller
@@ -40,5 +42,10 @@ class ReviewController extends Controller
                     : '';
             })
             ->make(true);
+    }
+
+    public function export()
+    {
+        return Excel::download(new ReviewExport, 'review managements.xlsx');
     }
 }

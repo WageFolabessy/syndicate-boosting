@@ -149,12 +149,14 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/transactions/all', function () {
         return view('dashboard.pages.transaction.all-transaction');
     })->name('dashboard.all-transactions');
+    Route::get('/transactions/export', [TransactionController::class, 'allTransactionExport'])->name('dashboard.all-transaction.export');
     Route::get('/transactions/all/datatables', [TransactionController::class, 'getAllTransactions']);
 
     // Custom Boosting Transactions Managements
     Route::get('/transactions/custom-boosting', function () {
         return view('dashboard.pages.transaction.custom-boosting-transaction');
     })->name('dashboard.custom-boosting-transaction');
+    Route::get('/transactions/custom-boosting/export', [TransactionController::class, 'customBoostingTransactionExport'])->name('dashboard.custom-boosting-transaction.export');
     Route::get('/transactions/custom-boosting/datatables', [TransactionController::class, 'getAllcustomBoostingTransaction']);
     Route::get('/transaction/custom-boosting/{custom}', [TransactionController::class, 'showCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.detail');
     Route::put('/transaction/custom-boosting/{custom}', [TransactionController::class, 'updateCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.update');
@@ -163,6 +165,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/transactions/package-boosting', function () {
         return view('dashboard.pages.transaction.package-boosting-transaction');
     })->name('dashboard.package-boosting-transaction');
+    Route::get('/transactions/package-boosting/export', [TransactionController::class, 'packageBoostingTransactionExport'])->name('dashboard.package-boosting-transaction.export');
     Route::get('/transactions/package-boosting/datatables', [TransactionController::class, 'getAllpackageBoostingTransaction']);
     Route::get('/transaction/package-boosting/{package}', [TransactionController::class, 'showPackageBoostingOrder'])->name('dashboard.package-boosting-transaction.detail');
     Route::put('/transaction/package-boosting/{package}', [TransactionController::class, 'updatePackageBoostingOrder'])->name('dashboard.package-boosting-transaction.update');
@@ -171,12 +174,14 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/transactions/game-account', function () {
         return view('dashboard.pages.transaction.game-account-transaction');
     })->name('dashboard.game-account-transaction');
+    Route::get('/transactions/game-account/export', [TransactionController::class, 'gameAccountTransactionExport'])->name('dashboard.game-account-transaction.export');
     Route::get('/transactions/game-account/datatables', [TransactionController::class, 'getAllgameAccountTransaction']);
 
     // Payments Managements
     Route::get('/payment', function () {
         return view('dashboard.pages.payment.index');
     })->name('dashboard.payment');
+    Route::get('/payment/export', [PaymentController::class, 'export'])->name('dashboard.payment.export');
     Route::get('/payments/datatables', [PaymentController::class, 'getAllPayments']);
     Route::get('/payment/{payment}', [PaymentController::class, 'show'])->name('dashboard.payment.show');
 
@@ -184,6 +189,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/review', function () {
         return view('dashboard.pages.review.index');
     })->name('dashboard.review');
+    Route::get('/review/export', [ReviewController::class, 'export'])->name('dashboard.review.export');
     Route::get('/reviews/datatables', [ReviewController::class, 'index']);
 
     // FAQ'S Managements
