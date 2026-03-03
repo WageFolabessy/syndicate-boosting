@@ -1037,7 +1037,7 @@
             fetch('/custom-order/process', {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
@@ -1045,6 +1045,11 @@
                 })
                 .then(response => {
                     if (!response.ok) {
+                        if (response.status === 419) {
+                            alert('Sesi Anda telah berakhir. Halaman akan dimuat ulang.');
+                            window.location.reload();
+                            throw new Error('CSRF token expired');
+                        }
                         if (response.status === 422) {
                             return response.json().then(data => {
                                 displayValidationErrors(data.errors);

@@ -11,6 +11,7 @@
         content="Syndicate offers professional game boosting services and premium game accounts for serious players. Elevate your gaming experience today." />
     <meta name="keywords" content="game boosting, joki game, akun game, game accounts, professional gaming services" />
     <meta name="author" content="Syndicate" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('meta')
 
     <!-- Bootstrap 5 CSS -->

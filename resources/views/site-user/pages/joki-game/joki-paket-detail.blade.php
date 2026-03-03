@@ -282,13 +282,18 @@
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(data)
                     })
                     .then(async response => {
                         if (!response.ok) {
+                            if (response.status === 419) {
+                                alert('Sesi Anda telah berakhir. Halaman akan dimuat ulang.');
+                                window.location.reload();
+                                throw new Error('CSRF token expired');
+                            }
                             if (response.status === 422) {
                                 const errorData = await response.json();
                                 if (errorData.errors) {
