@@ -30,6 +30,7 @@ Route::post('/account-order/process', [AccountOrderController::class, 'processPa
 Route::post('/package-order/process', [PackageOrderController::class, 'processPayment']);
 Route::post('/custom-order/process', [CustomOrderController::class, 'processPayment']);
 Route::post('/midtrans/notification', [AccountOrderController::class, 'handleNotification']);
+Route::post('/midtrans/notification/custom-order', [CustomOrderController::class, 'handleNotification']);
 
 Route::get('/akun-game', [GameAccountPageController::class, 'index'])->name('akun-game');
 Route::get('/akun-game/{game:slug}/{account}/detail', [GameAccountPageController::class, 'show'])->name('akun-game.detail');
@@ -160,7 +161,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/transactions/custom-boosting/datatables', [TransactionController::class, 'getAllcustomBoostingTransaction']);
     Route::get('/transaction/custom-boosting/{custom}', [TransactionController::class, 'showCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.detail');
     Route::put('/transaction/custom-boosting/{custom}', [TransactionController::class, 'updateCustomBoostingOrder'])->name('dashboard.custom-boosting-transaction.update');
-    
+
     // Package Boosting Transactions Managements
     Route::get('/transactions/package-boosting', function () {
         return view('dashboard.pages.transaction.package-boosting-transaction');
