@@ -13,7 +13,6 @@ use App\Models\AccountOrderDetail;
 use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -31,14 +30,14 @@ class TransactionController extends Controller
                 return $transaction->transaction_number;
             })
             ->editColumn('order_type', function ($transaction) {
-                if (class_basename($transaction->transactionable) == "CustomOrderDetail") {
-                    return "CustomOrder";
+                if (class_basename($transaction->transactionable) == 'CustomOrderDetail') {
+                    return 'CustomOrder';
                 }
-                if (class_basename($transaction->transactionable) == "PackageOrderDetail") {
-                    return "PackageOrder";
+                if (class_basename($transaction->transactionable) == 'PackageOrderDetail') {
+                    return 'PackageOrder';
                 }
-                if (class_basename($transaction->transactionable) == "AccountOrderDetail") {
-                    return "AccountOrder";
+                if (class_basename($transaction->transactionable) == 'AccountOrderDetail') {
+                    return 'AccountOrder';
                 }
             })
             ->editColumn('customer_name', function ($transaction) {
@@ -64,11 +63,44 @@ class TransactionController extends Controller
                 return view('dashboard.pages.transaction.action-button.all-transaction')->with('detail', $detail);
             })
             ->addColumn('payment_status', function ($transaction) {
-                return $transaction->payment
-                    ? ucfirst($transaction->payment->midtrans_status)
-                    : 'Pending or Failed';
+                $status = $transaction->payment
+                    ? $transaction->payment->midtrans_status
+                    : 'pending';
+
+                $statusClass = match ($status) {
+                    'settlement' => 'success',
+                    'pending' => 'warning',
+                    'expire' => 'secondary',
+                    'deny', 'cancel' => 'danger',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = ucfirst($status);
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
-            ->rawColumns(['action'])
+            ->addColumn('transaction_status', function ($transaction) {
+                $statusClass = match ($transaction->status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($transaction->status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($transaction->status)
+                };
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+            })
+            ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
     }
 
@@ -81,7 +113,7 @@ class TransactionController extends Controller
             'currentGameRankTierDetail',
             'desiredGameRankCategory',
             'desiredGameRankTier',
-            'desiredGameRankTierDetail'
+            'desiredGameRankTierDetail',
         ])
             ->orderBy('updated_at', 'desc')
             ->get();
@@ -92,9 +124,44 @@ class TransactionController extends Controller
                 return $detail->transaction->transaction_number ?? 'N/A';
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment
-                    ? ucfirst($detail->transaction->payment->midtrans_status)
-                    : 'Pending or Failed';
+                $status = $detail->transaction->payment
+                    ? $detail->transaction->payment->midtrans_status
+                    : 'pending';
+
+                $statusClass = match ($status) {
+                    'settlement' => 'success',
+                    'pending' => 'warning',
+                    'expire' => 'secondary',
+                    'deny', 'cancel' => 'danger',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = ucfirst($status);
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+            })
+            ->addColumn('transaction_status', function ($detail) {
+                $status = $detail->transaction->status ?? 'pending';
+
+                $statusClass = match ($status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($status)
+                };
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('game', function ($detail) {
                 // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
@@ -102,14 +169,16 @@ class TransactionController extends Controller
             })
             ->addColumn('current_rank', function ($detail) {
                 $category = $detail->currentGameRankCategory->name ?? '-';
-                $tier     = $detail->currentGameRankTier->tier ?? '-';
-                $star     = $detail->currentGameRankTierDetail->star_number ?? '-';
+                $tier = $detail->currentGameRankTier->tier ?? '-';
+                $star = $detail->currentGameRankTierDetail->star_number ?? '-';
+
                 return "{$category} - {$tier} ({$star})";
             })
             ->addColumn('desired_rank', function ($detail) {
                 $category = $detail->desiredGameRankCategory->name ?? '-';
-                $tier     = $detail->desiredGameRankTier->tier ?? '-';
-                $star     = $detail->desiredGameRankTierDetail->star_number ?? '-';
+                $tier = $detail->desiredGameRankTier->tier ?? '-';
+                $star = $detail->desiredGameRankTierDetail->star_number ?? '-';
+
                 return "{$category} - {$tier} ({$star})";
             })
             ->editColumn('customer_name', function ($detail) {
@@ -134,7 +203,7 @@ class TransactionController extends Controller
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.custom-boosting')->with('detail', $detail);
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
     }
 
@@ -178,13 +247,49 @@ class TransactionController extends Controller
                 return view('dashboard.pages.transaction.action-button.package-boosting')->with('detail', $detail);
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment
-                    ? ucfirst($detail->transaction->payment->midtrans_status)
-                    : 'Pending or Failed';
+                $status = $detail->transaction->payment
+                    ? $detail->transaction->payment->midtrans_status
+                    : 'pending';
+
+                $statusClass = match ($status) {
+                    'settlement' => 'success',
+                    'pending' => 'warning',
+                    'expire' => 'secondary',
+                    'deny', 'cancel' => 'danger',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = ucfirst($status);
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
-            ->rawColumns(['action'])
+            ->addColumn('transaction_status', function ($detail) {
+                $status = $detail->transaction->status ?? 'pending';
+
+                $statusClass = match ($status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($status)
+                };
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+            })
+            ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
     }
+
     public function getAllGameAccountTransaction()
     {
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
@@ -222,11 +327,49 @@ class TransactionController extends Controller
                     : '-';
             })
             ->addColumn('payment_status', function ($detail) {
-                return $detail->transaction->payment
-                    ? ucfirst($detail->transaction->payment->midtrans_status)
-                    : 'Pending or Failed';
+                $status = $detail->transaction->payment
+                    ? $detail->transaction->payment->midtrans_status
+                    : 'pending';
+
+                $statusClass = match ($status) {
+                    'settlement' => 'success',
+                    'pending' => 'warning',
+                    'expire' => 'secondary',
+                    'deny', 'cancel' => 'danger',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = ucfirst($status);
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
-            ->rawColumns(['action'])
+            ->addColumn('transaction_status', function ($detail) {
+                $status = $detail->transaction->status ?? 'pending';
+
+                $statusClass = match ($status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($status)
+                };
+
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+            })
+            ->addColumn('action', function ($detail) {
+                return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);
+            })
+            ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
     }
 
@@ -266,14 +409,17 @@ class TransactionController extends Controller
     {
         return Excel::download(new AllTransactionExport, 'all transaction managements.xlsx');
     }
+
     public function customBoostingTransactionExport()
     {
         return Excel::download(new CustomBoostingTransactionExport, 'custom boosting transaction managements.xlsx');
     }
+
     public function packageBoostingTransactionExport()
     {
         return Excel::download(new PackageBoostingTransactionExport, 'package boosting transaction managements.xlsx');
     }
+
     public function gameAccountTransactionExport()
     {
         return Excel::download(new GameAccountTransactionExport, 'game account transaction managements.xlsx');

@@ -50,6 +50,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Transaction Number</th>
+                                <th class="text-center">Transaction Status</th>
                                 <th class="text-center">Payment Status</th>
                                 <th class="text-center">Order Type</th>
                                 <th class="text-center">Customer Name</th>

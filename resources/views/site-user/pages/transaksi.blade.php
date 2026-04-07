@@ -119,9 +119,26 @@
                                             <tr>
                                                 <td>{{ $transaction->transaction_number }}</td>
                                                 <td>
-                                                    <span
-                                                        class="badge bg-{{ $transaction->status == 'success' ? 'success' : 'warning' }}">
-                                                        {{ ucfirst($transaction->status) }}
+                                                    @php
+                                                        $statusClass = match($transaction->status) {
+                                                            'success' => 'success',
+                                                            'failed' => 'danger',
+                                                            'canceled' => 'secondary',
+                                                            'pending' => 'warning',
+                                                            'processed' => 'info',
+                                                            default => 'light text-dark'
+                                                        };
+                                                        $statusLabel = match($transaction->status) {
+                                                            'success' => 'Berhasil',
+                                                            'failed' => 'Gagal',
+                                                            'canceled' => 'Dibatalkan',
+                                                            'pending' => 'Menunggu',
+                                                            'processed' => 'Diproses',
+                                                            default => ucfirst($transaction->status)
+                                                        };
+                                                    @endphp
+                                                    <span class="badge bg-{{ $statusClass }}">
+                                                        {{ $statusLabel }}
                                                     </span>
                                                 </td>
                                                 <td>{{ $transaction->created_at->format('d M Y, H:i') }}</td>

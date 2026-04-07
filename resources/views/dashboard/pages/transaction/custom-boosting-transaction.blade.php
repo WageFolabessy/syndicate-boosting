@@ -31,14 +31,17 @@
 
         .status-badge.success {
             background-color: #28a745;
+            color: white;
         }
 
         .status-badge.failed {
             background-color: #dc3545;
+            color: white;
         }
 
         .status-badge.canceled {
             background-color: #6c757d;
+            color: white;
         }
 
         .status-badge.pending {
@@ -48,6 +51,7 @@
 
         .status-badge.processed {
             background-color: #17a2b8;
+            color: white;
         }
     </style>
 @endsection

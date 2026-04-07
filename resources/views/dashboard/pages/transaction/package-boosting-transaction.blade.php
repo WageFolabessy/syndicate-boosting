@@ -22,7 +22,6 @@
             padding: 0.35em 0.65em;
             font-size: 0.875rem;
             font-weight: 600;
-            color: #fff;
             border-radius: 0.5rem;
             text-align: center;
             min-width: 80px;
@@ -31,15 +30,17 @@
 
         .status-badge.success {
             background-color: #28a745;
-            color: #212529;
+            color: white;
         }
 
         .status-badge.failed {
             background-color: #dc3545;
+            color: white;
         }
 
         .status-badge.canceled {
             background-color: #6c757d;
+            color: white;
         }
 
         .status-badge.pending {
@@ -49,6 +50,7 @@
 
         .status-badge.processed {
             background-color: #17a2b8;
+            color: white;
         }
     </style>
 @endsection

@@ -14,6 +14,11 @@ $(document).ready(function () {
             },
             { data: "transaction_number", name: "transaction_number" },
             {
+                data: "transaction_status",
+                name: "transaction_status",
+                className: "text-center",
+            },
+            {
                 data: "payment_status",
                 name: "payment_status",
                 className: "text-center",
@@ -32,20 +37,8 @@ $(document).ready(function () {
             },
         ],
         createdRow: function (row, data, dataIndex) {
-            console.log(data);
-            if (
-                data.payment_status === "Failed" ||
-                data.payment_status === "Pending" ||
-                data.payment_status === "Pending or Failed"
-            ) {
-                $(row).addClass("status-failed");
-            }
-            if (
-                data.payment_status === "Settlement" ||
-                data.payment_status === "Success"
-            ) {
-                $(row).addClass("status-success");
-            }
+            // Remove old logic based on payment status
+            // Now using badge colors in each cell instead of row background
         },
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +

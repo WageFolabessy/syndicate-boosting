@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             GameAccountSeeder::class,
         ]);
         $this->call([
-           BoostingServiceSeeder::class,
+            BoostingServiceSeeder::class,
         ]);
         $this->call([
             ApexLegendRankCategorySeeder::class,
@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call([
             MobileLegendGameRankTierDetailSeeder::class,
+        ]);
+        $this->call([
+            TransactionSeeder::class,
         ]);
     }
 }
