@@ -9,11 +9,11 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class AllTransactionExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return Transaction::all()->map(function($transaction) {
+        return Transaction::where('status', 'success')->get()->map(function ($transaction) {
             return [
                 'ID' => $transaction->id,
                 'Transaction Number' => $transaction->transaction_number,

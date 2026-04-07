@@ -9,11 +9,13 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class PackageBoostingTransactionExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return PackageOrderDetail::all()->map(function($detail) {
+        return PackageOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->get()->map(function ($detail) {
             return [
                 'ID'                     => $detail->id,
                 'Transaction Number'         => $detail->transaction->transaction_number,
@@ -33,7 +35,7 @@ class PackageBoostingTransactionExport implements FromCollection, WithHeadings
             ];
         });
     }
-    
+
     public function headings(): array
     {
         return [

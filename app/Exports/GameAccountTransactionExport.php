@@ -9,11 +9,13 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class GameAccountTransactionExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return AccountOrderDetail::all()->map(function($detail) {
+        return AccountOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->get()->map(function ($detail) {
             return [
                 'ID'                 => $detail->id,
                 'Transaction Number'     => $detail->transaction->transaction_number,
@@ -28,7 +30,7 @@ class GameAccountTransactionExport implements FromCollection, WithHeadings
             ];
         });
     }
-    
+
     public function headings(): array
     {
         return [

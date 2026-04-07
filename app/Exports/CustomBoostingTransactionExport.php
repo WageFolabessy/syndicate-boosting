@@ -13,7 +13,9 @@ class CustomBoostingTransactionExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return CustomOrderDetail::all()->map(function ($transaction) {
+        return CustomOrderDetail::whereHas('transaction', function ($q) {
+            $q->where('status', 'success');
+        })->get()->map(function ($transaction) {
             return [
                 'ID'                           => $transaction->id,
                 'Transaction Number'         => $transaction->transaction->transaction_number,
