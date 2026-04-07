@@ -11,6 +11,8 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionSuccessMail;
 use Midtrans\Snap;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -72,6 +74,17 @@ class AccountOrderController extends Controller
                     $gameAccount->for_sale = false;
                     $gameAccount->save();
                 }
+
+                if ($orderDetail->customer_email) {
+                    try {
+                        Mail::to($orderDetail->customer_email)->send(
+                            new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
+                        );
+                        Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
+                    } catch (\Exception $e) {
+                        Log::error('Failed to send transaction success email: ' . $e->getMessage());
+                    }
+                }
             }
         }
 
@@ -112,6 +125,7 @@ class AccountOrderController extends Controller
                 'game_account_id'  => $data['game_account_id'],
                 'customer_name'    => $data['customer_name'],
                 'customer_contact' => $data['customer_contact'],
+                'customer_email'   => $data['customer_email'],
                 'price'            => $price,
             ]);
 

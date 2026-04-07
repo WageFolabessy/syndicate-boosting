@@ -25,6 +25,7 @@ class CustomOrderRequest extends FormRequest
             'note'                               => 'nullable|string',
             'customer_name'                      => 'required|string|max:255',
             'customer_contact'                   => 'required|string|max:20',
+            'customer_email'                     => 'required|email|max:255',
             'username'                           => 'required|string|max:255',
             'password'                           => 'required|string|max:255',
         ];
@@ -56,6 +57,9 @@ class CustomOrderRequest extends FormRequest
             'customer_contact.required'                 => 'Kontak pelanggan harus diisi.',
             'customer_contact.string'                   => 'Kontak pelanggan harus berupa teks.',
             'customer_contact.max'                      => 'Kontak pelanggan tidak boleh lebih dari 20 karakter.',
+            'customer_email.required'                   => 'Email wajib diisi.',
+            'customer_email.email'                      => 'Format email tidak valid.',
+            'customer_email.max'                        => 'Email tidak boleh lebih dari 255 karakter.',
             'username.required'                         => 'Username harus diisi.',
             'username.string'                           => 'Username harus berupa teks.',
             'username.max'                              => 'Username tidak boleh lebih dari 255 karakter.',

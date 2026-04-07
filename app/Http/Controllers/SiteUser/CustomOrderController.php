@@ -11,6 +11,8 @@ use App\Models\Payment;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionSuccessMail;
 use Midtrans\Snap;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -62,6 +64,20 @@ class CustomOrderController extends Controller
             $transaction->status = 'canceled';
         }
         $transaction->save();
+
+        if ($transaction->status === 'success') {
+            $order = \App\Models\CustomOrderDetail::find($transaction->transactionable_id);
+            if ($order && $order->customer_email) {
+                try {
+                    Mail::to($order->customer_email)->send(
+                        new TransactionSuccessMail($transaction, $order->customer_name, $order->customer_email)
+                    );
+                    Log::info('Transaction success email sent to: ' . $order->customer_email);
+                } catch (\Exception $e) {
+                    Log::error('Failed to send transaction success email: ' . $e->getMessage());
+                }
+            }
+        }
 
         Log::info('Midtrans Notification Payload:', $request->all());
         Payment::updateOrCreate(
@@ -126,6 +142,7 @@ class CustomOrderController extends Controller
                 'note'                             => $data['note'] ?? null,
                 'customer_name'                    => $data['customer_name'],
                 'customer_contact'                 => $data['customer_contact'],
+                'customer_email'                   => $data['customer_email'],
                 'username'                         => $data['username'],
                 'password'                         => $data['password'],
                 'price'                            => $price,

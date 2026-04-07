@@ -298,19 +298,23 @@
             const gameAccountIdElem = document.getElementById('game_account_id');
             const customerNameElem = document.getElementById('customer_name');
             const customerContactElem = document.getElementById('customer_contact');
+            const customerEmailElem = document.getElementById('customer_email');
             const confirmButton = document.querySelector('.confirm-payment-button');
 
-            if (!gameAccountIdElem || !customerNameElem || !customerContactElem || !confirmButton) {
+            if (!gameAccountIdElem || !customerNameElem || !customerContactElem || !customerEmailElem || !confirmButton) {
                 return;
             }
 
             confirmButton.addEventListener('click', function() {
                 document.getElementById('error_customer_name').textContent = '';
                 document.getElementById('error_customer_contact').textContent = '';
+                document.getElementById('error_customer_email').textContent = '';
+                customerEmailElem.classList.remove('is-invalid');
 
                 const gameAccountId = gameAccountIdElem.value;
                 const customerName = customerNameElem.value;
                 const customerContact = customerContactElem.value;
+                const customerEmail = customerEmailElem.value;
 
                 fetch('/account-order/process', {
                         method: 'POST',
@@ -322,7 +326,8 @@
                         body: JSON.stringify({
                             game_account_id: gameAccountId,
                             customer_name: customerName,
-                            customer_contact: customerContact
+                            customer_contact: customerContact,
+                            customer_email: customerEmail
                         })
                     })
                     .then(async response => {
@@ -344,6 +349,11 @@
                                         document.getElementById('error_customer_contact')
                                             .textContent = errorData.errors.customer_contact[0];
                                         customerContactElem.classList.add('is-invalid');
+                                    }
+                                    if (errorData.errors.customer_email) {
+                                        document.getElementById('error_customer_email')
+                                            .textContent = errorData.errors.customer_email[0];
+                                        customerEmailElem.classList.add('is-invalid');
                                     }
                                 }
                                 throw new Error("Validasi gagal.");

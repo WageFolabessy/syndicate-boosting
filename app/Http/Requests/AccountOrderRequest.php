@@ -18,6 +18,7 @@ class AccountOrderRequest extends FormRequest
             'game_account_id'  => 'required|exists:game_accounts,id',
             'customer_name'    => 'required|string|max:255',
             'customer_contact' => 'required|string|max:255',
+            'customer_email'   => 'required|email|max:255',
         ];
     }
 
@@ -32,6 +33,9 @@ class AccountOrderRequest extends FormRequest
             'customer_contact.required' => 'Nomor kontak whatsapp wajib diisi.',
             'customer_contact.string'   => 'Nomor kontak harus berupa teks.',
             'customer_contact.max'      => 'Nomor kontak maksimal 255 karakter.',
+            'customer_email.required'   => 'Email wajib diisi.',
+            'customer_email.email'      => 'Format email tidak valid.',
+            'customer_email.max'        => 'Email tidak boleh lebih dari 255 karakter.',
         ];
     }
 }

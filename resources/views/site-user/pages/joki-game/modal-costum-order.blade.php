@@ -71,6 +71,17 @@
                                         class="text-danger">*</span></label>
                             </div>
                         </div>
+                        <!-- Email Pelanggan -->
+                        <div class="col-md-12">
+                            <div class="form-floating mb-2">
+                                <div class="error-message text-danger" id="error-customer_email"></div>
+                                <input type="email" class="form-control rounded-3" id="customer_email"
+                                    name="customer_email" required placeholder="email@contoh.com">
+                                <label for="customer_email" class="text-muted"><i
+                                        class="bi bi-envelope me-2"></i>Email <span
+                                        class="text-danger">*</span></label>
+                            </div>
+                        </div>
                         <!-- Username/ID Akun -->
                         <div class="col-md-6">
                             <div class="form-floating mb-2">

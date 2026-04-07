@@ -20,6 +20,7 @@ class PackageOrderRequest extends FormRequest
             'note'                => 'nullable|string',
             'customer_name'       => 'required|string|max:255',
             'customer_contact'    => 'required|regex:/^[0-9]+$/|max:20',
+            'customer_email'      => 'required|email|max:255',
             'username'            => 'required|string|max:255',
             'password'            => 'required|string|max:255',
         ];
@@ -39,6 +40,9 @@ class PackageOrderRequest extends FormRequest
             'customer_contact.required'    => 'Nomor WhatsApp wajib diisi.',
             'customer_contact.regex'       => 'Nomor WhatsApp hanya boleh berisi angka.',
             'customer_contact.max'         => 'Nomor WhatsApp tidak boleh lebih dari 20 karakter.',
+            'customer_email.required'      => 'Email wajib diisi.',
+            'customer_email.email'         => 'Format email tidak valid.',
+            'customer_email.max'           => 'Email tidak boleh lebih dari 255 karakter.',
             'username.required'            => 'Username/ID Game wajib diisi.',
             'username.max'                 => 'Username/ID Game tidak boleh lebih dari 255 karakter.',
             'password.required'            => 'Password Akun wajib diisi.',

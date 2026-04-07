@@ -47,6 +47,18 @@
                             <!-- Pesan error untuk customer_contact -->
                             <div class="invalid-feedback" id="error_customer_contact"></div>
                         </div>
+                        <!-- Email Pelanggan -->
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="email" class="form-control rounded-3" id="customer_email"
+                                    name="customer_email" required placeholder="email@contoh.com">
+                                <label for="customer_email" class="text-muted">
+                                    <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            <!-- Pesan error untuk customer_email -->
+                            <div class="invalid-feedback" id="error_customer_email"></div>
+                        </div>
                     </div>
                 </form>
             </div>

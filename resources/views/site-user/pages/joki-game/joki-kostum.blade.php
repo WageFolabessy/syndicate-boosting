@@ -1007,7 +1007,7 @@
     </script>
     <script>
         function displayValidationErrors(errors) {
-            const fields = ['server', 'login_method', 'note', 'customer_name', 'customer_contact', 'username', 'password'];
+            const fields = ['server', 'login_method', 'note', 'customer_name', 'customer_contact', 'customer_email', 'username', 'password'];
             fields.forEach(field => {
                 const errorDiv = document.getElementById('error-' + field);
                 if (errorDiv) {

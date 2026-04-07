@@ -19,6 +19,7 @@ class CustomOrderDetail extends Model
         'note',
         'customer_name',
         'customer_contact',
+        'customer_email',
         'username',
         'password',
         'price',
