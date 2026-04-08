@@ -67,15 +67,45 @@ class AccountOrderController extends Controller
         $transaction->save();
 
         if ($transaction->status === 'success') {
-            $orderDetail = AccountOrderDetail::find($transaction->transactionable_id);
-            if ($orderDetail) {
-                $gameAccount = GameAccount::find($orderDetail->game_account_id);
-                if ($gameAccount) {
-                    $gameAccount->for_sale = false;
-                    $gameAccount->save();
-                }
+            $transactionableType = $transaction->transactionable_type;
 
-                if ($orderDetail->customer_email) {
+            if ($transactionableType === \App\Models\AccountOrderDetail::class) {
+                // Akun Game: tandai akun tidak untuk dijual
+                $orderDetail = AccountOrderDetail::find($transaction->transactionable_id);
+                if ($orderDetail) {
+                    $gameAccount = GameAccount::find($orderDetail->game_account_id);
+                    if ($gameAccount) {
+                        $gameAccount->for_sale = false;
+                        $gameAccount->save();
+                    }
+                    if ($orderDetail->customer_email) {
+                        try {
+                            Mail::to($orderDetail->customer_email)->send(
+                                new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
+                            );
+                            Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
+                        } catch (\Exception $e) {
+                            Log::error('Failed to send transaction success email: ' . $e->getMessage());
+                        }
+                    }
+                }
+            } elseif ($transactionableType === \App\Models\PackageOrderDetail::class) {
+                // Joki Paket
+                $orderDetail = \App\Models\PackageOrderDetail::find($transaction->transactionable_id);
+                if ($orderDetail && $orderDetail->customer_email) {
+                    try {
+                        Mail::to($orderDetail->customer_email)->send(
+                            new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
+                        );
+                        Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
+                    } catch (\Exception $e) {
+                        Log::error('Failed to send transaction success email: ' . $e->getMessage());
+                    }
+                }
+            } elseif ($transactionableType === \App\Models\CustomOrderDetail::class) {
+                // Joki Kostum
+                $orderDetail = \App\Models\CustomOrderDetail::find($transaction->transactionable_id);
+                if ($orderDetail && $orderDetail->customer_email) {
                     try {
                         Mail::to($orderDetail->customer_email)->send(
                             new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
