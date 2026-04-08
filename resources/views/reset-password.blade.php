@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Syndicate - Reset Password</title>
-    <meta name="description" content="Syndicate Admin Dashboard">
-    <meta name="author" content="Syndicate">
+    <title>Syndicate Booster - Reset Password</title>
+    <meta name="description" content="Syndicate Booster Admin Dashboard">
+    <meta name="author" content="Syndicate Booster">
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/dashboard/images/logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}" rel="stylesheet">

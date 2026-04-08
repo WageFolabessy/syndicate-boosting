@@ -2,7 +2,7 @@
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <h2>Syndicate</h2>
+            <h2>Syndicate Booster</h2>
         </a>
     </div>
 

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Syndicate - Login</title>
-    <meta name="description" content="Syndicate Admin Dashboard">
-    <meta name="author" content="Syndicate">
+    <title>Syndicate Booster - Login</title>
+    <meta name="description" content="Syndicate Booster Admin Dashboard">
+    <meta name="author" content="Syndicate Booster">
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/dashboard/images/logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -17,7 +17,7 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h1 class="auth-title">Welcome to Syndicate</h1>
+                <h1 class="auth-title">Welcome to Syndicate Booster</h1>
                 <p class="auth-subtitle">Sign in to your account to continue</p>
             </div>
             @if ($errors->any())

@@ -1,7 +1,7 @@
 @extends('site-user.components.main')
 @section('meta')
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Professional Game Boosting Services - Syndicate" />
+    <meta property="og:title" content="Professional Game Boosting Services - Syndicate Booster" />
     <meta property="og:description"
         content="Boost your rank, complete achievements, and improve your gaming skills with our professional boosting services." />
     <meta property="og:type" content="website" />

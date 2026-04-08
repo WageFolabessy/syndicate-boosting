@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Syndicate @yield('title')</title>
-    <meta name="description" content="Syndicate Admin Dashboard" />
-    <meta name="author" content="Syndicate" />
+    <title>Syndicate Booster @yield('title')</title>
+    <meta name="description" content="Syndicate Booster Admin Dashboard" />
+    <meta name="author" content="Syndicate Booster" />
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ asset('assets/dashboard/images/logo.png') }}" />
 

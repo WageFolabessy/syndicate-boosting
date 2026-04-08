@@ -2,8 +2,8 @@
 @section('meta')
     <meta name="keywords"
         content="game accounts, jual akun game, premium accounts, mobile legends account, valorant account" />
-    <meta name="author" content="Syndicate" />
-    <meta property="og:title" content="Premium Game Accounts - Syndicate" />
+    <meta name="author" content="Syndicate Booster" />
+    <meta property="og:title" content="Premium Game Accounts - Syndicate Booster" />
     <meta property="og:description"
         content="Browse and buy premium game accounts with rare items, high ranks, and exclusive content." />
     <meta property="og:type" content="website" />

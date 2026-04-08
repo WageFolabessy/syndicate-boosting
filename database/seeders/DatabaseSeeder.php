@@ -47,8 +47,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MobileLegendGameRankTierDetailSeeder::class,
         ]);
-        $this->call([
-            TransactionSeeder::class,
-        ]);
+        // $this->call([
+        //     TransactionSeeder::class,
+        // ]);
     }
 }

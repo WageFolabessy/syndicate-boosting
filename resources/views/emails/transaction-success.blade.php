@@ -106,7 +106,7 @@
             <p class="greeting">Halo, <strong>{{ $customerName }}</strong>!</p>
 
             <p class="info-text">
-                Terima kasih telah melakukan pemesanan di <strong>Syndicate Boosting</strong>.
+                Terima kasih telah melakukan pemesanan di <strong>Syndicate Booster</strong>.
                 Pembayaran Anda telah berhasil diverifikasi. Tim kami akan segera memproses pesanan Anda.
             </p>
 
@@ -131,7 +131,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>&copy; {{ date('Y') }} <strong>Syndicate Boosting</strong>. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} <strong>Syndicate Booster</strong>. All rights reserved.</p>
             <p>Email ini dikirim secara otomatis, mohon jangan membalas email ini.</p>
         </div>
     </div>

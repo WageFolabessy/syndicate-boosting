@@ -1,13 +1,13 @@
 @extends('site-user.components.main')
 @section('meta')
     <meta name="description"
-        content="Lihat riwayat transaksi boosting game Anda di Syndicate. Temukan detail order, tanggal transaksi, status, dan nominal dengan mudah." />
+        content="Lihat riwayat transaksi boosting game Anda di Syndicate Booster. Temukan detail order, tanggal transaksi, status, dan nominal dengan mudah." />
     <meta name="keywords" content="transaksi, riwayat transaksi, game boosting, joki game, boosting game, order history" />
-    <meta name="author" content="Syndicate" />
+    <meta name="author" content="Syndicate Booster" />
     <link rel="canonical" href="https://syndicate-gaming.com/transaksi.html" />
-    <meta property="og:title" content="Riwayat Transaksi Boosting Game - Syndicate" />
+    <meta property="og:title" content="Riwayat Transaksi Boosting Game - Syndicate Booster" />
     <meta property="og:description"
-        content="Cek dan cari riwayat transaksi boosting game Anda dengan mudah di Syndicate." />
+        content="Cek dan cari riwayat transaksi boosting game Anda dengan mudah di Syndicate Booster." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://syndicate-gaming.com/transaksi.html" />
     <meta property="og:image" content="/images/og-image.jpg" />

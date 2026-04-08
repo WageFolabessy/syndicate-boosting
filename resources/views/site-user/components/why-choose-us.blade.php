@@ -3,7 +3,7 @@
     <div class="container">
         <div class="section-header text-center mb-5" data-aos="fade-up">
             <span class="section-tag">Mengapa Memilih Kami</span>
-            <h2 class="display-5 fw-bold mb-3">Keunggulan The Syndicate</h2>
+            <h2 class="display-5 fw-bold mb-3">Keunggulan The Syndicate Booster</h2>
             <p class="text-muted">
                 Kami menyediakan layanan gaming premium dengan fokus pada kualitas, keamanan, dan kepuasan pelanggan
             </p>

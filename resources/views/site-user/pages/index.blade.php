@@ -1,7 +1,7 @@
 @extends('site-user.components.main')
 @section('meta')
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Syndicate - Premium Game Boosting & Accounts" />
+    <meta property="og:title" content="Syndicate Booster - Premium Game Boosting & Accounts" />
     <meta property="og:description"
         content="Professional game boosting services and premium game accounts for serious players." />
     <meta property="og:type" content="website" />
@@ -102,38 +102,52 @@
         /* Tombol Umum */
         .btn {
             position: relative;
-            overflow: hidden;
             transition: all 0.3s ease;
+            font-weight: 600;
+            border-radius: 0.5rem;
         }
 
-        /* Perbaikan Animasi Tombol dengan menghindari perubahan padding */
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
         .btn i {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%) translateX(0);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i.bi-arrow-right,
+        .btn:hover i.bi-arrow-right-short {
+            transform: translateX(5px);
         }
 
         /* btn-primary */
         .btn-primary {
-            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+            padding: 0.75rem 1.5rem;
+            color: #fff;
         }
 
-        .btn-primary:hover i {
-            opacity: 1;
-            transform: translateY(-50%) translateX(5px);
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+            box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+            color: #fff;
         }
 
         /* btn-outline-primary */
         .btn-outline-primary {
-            padding: 1rem 2rem;
+            border: 2px solid #0d6efd;
+            color: #0d6efd;
+            background: transparent;
+            padding: 0.75rem 1.5rem;
         }
 
-        .btn-outline-primary:hover i {
-            opacity: 1;
-            transform: translateY(-50%) translateX(5px);
+        .btn-outline-primary:hover {
+            background: rgba(13, 110, 253, 0.05);
+            color: #0d6efd;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.1);
         }
 
         .price-tag .current-price {
@@ -282,14 +296,14 @@
                             <p class="lead text-muted mb-5">
                                 Layanan peningkatan game profesional dan akun premium untuk para pemain serius.
                             </p>
-                            <div class="d-flex gap-3 flex-wrap">
-                                <a href="{{ route('joki-game') }}" class="btn btn-primary btn-lg px-5 py-3">
+                            <div class="d-flex gap-3 flex-wrap mt-4">
+                                <a href="{{ route('joki-game') }}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 d-inline-flex align-items-center justify-content-center shadow-lg">
+                                    <i class="bi bi-controller me-2 fs-5"></i>
                                     Joki Game
-                                    <i class="bi bi-arrow-right ms-2"></i>
                                 </a>
-                                <a href="{{ route('akun-game') }}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                                <a href="{{ route('akun-game') }}" class="btn btn-outline-primary btn-lg rounded-pill px-5 py-3 d-inline-flex align-items-center justify-content-center">
+                                    <i class="bi bi-person-badge me-2 fs-5"></i>
                                     Akun Game
-                                    <i class="bi bi-arrow-right ms-2"></i>
                                 </a>
                             </div>
                         </div>
@@ -330,9 +344,9 @@
                                             </span>
                                         </header>
                                         <p class="text-muted line-clamp-3 mb-4">{{ $game->description }}</p>
-                                        <a href="{{ route('pilih-layanan', $game) }}" class="btn btn-primary mt-auto">
+                                        <a href="{{ route('pilih-layanan', $game) }}" class="btn btn-primary mt-auto rounded-pill d-inline-flex align-items-center justify-content-center">
                                             Pilih Layanan
-                                            <i class="bi bi-arrow-right-short"></i>
+                                            <i class="bi bi-arrow-right-short ms-1 fs-5"></i>
                                         </a>
                                         <div class="mt-2">
                                             @if ($game->boostingServices->count())
@@ -349,9 +363,9 @@
                     @endforeach
                 </div>
                 <div class="text-center mt-5" data-aos="fade-right">
-                    <a href="{{ route('joki-game') }}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                    <a href="{{ route('joki-game') }}" class="btn btn-outline-primary btn-lg rounded-pill px-5 py-3 d-inline-flex align-items-center justify-content-center border-2">
                         Lihat Semua Game
-                        <i class="bi bi-arrow-right ms-2"></i>
+                        <i class="bi bi-arrow-right ms-2 fs-5"></i>
                     </a>
                 </div>
             </div>
@@ -419,9 +433,9 @@
                                                 @endif
                                             </div>
                                             <a href="{{ route('akun-game.detail', [$game, $account->id]) }}"
-                                                class="btn btn-primary btn-detail mt-4">
+                                                class="btn btn-primary rounded-pill w-100 mt-4 d-inline-flex align-items-center justify-content-center">
                                                 Detail
-                                                <i class="bi bi-arrow-right-short"></i>
+                                                <i class="bi bi-arrow-right-short ms-1 fs-5"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -432,9 +446,9 @@
                 </div>
 
                 <div class="text-center mt-5" data-aos="fade-up">
-                    <a href="{{ route('akun-game') }}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                    <a href="{{ route('akun-game') }}" class="btn btn-outline-primary btn-lg rounded-pill px-5 py-3 d-inline-flex align-items-center justify-content-center border-2">
                         Lihat Semua Akun
-                        <i class="bi bi-arrow-right ms-2"></i>
+                        <i class="bi bi-arrow-right ms-2 fs-5"></i>
                     </a>
                 </div>
             </div>

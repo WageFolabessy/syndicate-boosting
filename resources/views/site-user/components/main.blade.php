@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Syndicate Boosting @yield('title')</title>
+    <title>Syndicate Booster @yield('title')</title>
 
     <!-- Open Graph Meta Tags -->
     <meta name="description"
-        content="Syndicate offers professional game boosting services and premium game accounts for serious players. Elevate your gaming experience today." />
+        content="Syndicate Booster offers professional game boosting services and premium game accounts for serious players. Elevate your gaming experience today." />
     <meta name="keywords" content="game boosting, joki game, akun game, game accounts, professional gaming services" />
-    <meta name="author" content="Syndicate" />
+    <meta name="author" content="Syndicate Booster" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('meta')
 
