@@ -179,6 +179,7 @@ class CustomOrderController extends Controller
         return response()->json([
             'snap_token'         => $snapToken,
             'transaction_number' => $transaction->transaction_number,
+            'customer_email'     => $order->customer_email,
         ]);
     }
 }

@@ -87,7 +87,7 @@ class TransactionController extends Controller
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('progress_status', function ($transaction) {
-                $status = $transaction->status ?? 'pending';
+                $status = $transaction->transactionable->status ?? 'pending';
 
                 $statusClass = match ($status) {
                     'success' => 'success',
