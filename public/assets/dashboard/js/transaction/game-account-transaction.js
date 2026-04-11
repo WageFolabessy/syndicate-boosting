@@ -51,6 +51,11 @@ $(document).ready(function () {
             },
             { data: "price", name: "price", className: "text-center" },
             {
+                data: "progress_status",
+                name: "progress_status",
+                className: "text-center all",
+            },
+            {
                 data: "created_at",
                 name: "created_at",
                 className: "text-center",

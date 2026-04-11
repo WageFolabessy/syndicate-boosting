@@ -76,7 +76,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Transaction Number</th>
-                                <th class="text-center">Transaction Status</th>
+                                <th class="text-center">Progress Status</th>
                                 <th class="text-center">Payment Status</th>
                                 <th class="text-center">Order Type</th>
                                 <th class="text-center">Customer Name</th>
@@ -97,5 +97,5 @@
 @section('script')
     <!-- jQuery -->
     <script src="{{ asset('assets/dashboard/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/transaction/all-transaction.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/transaction/all-transaction.js') }}?v={{ now()->timestamp }}"></script>
 @endsection

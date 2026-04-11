@@ -20,9 +20,9 @@ $(document).ready(function () {
             },
             { data: "transaction_number", name: "transaction_number" },
             {
-                data: "transaction_status",
-                name: "transaction_status",
-                className: "text-center",
+                data: "progress_status",
+                name: "progress_status",
+                className: "text-center all",
             },
             {
                 data: "payment_status",

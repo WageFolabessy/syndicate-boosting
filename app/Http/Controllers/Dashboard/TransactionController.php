@@ -84,8 +84,10 @@ class TransactionController extends Controller
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->addColumn('transaction_status', function ($transaction) {
-                $statusClass = match ($transaction->status) {
+            ->addColumn('progress_status', function ($transaction) {
+                $status = $transaction->status ?? 'pending';
+
+                $statusClass = match ($status) {
                     'success' => 'success',
                     'failed' => 'danger',
                     'canceled' => 'secondary',
@@ -94,18 +96,11 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($transaction->status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($transaction->status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status'])
+            ->rawColumns(['action', 'payment_status', 'progress_status'])
             ->make(true);
     }
 
@@ -162,18 +157,11 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->editColumn('status', function ($detail) {
+            ->addColumn('progress_status', function ($detail) {
                 $status = $detail->status ?? 'pending';
 
                 $statusClass = match ($status) {
@@ -185,14 +173,7 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
@@ -236,7 +217,7 @@ class TransactionController extends Controller
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.custom-boosting')->with('detail', $detail);
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'status'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'progress_status'])
             ->make(true);
     }
 
@@ -313,18 +294,11 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->editColumn('status', function ($detail) {
+            ->addColumn('progress_status', function ($detail) {
                 $status = $detail->status ?? 'pending';
 
                 $statusClass = match ($status) {
@@ -336,18 +310,11 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status', 'status'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'progress_status'])
             ->make(true);
     }
 
@@ -409,7 +376,7 @@ class TransactionController extends Controller
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->addColumn('transaction_status', function ($detail) {
+            ->addColumn('progress_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
 
                 $statusClass = match ($status) {
@@ -421,21 +388,14 @@ class TransactionController extends Controller
                     default => 'light text-dark'
                 };
 
-                $statusLabel = match ($status) {
-                    'success' => 'Berhasil',
-                    'failed' => 'Gagal',
-                    'canceled' => 'Dibatalkan',
-                    'pending' => 'Menunggu',
-                    'processed' => 'Diproses',
-                    default => ucfirst($status)
-                };
+                $statusLabel = ucfirst($status);
 
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status'])
+            ->rawColumns(['action', 'payment_status', 'progress_status'])
             ->make(true);
     }
 

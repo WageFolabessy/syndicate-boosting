@@ -82,6 +82,7 @@
                                 <th class="text-center">Game Account</th>
                                 <th class="text-center">Game Name</th>
                                 <th class="text-center">Price</th>
+                                <th class="text-center">Progress Status</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                             </tr>
@@ -96,5 +97,5 @@
 @section('script')
     <!-- jQuery -->
     <script src="{{ asset('assets/dashboard/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/transaction/game-account-transaction.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/transaction/game-account-transaction.js') }}?v={{ now()->timestamp }}"></script>
 @endsection
