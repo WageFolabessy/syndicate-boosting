@@ -99,6 +99,17 @@
                         </select>
                     </div>
                     <div>
+                        <label class="form-label fw-semibold mb-1">Progress Status</label>
+                        <select id="filterProgressStatus" class="form-select form-select-sm" style="min-width:130px;">
+                            <option value="">-- All Status --</option>
+                            <option value="pending">Pending</option>
+                            <option value="processed">Processed</option>
+                            <option value="success">Success</option>
+                            <option value="failed">Failed</option>
+                            <option value="canceled">Canceled</option>
+                        </select>
+                    </div>
+                    <div>
                         <button id="btnResetFilter" class="btn btn-outline-secondary btn-sm">Reset</button>
                     </div>
                 </div>

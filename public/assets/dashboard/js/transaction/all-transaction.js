@@ -9,6 +9,7 @@ $(document).ready(function () {
             data: function (d) {
                 d.month = $("#filterMonth").val();
                 d.year  = $("#filterYear").val();
+                d.progress_status = $("#filterProgressStatus").val();
             },
         },
         columns: [
@@ -55,13 +56,14 @@ $(document).ready(function () {
         },
     });
 
-    $("#filterMonth, #filterYear").on("change", function () {
+    $("#filterMonth, #filterYear, #filterProgressStatus").on("change", function () {
         table.ajax.reload();
     });
 
     $("#btnResetFilter").on("click", function () {
         $("#filterMonth").val("");
         $("#filterYear").val("");
+        $("#filterProgressStatus").val("");
         table.ajax.reload();
     });
 });

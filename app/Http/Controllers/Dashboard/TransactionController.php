@@ -22,10 +22,12 @@ class TransactionController extends Controller
     {
         $month = request('month');
         $year  = request('year');
+        $progressStatus = request('progress_status');
 
         $transactions = Transaction::with('transactionable')
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -108,6 +110,7 @@ class TransactionController extends Controller
     {
         $month = request('month');
         $year  = request('year');
+        $progressStatus = request('progress_status');
 
         $transactions = CustomOrderDetail::with([
             'transaction',
@@ -120,6 +123,7 @@ class TransactionController extends Controller
         ])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -225,10 +229,12 @@ class TransactionController extends Controller
     {
         $month = request('month');
         $year  = request('year');
+        $progressStatus = request('progress_status');
 
         $transactions = PackageOrderDetail::with(['transaction', 'boostingService'])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -322,10 +328,12 @@ class TransactionController extends Controller
     {
         $month = request('month');
         $year  = request('year');
+        $progressStatus = request('progress_status');
 
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($progressStatus, fn($q) => $q->whereHas('transaction', fn($query) => $query->where('status', $progressStatus)))
             ->orderBy('updated_at', 'desc')
             ->get();
 
