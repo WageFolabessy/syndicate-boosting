@@ -87,12 +87,12 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Transaction Number</th>
-                                <th class="text-center">Progress Status</th>
                                 <th class="text-center">Payment Status</th>
                                 <th class="text-center">Order Type</th>
                                 <th class="text-center">Customer Name</th>
                                 <th class="text-center">Customer Contact</th>
                                 <th class="text-center">Price</th>
+                                <th class="text-center">Progress Status</th>
                                 <th class="text-center">Created At</th>
                                 <th class="text-center">Updated At</th>
                                 <th class="text-center">Actions</th>

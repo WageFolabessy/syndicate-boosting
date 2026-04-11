@@ -21,11 +21,6 @@ $(document).ready(function () {
             },
             { data: "transaction_number", name: "transaction_number" },
             {
-                data: "progress_status",
-                name: "progress_status",
-                className: "text-center all",
-            },
-            {
                 data: "payment_status",
                 name: "payment_status",
                 className: "text-center",
@@ -34,6 +29,11 @@ $(document).ready(function () {
             { data: "customer_name", name: "customer_name" },
             { data: "customer_contact", name: "customer_contact" },
             { data: "price", name: "price" },
+            {
+                data: "progress_status",
+                name: "progress_status",
+                className: "text-center all",
+            },
             { data: "created_at", name: "created_at" },
             { data: "updated_at", name: "updated_at" },
             {
