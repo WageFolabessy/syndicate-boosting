@@ -98,4 +98,12 @@ class GameController extends Controller
     {
         return Excel::download(new GamesExport, 'game managements.xlsx');
     }
+
+    public function getGameOptions(Game $game)
+    {
+        return response()->json([
+            'login_methods' => $game->login_methods ?? [],
+            'servers'       => $game->servers ?? [],
+        ]);
+    }
 }

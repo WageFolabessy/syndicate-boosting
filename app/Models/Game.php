@@ -12,7 +12,14 @@ class Game extends Model
         'genre',
         'developer',
         'description',
-        'image'
+        'image',
+        'login_methods',
+        'servers',
+    ];
+
+    protected $casts = [
+        'login_methods' => 'array',
+        'servers'       => 'array',
     ];
 
     public function getRouteKeyName()

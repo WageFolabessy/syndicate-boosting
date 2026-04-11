@@ -23,23 +23,21 @@
                         <!-- Input Server -->
                         <div class="col-md-12">
                             <label for="server" class="form-label fw-semibold">
-                                <i class="bi bi-globe me-2"></i>Server
+                                <i class="bi bi-globe me-2"></i>Server <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control rounded-3" id="server" name="server"
-                                required
-                                placeholder="Contoh: Asia, Europe"
-                                maxlength="50">
+                            <select class="form-select rounded-3" id="server" name="server" required>
+                                <option value="">-- Pilih Server --</option>
+                            </select>
                             <div class="invalid-feedback"></div>
                         </div>
                         <!-- Metode Login -->
                         <div class="col-12">
                             <label for="login_method" class="form-label fw-semibold">
-                                <i class="bi bi-key me-2"></i>Metode Login
+                                <i class="bi bi-key me-2"></i>Metode Login <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control rounded-3" id="login_method"
-                                name="login" required
-                                placeholder="Contoh: Login via Google, Facebook, atau Email"
-                                maxlength="100">
+                            <select class="form-select rounded-3" id="login_method" name="login" required>
+                                <option value="">-- Pilih Metode Login --</option>
+                            </select>
                             <div class="invalid-feedback"></div>
                         </div>
                         <!-- Catatan -->

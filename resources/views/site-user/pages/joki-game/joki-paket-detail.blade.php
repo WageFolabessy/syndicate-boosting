@@ -241,7 +241,8 @@
                             </div>
 
                             <button class="btn btn-primary btn-lg order-button" data-bs-toggle="modal"
-                                data-bs-target="#orderModal">
+                                data-bs-target="#orderModal"
+                                data-game-id="{{ $service->game_id }}">
                                 Pesan Sekarang
                                 <i class="bi bi-arrow-right-short"></i>
                             </button>
@@ -348,16 +349,43 @@
         });
     </script>
     <script>
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const icon = document.getElementById('togglePasswordIcon');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.replace('bi-eye', 'bi-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.replace('bi-eye-slash', 'bi-eye');
+        // Populate Server & Login Method dropdowns when modal opens
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderBtn = document.querySelector('.order-button[data-bs-target="#orderModal"]');
+            const gameId = orderBtn ? orderBtn.dataset.gameId : null;
+
+            if (gameId) {
+                fetch(`/game/${gameId}/options`)
+                    .then(r => r.json())
+                    .then(data => {
+                        const serverSel = document.getElementById('server');
+                        const loginSel  = document.getElementById('login_method');
+
+                        // Servers
+                        serverSel.innerHTML = '<option value="">-- Pilih Server --</option>';
+                        if (data.servers && data.servers.length) {
+                            data.servers.forEach(s => {
+                                const opt = document.createElement('option');
+                                opt.value = s; opt.textContent = s;
+                                serverSel.appendChild(opt);
+                            });
+                        } else {
+                            serverSel.innerHTML = '<option value="" disabled>Tidak ada pilihan tersedia</option>';
+                        }
+
+                        // Login methods
+                        loginSel.innerHTML = '<option value="">-- Pilih Metode Login --</option>';
+                        if (data.login_methods && data.login_methods.length) {
+                            data.login_methods.forEach(m => {
+                                const opt = document.createElement('option');
+                                opt.value = m; opt.textContent = m;
+                                loginSel.appendChild(opt);
+                            });
+                        } else {
+                            loginSel.innerHTML = '<option value="" disabled>Tidak ada pilihan tersedia</option>';
+                        }
+                    });
             }
-        }
+        });
     </script>
 @endsection

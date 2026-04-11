@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('slug')->unique();
             $table->string('image');
+            $table->json('login_methods');
+            $table->json('servers');
             $table->timestamps();
         });
     }

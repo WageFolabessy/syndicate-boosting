@@ -551,7 +551,8 @@
                                         </li>
                                     </ul>
                                     <button class="btn btn-primary btn-lg order-button w-100" data-bs-toggle="modal"
-                                        data-bs-target="#orderCustomModal" onclick="updateRankPositions()">
+                                        data-bs-target="#orderCustomModal" onclick="updateRankPositions()"
+                                        data-game-id="{{ $game->id }}">
                                         Pesan Sekarang
                                         <i class="bi bi-arrow-right-short"></i>
                                     </button>
@@ -1108,5 +1109,45 @@
                 icon.classList.replace('bi-eye-slash', 'bi-eye');
             }
         }
+    </script>
+    <script>
+        // Populate Server & Login Method dropdowns from admin config
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderBtn = document.querySelector('.order-button[data-bs-target="#orderCustomModal"]');
+            const gameId = orderBtn ? orderBtn.dataset.gameId : null;
+
+            if (gameId) {
+                fetch(`/game/${gameId}/options`)
+                    .then(r => r.json())
+                    .then(data => {
+                        const serverSel = document.getElementById('server');
+                        const loginSel  = document.getElementById('login_method');
+
+                        // Servers
+                        serverSel.innerHTML = '<option value="">-- Pilih Server --</option>';
+                        if (data.servers && data.servers.length) {
+                            data.servers.forEach(s => {
+                                const opt = document.createElement('option');
+                                opt.value = s; opt.textContent = s;
+                                serverSel.appendChild(opt);
+                            });
+                        } else {
+                            serverSel.innerHTML = '<option value="" disabled>Tidak ada pilihan tersedia</option>';
+                        }
+
+                        // Login methods
+                        loginSel.innerHTML = '<option value="">-- Pilih Metode Login --</option>';
+                        if (data.login_methods && data.login_methods.length) {
+                            data.login_methods.forEach(m => {
+                                const opt = document.createElement('option');
+                                opt.value = m; opt.textContent = m;
+                                loginSel.appendChild(opt);
+                            });
+                        } else {
+                            loginSel.innerHTML = '<option value="" disabled>Tidak ada pilihan tersedia</option>';
+                        }
+                    });
+            }
+        });
     </script>
 @endsection

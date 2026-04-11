@@ -44,6 +44,9 @@ Route::get('/joki-game/{game:slug}/joki-paket/{service}/detail', [BoostingServic
 Route::get('/transaksi', [TransactionPageController::class, 'index'])->name('transaksi');
 Route::post('/review', [TransactionPageController::class, 'storeReview'])->name('review.store');
 
+// Game options (login methods & servers) for order modals
+Route::get('/game/{game:id}/options', [GameController::class, 'getGameOptions'])->name('game.options');
+
 // ################################################ Route Milik Admin ################################################
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

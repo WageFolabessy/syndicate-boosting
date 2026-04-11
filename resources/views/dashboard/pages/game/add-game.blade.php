@@ -94,6 +94,56 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Login Methods -->
+                            <div class="col-12">
+                                <div class="card border-0 bg-light p-3">
+                                    <label class="form-label fw-semibold mb-2">
+                                        <i class="fas fa-key me-2 text-primary"></i>Allowed Login Methods <span class="text-danger">*</span>
+                                        <small class="text-muted fw-normal">(displayed as dropdown choices when customer orders)</small>
+                                    </label>
+                                    <div class="d-flex flex-wrap gap-2 mb-2" id="loginMethodTags">
+                                        @foreach(old('login_methods', []) as $method)
+                                            <span class="badge bg-primary d-flex align-items-center gap-1 py-2 px-3" style="font-size:0.85rem;">
+                                                {{ $method }}
+                                                <input type="hidden" name="login_methods[]" value="{{ $method }}">
+                                                <button type="button" class="btn-close btn-close-white ms-1" style="font-size:0.6rem;" onclick="removeTag(this)"></button>
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                    <div class="input-group" style="max-width: 400px;">
+                                        <input type="text" class="form-control form-control-sm" id="newLoginMethod" placeholder="e.g. Google, Facebook, Email" maxlength="100">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="addTag('newLoginMethod', 'loginMethodTags', 'login_methods')">
+                                            <i class="fas fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Servers -->
+                            <div class="col-12">
+                                <div class="card border-0 bg-light p-3">
+                                    <label class="form-label fw-semibold mb-2">
+                                        <i class="fas fa-globe me-2 text-success"></i>Allowed Servers <span class="text-danger">*</span>
+                                        <small class="text-muted fw-normal">(displayed as dropdown choices when customer orders)</small>
+                                    </label>
+                                    <div class="d-flex flex-wrap gap-2 mb-2" id="serverTags">
+                                        @foreach(old('servers', []) as $server)
+                                            <span class="badge bg-success d-flex align-items-center gap-1 py-2 px-3" style="font-size:0.85rem;">
+                                                {{ $server }}
+                                                <input type="hidden" name="servers[]" value="{{ $server }}">
+                                                <button type="button" class="btn-close btn-close-white ms-1" style="font-size:0.6rem;" onclick="removeTag(this)"></button>
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                    <div class="input-group" style="max-width: 400px;">
+                                        <input type="text" class="form-control form-control-sm" id="newServer" placeholder="e.g. Asia, Europe, America" maxlength="100">
+                                        <button type="button" class="btn btn-outline-success btn-sm" onclick="addTag('newServer', 'serverTags', 'servers')">
+                                            <i class="fas fa-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -128,6 +178,39 @@
         document.getElementById('removeImage').addEventListener('click', function() {
             document.getElementById('image').value = ''; // Reset input file
             document.getElementById('imagePreview').src = "https://placehold.co/200x200?text=Game+Image";
+        });
+
+        // Tag management
+        function addTag(inputId, containerId, fieldName) {
+            const input = document.getElementById(inputId);
+            const value = input.value.trim();
+            if (!value) return;
+
+            const container = document.getElementById(containerId);
+            const badgeClass = fieldName === 'login_methods' ? 'bg-primary' : 'bg-success';
+
+            const span = document.createElement('span');
+            span.className = `badge ${badgeClass} d-flex align-items-center gap-1 py-2 px-3`;
+            span.style.fontSize = '0.85rem';
+            span.innerHTML = `
+                ${value}
+                <input type="hidden" name="${fieldName}[]" value="${value}">
+                <button type="button" class="btn-close btn-close-white ms-1" style="font-size:0.6rem;" onclick="removeTag(this)"></button>
+            `;
+            container.appendChild(span);
+            input.value = '';
+        }
+
+        function removeTag(btn) {
+            btn.closest('span').remove();
+        }
+
+        // Allow pressing Enter on the input fields to add a tag
+        document.getElementById('newLoginMethod').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); addTag('newLoginMethod', 'loginMethodTags', 'login_methods'); }
+        });
+        document.getElementById('newServer').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); addTag('newServer', 'serverTags', 'servers'); }
         });
     </script>
 @endsection
