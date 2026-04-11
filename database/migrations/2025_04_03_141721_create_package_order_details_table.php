@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('customer_name');
             $table->string('customer_contact');
+            $table->string('customer_email')->nullable();
             $table->string('username');
             $table->string('password');
 

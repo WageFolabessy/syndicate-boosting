@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->string('customer_name');
             $table->string('customer_contact');
+            $table->string('customer_email')->nullable();
 
             $table->integer('price');
 
