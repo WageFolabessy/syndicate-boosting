@@ -77,7 +77,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('transaction_status', function ($transaction) {
                 $statusClass = match ($transaction->status) {
@@ -98,7 +98,7 @@ class TransactionController extends Controller
                     default => ucfirst($transaction->status)
                 };
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
@@ -138,7 +138,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('transaction_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -161,7 +161,10 @@ class TransactionController extends Controller
                     default => ucfirst($status)
                 };
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+            })
+            ->editColumn('status', function ($detail) {
+                return $detail->status ?? 'pending';
             })
             ->addColumn('game', function ($detail) {
                 // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
@@ -261,7 +264,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('transaction_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -284,7 +287,10 @@ class TransactionController extends Controller
                     default => ucfirst($status)
                 };
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+            })
+            ->editColumn('status', function ($detail) {
+                return $detail->status ?? 'pending';
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status'])
             ->make(true);
@@ -341,7 +347,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('transaction_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -364,7 +370,7 @@ class TransactionController extends Controller
                     default => ucfirst($status)
                 };
 
-                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);

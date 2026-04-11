@@ -31,15 +31,15 @@
             @endif
             <form class="auth-form" action="{{ route('login') }}" method="POST">
                 @csrf
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email address"
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Contoh: admin@syndicate-gaming.com"
                         required value="{{ old('email') }}">
-                    <label for="email">Email address</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                <div class="mb-3">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password Anda"
                         required>
-                    <label for="password">Password</label>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <a href="{{ route('forgot.password') }}" class="auth-link">Forgot password?</a>

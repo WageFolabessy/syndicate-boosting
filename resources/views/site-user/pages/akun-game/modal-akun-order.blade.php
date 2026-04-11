@@ -24,38 +24,37 @@
                     <div class="row g-4">
                         <!-- Nama Panggilan -->
                         <div class="col-md-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control rounded-3" id="customer_name"
-                                    name="customer_name" required placeholder="Nama Anda">
-                                <label for="customer_name" class="text-muted">
-                                    <i class="bi bi-person me-2"></i>Nama Panggilan Anda <span
-                                        class="text-danger">*</span>
-                                </label>
-                            </div>
+                            <label for="customer_name" class="form-label fw-semibold">
+                                <i class="bi bi-person me-2"></i>Nama Panggilan Anda <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control rounded-3" id="customer_name"
+                                name="customer_name" required
+                                placeholder="Contoh: Budi Santoso"
+                                maxlength="100">
                             <!-- Pesan error untuk customer_name -->
                             <div class="invalid-feedback" id="error_customer_name"></div>
                         </div>
                         <!-- Kontak WhatsApp -->
                         <div class="col-md-12">
-                            <div class="form-floating">
-                                <input type="number" class="form-control rounded-3" id="customer_contact"
-                                    name="customer_contact" required placeholder="08123456789">
-                                <label for="customer_contact" class="text-muted">
-                                    <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
-                                </label>
-                            </div>
+                            <label for="customer_contact" class="form-label fw-semibold">
+                                <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control rounded-3" id="customer_contact"
+                                name="customer_contact" required
+                                placeholder="Contoh: 081234567890"
+                                maxlength="15" pattern="[0-9]+" inputmode="numeric">
                             <!-- Pesan error untuk customer_contact -->
                             <div class="invalid-feedback" id="error_customer_contact"></div>
                         </div>
                         <!-- Email Pelanggan -->
                         <div class="col-md-12">
-                            <div class="form-floating">
-                                <input type="email" class="form-control rounded-3" id="customer_email"
-                                    name="customer_email" required placeholder="email@contoh.com">
-                                <label for="customer_email" class="text-muted">
-                                    <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
-                                </label>
-                            </div>
+                            <label for="customer_email" class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control rounded-3" id="customer_email"
+                                name="customer_email" required
+                                placeholder="Contoh: budi@gmail.com"
+                                maxlength="255">
                             <!-- Pesan error untuk customer_email -->
                             <div class="invalid-feedback" id="error_customer_email"></div>
                         </div>

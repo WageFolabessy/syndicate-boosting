@@ -254,6 +254,7 @@
 
     <!-- Bagian Modal -->
     @include('site-user.pages.joki-game.modal-order')
+    @include('site-user.components.modal-payment-success')
 
     <!-- Bagian Cara Kerja -->
     @include('site-user.components.how-it-works')
@@ -290,8 +291,8 @@
                     .then(async response => {
                         if (!response.ok) {
                             if (response.status === 419) {
-                                alert('Sesi Anda telah berakhir. Halaman akan dimuat ulang.');
-                                window.location.reload();
+                                showPaymentNotif('session_expired');
+                                setTimeout(() => window.location.reload(), 3000);
                                 throw new Error('CSRF token expired');
                             }
                             if (response.status === 422) {
@@ -324,26 +325,20 @@
                             const transactionNumber = data.transaction_number;
                             snap.pay(data.snap_token, {
                                 onSuccess: function(result) {
-                                    alert("Pembayaran Berhasil! Catat nomor transaksi Anda: " +
-                                        transactionNumber);
-                                        window.location.href = "/transaksi?search=" +
-                                        transactionNumber;
+                                    showPaymentNotif('success', transactionNumber, data.customer_email);
                                 },
                                 onPending: function(result) {
-                                    alert(
-                                        "Pembayaran pending, silakan cek status pembayaran.");
-                                    window.location.reload();
+                                    showPaymentNotif('pending');
                                 },
                                 onError: function(result) {
-                                    alert("Terjadi kesalahan dalam pembayaran.");
-                                    window.location.reload();
+                                    showPaymentNotif('error');
                                 },
                                 onClose: function() {
-                                    alert("Pembayaran dibatalkan.");
+                                    showPaymentNotif('cancelled');
                                 }
                             });
                         } else {
-                            alert("Gagal mendapatkan snap token. Silakan coba lagi.");
+                            showPaymentNotif('snap_failed');
                         }
                     })
                     .catch(error => {

@@ -565,6 +565,7 @@
     </main>
 
     @include('site-user.pages.joki-game.modal-costum-order')
+    @include('site-user.components.modal-payment-success')
 @endsection
 
 @section('script')
@@ -1046,8 +1047,8 @@
                 .then(response => {
                     if (!response.ok) {
                         if (response.status === 419) {
-                            alert('Sesi Anda telah berakhir. Halaman akan dimuat ulang.');
-                            window.location.reload();
+                            showPaymentNotif('session_expired');
+                            setTimeout(() => window.location.reload(), 3000);
                             throw new Error('CSRF token expired');
                         }
                         if (response.status === 422) {
@@ -1065,34 +1066,26 @@
                         const transactionNumber = data.transaction_number;
                         window.snap.pay(data.snap_token, {
                             onSuccess: function(result) {
-                                alert("Pembayaran Berhasil! Catat nomor transaksi Anda: " +
-                                    transactionNumber);
-                                window.location.href = "/transaksi?search=" +
-                                    transactionNumber;
+                                showPaymentNotif('success', transactionNumber, data.customer_email);
                             },
                             onPending: function(result) {
-                                alert(
-                                    "Pembayaran pending, silakan cek status pembayaran."
-                                );
-                                window.location.reload();
+                                showPaymentNotif('pending');
                             },
                             onError: function(result) {
-                                alert("Terjadi kesalahan dalam pembayaran.");
-                                window.location.reload();
+                                showPaymentNotif('error');
                             },
                             onClose: function() {
-                                alert("Terjadi kesalahan dalam pembayaran.");
-                                window.location.reload();
+                                showPaymentNotif('cancelled');
                             }
                         });
                     } else if (data.error) {
-                        alert(data.error);
+                        showPaymentNotif('snap_failed');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     if (error.message !== 'Validation error') {
-                        alert('Terjadi kesalahan saat memproses pembayaran.');
+                        showPaymentNotif('snap_failed');
                     }
                 })
                 .finally(() => {
