@@ -77,6 +77,32 @@
                 <div class="table-header">
                     <h5 class="table-title">Package Boosting Transactions</h5>
                 </div>
+
+                <!-- Filter Bulan & Tahun -->
+                <div class="d-flex flex-wrap align-items-end gap-3 px-3 pt-3">
+                    <div>
+                        <label class="form-label fw-semibold mb-1">Month</label>
+                        <select id="filterMonth" class="form-select form-select-sm" style="min-width:140px;">
+                            <option value="">-- All Month --</option>
+                            @foreach(['January'=>1,'February'=>2,'March'=>3,'April'=>4,'May'=>5,'June'=>6,'July'=>7,'August'=>8,'September'=>9,'October'=>10,'November'=>11,'December'=>12] as $label => $num)
+                                <option value="{{ $num }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label fw-semibold mb-1">Year</label>
+                        <select id="filterYear" class="form-select form-select-sm" style="min-width:110px;">
+                            <option value="">-- All Year --</option>
+                            @for($y = now()->year; $y >= 2024; $y--)
+                                <option value="{{ $y }}">{{ $y }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div>
+                        <button id="btnResetFilter" class="btn btn-outline-secondary btn-sm">Reset</button>
+                    </div>
+                </div>
+
                 <div class="table-container">
                     <table id="packageBoostingTransactionTable" class="custom-table">
                         <thead>
@@ -105,5 +131,5 @@
 @section('script')
     <!-- jQuery -->
     <script src="{{ asset('assets/dashboard/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/transaction/package-boosting-transaction.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/transaction/package-boosting-transaction.js') }}?v={{ now()->timestamp }}"></script>
 @endsection

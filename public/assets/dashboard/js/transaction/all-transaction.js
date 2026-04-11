@@ -1,10 +1,16 @@
 $(document).ready(function () {
-    $("#allTransactionTable").DataTable({
+    var table = $("#allTransactionTable").DataTable({
         processing: false,
         serverSide: true,
         autoWidth: false,
         responsive: true,
-        ajax: "/dashboard/transactions/all/datatables",
+        ajax: {
+            url: "/dashboard/transactions/all/datatables",
+            data: function (d) {
+                d.month = $("#filterMonth").val();
+                d.year  = $("#filterYear").val();
+            },
+        },
         columns: [
             {
                 data: "DT_RowIndex",
@@ -36,10 +42,7 @@ $(document).ready(function () {
                 searchable: false,
             },
         ],
-        createdRow: function (row, data, dataIndex) {
-            // Remove old logic based on payment status
-            // Now using badge colors in each cell instead of row background
-        },
+        createdRow: function (row, data, dataIndex) {},
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -50,5 +53,15 @@ $(document).ready(function () {
                 next: '<i class="fas fa-chevron-right"></i>',
             },
         },
+    });
+
+    $("#filterMonth, #filterYear").on("change", function () {
+        table.ajax.reload();
+    });
+
+    $("#btnResetFilter").on("click", function () {
+        $("#filterMonth").val("");
+        $("#filterYear").val("");
+        table.ajax.reload();
     });
 });

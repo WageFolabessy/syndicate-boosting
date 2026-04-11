@@ -20,7 +20,12 @@ class TransactionController extends Controller
 {
     public function getAllTransactions()
     {
+        $month = request('month');
+        $year  = request('year');
+
         $transactions = Transaction::with('transactionable')
+            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -106,6 +111,9 @@ class TransactionController extends Controller
 
     public function getAllCustomBoostingTransaction()
     {
+        $month = request('month');
+        $year  = request('year');
+
         $transactions = CustomOrderDetail::with([
             'transaction',
             'currentGameRankCategory',
@@ -115,6 +123,8 @@ class TransactionController extends Controller
             'desiredGameRankTier',
             'desiredGameRankTierDetail',
         ])
+            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -164,7 +174,27 @@ class TransactionController extends Controller
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->editColumn('status', function ($detail) {
-                return $detail->status ?? 'pending';
+                $status = $detail->status ?? 'pending';
+
+                $statusClass = match ($status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($status)
+                };
+
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('game', function ($detail) {
                 // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
@@ -206,13 +236,18 @@ class TransactionController extends Controller
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.custom-boosting')->with('detail', $detail);
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'status'])
             ->make(true);
     }
 
     public function getAllpackageBoostingTransaction()
     {
+        $month = request('month');
+        $year  = request('year');
+
         $transactions = PackageOrderDetail::with(['transaction', 'boostingService'])
+            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -290,15 +325,40 @@ class TransactionController extends Controller
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->editColumn('status', function ($detail) {
-                return $detail->status ?? 'pending';
+                $status = $detail->status ?? 'pending';
+
+                $statusClass = match ($status) {
+                    'success' => 'success',
+                    'failed' => 'danger',
+                    'canceled' => 'secondary',
+                    'pending' => 'warning',
+                    'processed' => 'info',
+                    default => 'light text-dark'
+                };
+
+                $statusLabel = match ($status) {
+                    'success' => 'Berhasil',
+                    'failed' => 'Gagal',
+                    'canceled' => 'Dibatalkan',
+                    'pending' => 'Menunggu',
+                    'processed' => 'Diproses',
+                    default => ucfirst($status)
+                };
+
+                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
-            ->rawColumns(['action', 'payment_status', 'transaction_status'])
+            ->rawColumns(['action', 'payment_status', 'transaction_status', 'status'])
             ->make(true);
     }
 
     public function getAllGameAccountTransaction()
     {
+        $month = request('month');
+        $year  = request('year');
+
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
+            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
             ->orderBy('updated_at', 'desc')
             ->get();
 

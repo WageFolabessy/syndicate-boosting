@@ -1,10 +1,16 @@
 $(document).ready(function () {
-    $("#packageBoostingTransactionTable").DataTable({
+    var table = $("#packageBoostingTransactionTable").DataTable({
         processing: true,
         serverSide: true,
         autoWidth: false,
         responsive: true,
-        ajax: "/dashboard/transactions/package-boosting/datatables",
+        ajax: {
+            url: "/dashboard/transactions/package-boosting/datatables",
+            data: function (d) {
+                d.month = $("#filterMonth").val();
+                d.year  = $("#filterYear").val();
+            },
+        },
         columns: [
             {
                 data: "DT_RowIndex",
@@ -47,40 +53,7 @@ $(document).ready(function () {
             {
                 data: "status",
                 name: "status",
-                className: "text-center",
-                render: function (data, type, row, meta) {
-                    var statusText = data.toLowerCase();
-                    var badgeClass = "";
-                    switch (statusText) {
-                        case "failed":
-                            badgeClass = "status-badge failed";
-                            break;
-                        case "canceled":
-                            badgeClass = "status-badge canceled";
-                            break;
-                        case "pending":
-                            badgeClass = "status-badge pending";
-                            break;
-                        case "processed":
-                            badgeClass = "status-badge processed";
-                            break;
-                        case "success":
-                            badgeClass = "status-badge success";
-                            break;
-                        default:
-                            badgeClass = "status-badge";
-                    }
-                    var displayText =
-                        statusText.charAt(0).toUpperCase() +
-                        statusText.slice(1);
-                    return (
-                        '<span class="' +
-                        badgeClass +
-                        '">' +
-                        displayText +
-                        "</span>"
-                    );
-                },
+                className: "text-center"
             },
             {
                 data: "created_at",
@@ -100,22 +73,7 @@ $(document).ready(function () {
                 className: "text-center",
             },
         ],
-        createdRow: function (row, data, dataIndex) {
-            console.log(data);
-            if (
-                data.payment_status === "Failed" ||
-                data.payment_status === "Pending" ||
-                data.payment_status === "Pending or Failed"
-            ) {
-                $(row).addClass("status-failed");
-            }
-            if (
-                data.payment_status === "Settlement" ||
-                data.payment_status === "Success"
-            ) {
-                $(row).addClass("status-success");
-            }
-        },
+        createdRow: function (row, data, dataIndex) {},
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -127,6 +85,7 @@ $(document).ready(function () {
             },
         },
     });
+
     // Event delegation untuk tombol toggle password
     $("#packageBoostingTransactionTable tbody").on(
         "click",
@@ -134,16 +93,23 @@ $(document).ready(function () {
         function () {
             var $btn = $(this);
             var $span = $btn.siblings(".password-text");
-            // Jika tombol bertuliskan "Show", maka tampilkan password asli dan ubah teksnya menjadi "Hide"
             if ($btn.text() === "Show") {
                 $span.text($span.attr("data-password"));
                 $btn.text("Hide");
-            }
-            // Jika sudah dalam keadaan terlihat, kembali set ke tanda bintang dan tombol "Show"
-            else {
+            } else {
                 $span.text("******");
                 $btn.text("Show");
             }
         }
     );
+
+    $("#filterMonth, #filterYear").on("change", function () {
+        table.ajax.reload();
+    });
+
+    $("#btnResetFilter").on("click", function () {
+        $("#filterMonth").val("");
+        $("#filterYear").val("");
+        table.ajax.reload();
+    });
 });

@@ -1,10 +1,16 @@
 $(document).ready(function () {
-    $("#gameAccountTransactionTable").DataTable({
+    var table = $("#gameAccountTransactionTable").DataTable({
         processing: true,
         serverSide: true,
         autoWidth: false,
         responsive: true,
-        ajax: "/dashboard/transactions/game-account/datatables",
+        ajax: {
+            url: "/dashboard/transactions/game-account/datatables",
+            data: function (d) {
+                d.month = $("#filterMonth").val();
+                d.year  = $("#filterYear").val();
+            },
+        },
         columns: [
             {
                 data: "DT_RowIndex",
@@ -55,22 +61,7 @@ $(document).ready(function () {
                 className: "text-center",
             },
         ],
-        createdRow: function (row, data, dataIndex) {
-            console.log(data);
-            if (
-                data.payment_status === "Failed" ||
-                data.payment_status === "Pending" ||
-                data.payment_status === "Pending or Failed"
-            ) {
-                $(row).addClass("status-failed");
-            }
-            if (
-                data.payment_status === "Settlement" ||
-                data.payment_status === "Success"
-            ) {
-                $(row).addClass("status-success");
-            }
-        },
+        createdRow: function (row, data, dataIndex) {},
         dom:
             "<'row p-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -81,5 +72,15 @@ $(document).ready(function () {
                 next: '<i class="fas fa-chevron-right"></i>',
             },
         },
+    });
+
+    $("#filterMonth, #filterYear").on("change", function () {
+        table.ajax.reload();
+    });
+
+    $("#btnResetFilter").on("click", function () {
+        $("#filterMonth").val("");
+        $("#filterYear").val("");
+        table.ajax.reload();
     });
 });
