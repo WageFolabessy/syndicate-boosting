@@ -44,6 +44,14 @@
         const closeBtn = `<button type="button" class="btn btn-outline-secondary rounded-3"
             data-bs-dismiss="modal" onclick="window.location.reload()">Tutup</button>`;
 
+        // For the success state the page (e.g. a now-deactivated game account) may
+        // be invalid after payment, so we redirect to the transaction list instead of reloading.
+        const successCloseBtn = (txNum) => `<button type="button" class="btn btn-outline-secondary rounded-3"
+            data-bs-dismiss="modal"
+            onclick="window.location.href='/transaksi${txNum ? '?search=' + txNum : ''}'">
+            Tutup
+        </button>`;
+
         if (type === 'success') {
             icon.innerHTML   = '<i class="bi bi-check-circle-fill text-success"></i>';
             title.textContent = 'Pembayaran Berhasil!';
@@ -80,7 +88,7 @@
                     onclick="window.location.href='/transaksi?search=${txNumber}'">
                     <i class="bi bi-receipt me-2"></i>Lihat Transaksi Saya
                 </button>
-                ${closeBtn}`;
+                ${successCloseBtn(txNumber)}`;
 
         } else if (type === 'pending') {
             icon.innerHTML   = '<i class="bi bi-hourglass-split text-warning"></i>';
