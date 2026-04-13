@@ -458,4 +458,19 @@ class TransactionController extends Controller
     {
         return Excel::download(new GameAccountTransactionExport, 'game account transaction managements.xlsx');
     }
+
+    /**
+     * Lightweight polling endpoint for real-time new-order detection.
+     * Returns the latest transaction id + number so the frontend can compare
+     * against the last-seen value stored in localStorage.
+     */
+    public function getLatestOrderId()
+    {
+        $latest = Transaction::latest('id')->first();
+
+        return response()->json([
+            'latest_id'          => $latest?->id ?? 0,
+            'transaction_number' => $latest?->transaction_number ?? null,
+        ]);
+    }
 }

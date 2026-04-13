@@ -155,6 +155,8 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     })->name('dashboard.all-transactions');
     Route::get('/transactions/export', [TransactionController::class, 'allTransactionExport'])->name('dashboard.all-transaction.export');
     Route::get('/transactions/all/datatables', [TransactionController::class, 'getAllTransactions']);
+    Route::get('/transactions/poll-latest', [TransactionController::class, 'getLatestOrderId'])->name('dashboard.transactions.poll-latest');
+
 
     // Custom Boosting Transactions Managements
     Route::get('/transactions/custom-boosting', function () {
