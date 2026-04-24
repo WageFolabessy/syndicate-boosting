@@ -32,7 +32,21 @@ class TransactionController extends Controller
         $transactions = Transaction::with('transactionable')
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
+            ->when($progressStatus, function ($query) use ($progressStatus) {
+                $query->where(function ($progressQuery) use ($progressStatus) {
+                    $progressQuery
+                        ->where(function ($accountOrderQuery) use ($progressStatus) {
+                            $accountOrderQuery
+                                ->where('transactionable_type', AccountOrderDetail::class)
+                                ->where('status', $progressStatus);
+                        })
+                        ->orWhereHasMorph(
+                            'transactionable',
+                            [PackageOrderDetail::class, CustomOrderDetail::class],
+                            fn($morphQuery) => $morphQuery->where('status', $progressStatus)
+                        );
+                });
+            })
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -92,7 +106,11 @@ class TransactionController extends Controller
                 return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
             })
             ->addColumn('progress_status', function ($transaction) {
-                $status = $transaction->transactionable->status ?? 'pending';
+                $status = match ($transaction->transactionable_type) {
+                    AccountOrderDetail::class => $transaction->status ?? 'pending',
+                    PackageOrderDetail::class, CustomOrderDetail::class => $transaction->transactionable->status ?? 'pending',
+                    default => 'pending',
+                };
 
                 $statusClass = match ($status) {
                     'success' => 'success',
@@ -128,7 +146,7 @@ class TransactionController extends Controller
         ])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
+            ->when($progressStatus, fn($q) => $q->where('custom_order_details.status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -239,7 +257,7 @@ class TransactionController extends Controller
         $transactions = PackageOrderDetail::with(['transaction', 'boostingService'])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->where('status', $progressStatus))
+            ->when($progressStatus, fn($q) => $q->where('package_order_details.status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -338,7 +356,10 @@ class TransactionController extends Controller
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
             ->when($month, fn($q) => $q->whereMonth('created_at', $month))
             ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->whereHas('transaction', fn($query) => $query->where('status', $progressStatus)))
+            ->when(
+                $progressStatus,
+                fn($q) => $q->whereHas('transaction', fn($query) => $query->where('transactions.status', $progressStatus))
+            )
             ->orderBy('updated_at', 'desc')
             ->get();
 
