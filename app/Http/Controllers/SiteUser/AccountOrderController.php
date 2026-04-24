@@ -8,11 +8,10 @@ use App\Models\AccountOrderDetail;
 use App\Models\GameAccount;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Services\OrderNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TransactionSuccessMail;
 use Midtrans\Snap;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -32,6 +31,7 @@ class AccountOrderController extends Controller
     {
         Log::info('Midtrans Notification Received:', $request->all());
         $this->initMidtrans();
+        $notificationService = app(OrderNotificationService::class);
 
         try {
             $notification = new Notification();
@@ -46,6 +46,7 @@ class AccountOrderController extends Controller
             return response()->json(['message' => 'Transaction not found'], 404);
         }
 
+        $previousStatus = $transaction->status;
         $transactionStatus = $notification->transaction_status;
         if ($transactionStatus === 'capture') {
             $fraudStatus = $notification->fraud_status;
@@ -66,7 +67,7 @@ class AccountOrderController extends Controller
 
         $transaction->save();
 
-        if ($transaction->status === 'success') {
+        if ($transaction->status === 'success' && $previousStatus !== 'success') {
             $transactionableType = $transaction->transactionable_type;
 
             if ($transactionableType === \App\Models\AccountOrderDetail::class) {
@@ -78,42 +79,48 @@ class AccountOrderController extends Controller
                         $gameAccount->for_sale = false;
                         $gameAccount->save();
                     }
-                    if ($orderDetail->customer_email) {
-                        try {
-                            Mail::to($orderDetail->customer_email)->send(
-                                new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
-                            );
-                            Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
-                        } catch (\Exception $e) {
-                            Log::error('Failed to send transaction success email: ' . $e->getMessage());
-                        }
-                    }
+
+                    $notificationService->queueTransactionSuccess(
+                        transaction: $transaction,
+                        customerName: $orderDetail->customer_name,
+                        customerEmail: $orderDetail->customer_email,
+                    );
                 }
             } elseif ($transactionableType === \App\Models\PackageOrderDetail::class) {
                 // Joki Paket
                 $orderDetail = \App\Models\PackageOrderDetail::find($transaction->transactionable_id);
-                if ($orderDetail && $orderDetail->customer_email) {
-                    try {
-                        Mail::to($orderDetail->customer_email)->send(
-                            new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
-                        );
-                        Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
-                    } catch (\Exception $e) {
-                        Log::error('Failed to send transaction success email: ' . $e->getMessage());
-                    }
+                if ($orderDetail) {
+                    $notificationService->queueTransactionSuccess(
+                        transaction: $transaction,
+                        customerName: $orderDetail->customer_name,
+                        customerEmail: $orderDetail->customer_email,
+                    );
+
+                    $notificationService->queueProgressUpdate(
+                        transactionNumber: $transaction->transaction_number,
+                        customerName: $orderDetail->customer_name,
+                        customerEmail: $orderDetail->customer_email,
+                        progressStatus: $orderDetail->status,
+                        orderType: 'Package Boosting',
+                    );
                 }
             } elseif ($transactionableType === \App\Models\CustomOrderDetail::class) {
                 // Joki Kostum
                 $orderDetail = \App\Models\CustomOrderDetail::find($transaction->transactionable_id);
-                if ($orderDetail && $orderDetail->customer_email) {
-                    try {
-                        Mail::to($orderDetail->customer_email)->send(
-                            new TransactionSuccessMail($transaction, $orderDetail->customer_name, $orderDetail->customer_email)
-                        );
-                        Log::info('Transaction success email sent to: ' . $orderDetail->customer_email);
-                    } catch (\Exception $e) {
-                        Log::error('Failed to send transaction success email: ' . $e->getMessage());
-                    }
+                if ($orderDetail) {
+                    $notificationService->queueTransactionSuccess(
+                        transaction: $transaction,
+                        customerName: $orderDetail->customer_name,
+                        customerEmail: $orderDetail->customer_email,
+                    );
+
+                    $notificationService->queueProgressUpdate(
+                        transactionNumber: $transaction->transaction_number,
+                        customerName: $orderDetail->customer_name,
+                        customerEmail: $orderDetail->customer_email,
+                        progressStatus: $orderDetail->status,
+                        orderType: 'Custom Boosting',
+                    );
                 }
             }
         }

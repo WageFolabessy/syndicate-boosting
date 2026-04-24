@@ -4,37 +4,22 @@ namespace App\Http\Controllers\SiteUser;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddReviewRequest;
-use App\Models\AccountOrderDetail;
-use App\Models\CustomOrderDetail;
-use App\Models\PackageOrderDetail;
 use App\Models\Review;
-use App\Models\Transaction;
+use App\Services\TransactionSequentialSearchService;
 use Illuminate\Http\Request;
 
 class TransactionPageController extends Controller
 {
+    public function __construct(private readonly TransactionSequentialSearchService $sequentialSearchService)
+    {
+    }
+
     public function index(Request $request)
     {
         $transactions = [];
 
         if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $transactions = Transaction::where('transaction_number', $search)
-                ->whereIn('transactionable_type', [
-                    AccountOrderDetail::class,
-                    PackageOrderDetail::class,
-                    CustomOrderDetail::class,
-                ])
-                ->with([
-                    'transactionable' => function ($morphTo) {
-                        $morphTo->morphWith([
-                            AccountOrderDetail::class => ['gameAccount'],
-                            PackageOrderDetail::class => ['boostingService'],
-                            CustomOrderDetail::class => []
-                        ]);
-                    }
-                ])
-                ->get();
+            $transactions = $this->sequentialSearchService->searchByTransactionNumber($request->search);
         }
 
         return view('site-user.pages.transaksi', compact('transactions'));

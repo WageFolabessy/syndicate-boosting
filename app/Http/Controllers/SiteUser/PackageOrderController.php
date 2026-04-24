@@ -9,10 +9,9 @@ use App\Models\PackageOrderDetail;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Services\OrderNotificationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TransactionSuccessMail;
 use Midtrans\Snap;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -32,6 +31,7 @@ class PackageOrderController extends Controller
     {
         Log::info('Midtrans Notification Received:', $request->all());
         $this->initMidtrans();
+        $notificationService = app(OrderNotificationService::class);
 
         try {
             $notification = new Notification();
@@ -46,6 +46,7 @@ class PackageOrderController extends Controller
             return response()->json(['message' => 'Transaction not found'], 404);
         }
 
+        $previousStatus = $transaction->status;
         $transactionStatus = $notification->transaction_status;
         if ($transactionStatus === 'capture') {
             $fraudStatus = $notification->fraud_status;
@@ -65,17 +66,22 @@ class PackageOrderController extends Controller
         }
         $transaction->save();
 
-        if ($transaction->status === 'success') {
+        if ($transaction->status === 'success' && $previousStatus !== 'success') {
             $order = \App\Models\PackageOrderDetail::find($transaction->transactionable_id);
-            if ($order && $order->customer_email) {
-                try {
-                    Mail::to($order->customer_email)->send(
-                        new TransactionSuccessMail($transaction, $order->customer_name, $order->customer_email)
-                    );
-                    Log::info('Transaction success email sent to: ' . $order->customer_email);
-                } catch (\Exception $e) {
-                    Log::error('Failed to send transaction success email: ' . $e->getMessage());
-                }
+            if ($order) {
+                $notificationService->queueTransactionSuccess(
+                    transaction: $transaction,
+                    customerName: $order->customer_name,
+                    customerEmail: $order->customer_email,
+                );
+
+                $notificationService->queueProgressUpdate(
+                    transactionNumber: $transaction->transaction_number,
+                    customerName: $order->customer_name,
+                    customerEmail: $order->customer_email,
+                    progressStatus: $order->status,
+                    orderType: 'Package Boosting',
+                );
             }
         }
 

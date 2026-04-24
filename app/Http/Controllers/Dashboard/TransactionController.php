@@ -13,11 +13,16 @@ use App\Models\AccountOrderDetail;
 use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
 use App\Models\Transaction;
+use App\Services\OrderNotificationService;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
 {
+    public function __construct(private readonly OrderNotificationService $notificationService)
+    {
+    }
+
     public function getAllTransactions()
     {
         $month = request('month');
@@ -420,8 +425,20 @@ class TransactionController extends Controller
     public function updatePackageBoostingOrder(UpdateStatusPackageOrderRequest $request, PackageOrderDetail $package)
     {
         $data = $request->validated();
+        $previousStatus = $package->status;
 
         if ($package->update($data)) {
+            if (($data['status'] ?? null) && $previousStatus !== $data['status']) {
+                $package->refresh();
+                $this->notificationService->queueProgressUpdate(
+                    transactionNumber: $package->transaction?->transaction_number ?? '',
+                    customerName: $package->customer_name,
+                    customerEmail: $package->customer_email,
+                    progressStatus: $package->status,
+                    orderType: 'Package Boosting',
+                );
+            }
+
             return redirect()->back()->with('success', 'Status berhasil diperbarui.');
         } else {
             return redirect()->back()->with('error', 'Gagal memperbarui status.');
@@ -431,8 +448,20 @@ class TransactionController extends Controller
     public function updateCustomBoostingOrder(UpdateStatusCustomOrderRequest $request, CustomOrderDetail $custom)
     {
         $data = $request->validated();
+        $previousStatus = $custom->status;
 
         if ($custom->update($data)) {
+            if (($data['status'] ?? null) && $previousStatus !== $data['status']) {
+                $custom->refresh();
+                $this->notificationService->queueProgressUpdate(
+                    transactionNumber: $custom->transaction?->transaction_number ?? '',
+                    customerName: $custom->customer_name,
+                    customerEmail: $custom->customer_email,
+                    progressStatus: $custom->status,
+                    orderType: 'Custom Boosting',
+                );
+            }
+
             return redirect()->back()->with('success', 'Status berhasil diperbarui.');
         } else {
             return redirect()->back()->with('error', 'Gagal memperbarui status.');
