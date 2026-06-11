@@ -40,6 +40,8 @@ class CustomOrderControllerTest extends TestCase
             'developer' => 'Moonton',
             'description' => 'Test game',
             'image' => 'test-image.jpg',
+            'login_methods' => ['email', 'moonton'],
+            'servers' => ['Asia', 'Europe'],
         ]);
 
         // Create category
@@ -113,6 +115,8 @@ class CustomOrderControllerTest extends TestCase
             'login' => 'email',
             'note' => 'Please boost fast',
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -141,6 +145,7 @@ class CustomOrderControllerTest extends TestCase
         $this->assertDatabaseHas('custom_order_details', [
             'transaction_id' => $transaction->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'price' => 10000, // 20000 - 10000
@@ -160,6 +165,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -184,6 +190,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => 99999, // Invalid ID
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -211,6 +218,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -243,6 +251,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -269,6 +278,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['bronze_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['bronze_detail']->id, // Same as current
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -295,6 +305,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['bronze_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['bronze_detail']->id, // Lower rank
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -327,6 +338,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -405,6 +417,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
@@ -417,6 +430,7 @@ class CustomOrderControllerTest extends TestCase
 
         $this->assertDatabaseHas('custom_order_details', [
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'server' => null,
             'login' => null,
             'note' => null,
@@ -441,6 +455,7 @@ class CustomOrderControllerTest extends TestCase
             'desired_game_rank_tier_id' => $data['silver_tier']->id,
             'desired_game_rank_tier_detail_id' => $data['silver_detail']->id,
             'customer_name' => 'John Doe',
+            'customer_email' => 'johndoe@example.com',
             'customer_contact' => '081234567890',
             'username' => 'johndoe123',
             'password' => 'secret123',
