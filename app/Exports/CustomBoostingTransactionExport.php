@@ -8,14 +8,39 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class CustomBoostingTransactionExport implements FromCollection, WithHeadings
 {
+    protected $month;
+    protected $year;
+    protected $progressStatus;
+
+    public function __construct($month = null, $year = null, $progressStatus = null)
+    {
+        $this->month = $month;
+        $this->year = $year;
+        $this->progressStatus = $progressStatus;
+    }
+
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return CustomOrderDetail::whereHas('transaction', function ($q) {
-            $q->where('status', 'success');
-        })->get()->map(function ($transaction) {
+        $month = $this->month;
+        $year = $this->year;
+        $progressStatus = $this->progressStatus;
+
+        return CustomOrderDetail::with([
+            'transaction',
+            'currentGameRankCategory',
+            'currentGameRankTier',
+            'currentGameRankTierDetail',
+            'desiredGameRankCategory',
+            'desiredGameRankTier',
+            'desiredGameRankTierDetail',
+        ])
+            ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+            ->when($year, fn ($q) => $q->whereYear('created_at', $year))
+            ->when($progressStatus, fn ($q) => $q->where('custom_order_details.status', $progressStatus))
+            ->get()->map(function ($transaction) {
             return [
                 'ID' => $transaction->id,
                 'Transaction Number' => $transaction->transaction->transaction_number,

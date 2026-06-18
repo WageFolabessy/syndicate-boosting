@@ -489,22 +489,34 @@ class TransactionController extends Controller
 
     public function allTransactionExport()
     {
-        return Excel::download(new AllTransactionExport, 'all transaction managements.xlsx');
+        $month = request('month');
+        $year = request('year');
+        $progressStatus = request('progress_status');
+        return Excel::download(new AllTransactionExport($month, $year, $progressStatus), 'all transaction managements.xlsx');
     }
 
     public function customBoostingTransactionExport()
     {
-        return Excel::download(new CustomBoostingTransactionExport, 'custom boosting transaction managements.xlsx');
+        $month = request('month');
+        $year = request('year');
+        $progressStatus = request('progress_status');
+        return Excel::download(new CustomBoostingTransactionExport($month, $year, $progressStatus), 'custom boosting transaction managements.xlsx');
     }
 
     public function packageBoostingTransactionExport()
     {
-        return Excel::download(new PackageBoostingTransactionExport, 'package boosting transaction managements.xlsx');
+        $month = request('month');
+        $year = request('year');
+        $progressStatus = request('progress_status');
+        return Excel::download(new PackageBoostingTransactionExport($month, $year, $progressStatus), 'package boosting transaction managements.xlsx');
     }
 
     public function gameAccountTransactionExport()
     {
-        return Excel::download(new GameAccountTransactionExport, 'game account transaction managements.xlsx');
+        $month = request('month');
+        $year = request('year');
+        $progressStatus = request('progress_status');
+        return Excel::download(new GameAccountTransactionExport($month, $year, $progressStatus), 'game account transaction managements.xlsx');
     }
 
     /**

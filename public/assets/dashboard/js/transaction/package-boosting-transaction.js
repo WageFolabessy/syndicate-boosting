@@ -105,8 +105,23 @@ $(document).ready(function () {
         }
     );
 
+    function updateExportUrl() {
+        var month = $("#filterMonth").val() || "";
+        var year = $("#filterYear").val() || "";
+        var progressStatus = $("#filterProgressStatus").val() || "";
+        
+        var $btn = $("#btnExport");
+        if ($btn.length) {
+            var baseUrl = $btn.attr("href").split("?")[0];
+            $btn.attr("href", baseUrl + "?month=" + month + "&year=" + year + "&progress_status=" + progressStatus);
+        }
+    }
+
+    updateExportUrl();
+
     $("#filterMonth, #filterYear, #filterProgressStatus").on("change", function () {
         table.ajax.reload();
+        updateExportUrl();
     });
 
     $("#btnResetFilter").on("click", function () {
@@ -114,5 +129,6 @@ $(document).ready(function () {
         $("#filterYear").val("");
         $("#filterProgressStatus").val("");
         table.ajax.reload();
+        updateExportUrl();
     });
 });
