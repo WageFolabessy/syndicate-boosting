@@ -23,7 +23,7 @@ $(document).ready(function () {
                 data: "system_type",
                 name: "system_type",
                 render: function (data, type, row) {
-                    // Contoh: tampilkan huruf kapital di awal
+                    // tampilkan huruf kapital di awal
                     return data
                         ? data.charAt(0).toUpperCase() + data.slice(1)
                         : "-";

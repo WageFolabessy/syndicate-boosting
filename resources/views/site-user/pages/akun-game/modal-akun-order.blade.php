@@ -29,7 +29,7 @@
                             </label>
                             <input type="text" class="form-control rounded-3" id="customer_name"
                                 name="customer_name" required
-                                placeholder="Contoh: Budi Santoso"
+                                placeholder="Budi Santoso"
                                 maxlength="100">
                             <!-- Pesan error untuk customer_name -->
                             <div class="invalid-feedback" id="error_customer_name"></div>
@@ -38,10 +38,11 @@
                         <div class="col-md-12">
                             <label for="customer_contact" class="form-label fw-semibold">
                                 <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
+                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan nomor yang AKTIF agar kami bisa menghubungi Anda)</small>
                             </label>
                             <input type="text" class="form-control rounded-3" id="customer_contact"
                                 name="customer_contact" required
-                                placeholder="Contoh: 081234567890"
+                                placeholder="081234567890"
                                 maxlength="15" pattern="[0-9]+" inputmode="numeric">
                             <!-- Pesan error untuk customer_contact -->
                             <div class="invalid-feedback" id="error_customer_contact"></div>
@@ -50,10 +51,11 @@
                         <div class="col-md-12">
                             <label for="customer_email" class="form-label fw-semibold">
                                 <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan email yang AKTIF agar mendapatkan notifikasi nota pembayaran)</small>
                             </label>
                             <input type="email" class="form-control rounded-3" id="customer_email"
                                 name="customer_email" required
-                                placeholder="Contoh: budi@gmail.com"
+                                placeholder="budi@gmail.com"
                                 maxlength="255">
                             <!-- Pesan error untuk customer_email -->
                             <div class="invalid-feedback" id="error_customer_email"></div>

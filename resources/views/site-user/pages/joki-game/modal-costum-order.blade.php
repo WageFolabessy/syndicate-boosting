@@ -48,7 +48,7 @@
                             </label>
                             <div class="error-message text-danger" id="error-note"></div>
                             <textarea class="form-control rounded-3" name="note" id="note" rows="4"
-                                placeholder="Contoh: Tolong push rank sebelum Senin, akun sudah berada di rank Platinum"
+                                placeholder="Tolong push rank sebelum Senin, akun sudah berada di rank Platinum"
                                 maxlength="500"></textarea>
                         </div>
                         <!-- Nama Panggilan -->
@@ -59,29 +59,31 @@
                             <div class="error-message text-danger" id="error-customer_name"></div>
                             <input type="text" class="form-control rounded-3" id="customer_name"
                                 name="customer_name" required
-                                placeholder="Contoh: Budi Santoso"
+                                placeholder="Budi Santoso"
                                 maxlength="100">
                         </div>
                         <!-- Kontak WhatsApp -->
                         <div class="col-md-12">
                             <label for="customer_contact" class="form-label fw-semibold">
                                 <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
+                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan nomor yang AKTIF agar kami bisa menghubungi Anda)</small>
                             </label>
                             <div class="error-message text-danger" id="error-customer_contact"></div>
                             <input type="text" class="form-control rounded-3" id="customer_contact"
                                 name="customer_contact" required
-                                placeholder="Contoh: 081234567890"
+                                placeholder="081234567890"
                                 maxlength="15" pattern="[0-9]+" inputmode="numeric">
                         </div>
                         <!-- Email Pelanggan -->
                         <div class="col-md-12">
                             <label for="customer_email" class="form-label fw-semibold">
                                 <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan email yang AKTIF agar mendapatkan notifikasi nota pembayaran)</small>
                             </label>
                             <div class="error-message text-danger" id="error-customer_email"></div>
                             <input type="email" class="form-control rounded-3" id="customer_email"
                                 name="customer_email" required
-                                placeholder="Contoh: budi@gmail.com"
+                                placeholder="budi@gmail.com"
                                 maxlength="255">
                         </div>
                         <!-- Username/ID Akun -->
@@ -92,7 +94,7 @@
                             <div class="error-message text-danger" id="error-username"></div>
                             <input type="text" class="form-control rounded-3" id="username" name="username"
                                 required
-                                placeholder="Contoh: BudiGamer#1234"
+                                placeholder="BudiGamer#1234"
                                 maxlength="100">
                         </div>
                         <!-- Password Akun -->
