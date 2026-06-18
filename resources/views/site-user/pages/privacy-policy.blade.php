@@ -98,11 +98,11 @@
                                 <ul>
                                     <li>Kredensial login akun Anda hanya akan diakses secara rahasia oleh joki profesional yang secara khusus menangani orderan Anda.</li>
                                     <li>Seluruh joki terikat dengan aturan privasi yang ketat dan dilarang keras untuk memindahkan barang berharga dalam game, membagikan informasi akun ke pihak lain, atau memodifikasi kredensial akun tanpa persetujuan Anda.</li>
-                                    <li>Setelah pengerjaan joki ditandai selesai (`success`), kami menyembunyikan data kredensial Anda dari dashboard joki dan kami sangat merekomendasikan Anda untuk langsung memperbarui password akun game Anda demi keamanan tambahan.</li>
+                                    <li>Setelah pengerjaan joki ditandai selesai (<code>success</code>), kami menghapus/menyembunyikan data kredensial Anda dari sistem kami dan kami sangat merekomendasikan Anda untuk langsung memperbarui password akun game Anda demi keamanan tambahan.</li>
                                 </ul>
 
                                 <h3 class="mt-4 mb-3">4. Cookie & Teknologi Sesi</h3>
-                                <p>Kami menggunakan cookie teknis yang aman (`syndicate_boosting_session` dan `XSRF-TOKEN`) untuk mengidentifikasi sesi Anda di browser, mempermudah akses login dashboard, serta mencegah eksploitasi serangan Cross-Site Request Forgery (CSRF). Anda dapat mengatur browser untuk menolak cookie, namun hal ini dapat mengganggu fungsionalitas fungsional dari beberapa fitur web.</p>
+                                <p>Kami menggunakan cookie teknis yang aman (<code>syndicate_boosting_session</code> dan <code>XSRF-TOKEN</code>) untuk mengidentifikasi sesi Anda di browser, mempermudah akses login dashboard, serta mencegah eksploitasi serangan Cross-Site Request Forgery (CSRF). Anda dapat mengatur browser untuk menolak cookie, namun hal ini dapat mengganggu fungsionalitas fungsional dari beberapa fitur web.</p>
 
                                 <h3 class="mt-4 mb-3">5. Hak Pengguna</h3>
                                 <p>Anda memiliki hak untuk meminta penghapusan informasi data kontak atau riwayat pesanan Anda dari database kami kapan saja dengan menghubungi kami secara resmi melalui WhatsApp. Namun, data transaksi tertentu akan tetap disimpan sesuai kebutuhan kepatuhan hukum transaksi keuangan.</p>

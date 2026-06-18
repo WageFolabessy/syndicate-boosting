@@ -98,7 +98,7 @@
                                 <h3 class="mt-4 mb-3">4. Pembayaran & Pembatalan Order</h3>
                                 <ul>
                                     <li>Semua pembayaran diselesaikan di muka secara penuh melalui gateway pembayaran resmi kami (Midtrans).</li>
-                                    <li>Pesanan yang sudah diproses dan sedang dalam pengerjaan oleh joki **tidak dapat dibatalkan** atau di-refund secara sepihak oleh pelanggan.</li>
+                                    <li>Pesanan yang sudah diproses dan sedang dalam pengerjaan oleh joki <strong>tidak dapat dibatalkan</strong> atau di-refund secara sepihak oleh pelanggan.</li>
                                     <li>Refund (pengembalian dana) penuh atau sebagian hanya akan diproses apabila tim kami tidak dapat memulai pengerjaan pesanan Anda dalam waktu 3x24 jam atau joki kami tidak sanggup menyelesaikan target pesanan karena alasan teknis internal.</li>
                                 </ul>
 
