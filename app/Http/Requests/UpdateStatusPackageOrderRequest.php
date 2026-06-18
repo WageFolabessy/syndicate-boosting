@@ -15,14 +15,14 @@ class UpdateStatusPackageOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'   => 'sometimes|in:failed,canceled,pending,processed,success',
+            'status' => 'sometimes|in:failed,canceled,pending,processed,success',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'status.in'         => 'Status tidak valid.',
+            'status.in' => 'Status tidak valid.',
         ];
     }
 }

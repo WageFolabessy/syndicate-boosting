@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Exports\ReviewExport;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -24,16 +23,17 @@ class ReviewController extends Controller
             })
             ->editColumn('transaction_id', function ($review) {
                 if ($review->transaction) {
-                    if (class_basename($review->transaction->transactionable) == "AccountOrderDetail") {
+                    if (class_basename($review->transaction->transactionable) == 'AccountOrderDetail') {
                         return 'Account Order';
                     }
-                    if (class_basename($review->transaction->transactionable) == "CustomOrderDetail") {
+                    if (class_basename($review->transaction->transactionable) == 'CustomOrderDetail') {
                         return 'Custom Boosting Order';
                     }
-                    if (class_basename($review->transaction->transactionable) == "PackageOrderDetail") {
+                    if (class_basename($review->transaction->transactionable) == 'PackageOrderDetail') {
                         return 'Package Boosting Order';
                     }
                 }
+
                 return '';
             })
             ->editColumn('created_at', function ($review) {

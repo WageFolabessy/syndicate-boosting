@@ -17,21 +17,22 @@ class SendTransactionSuccessMailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public int $timeout = 60;
 
     public function __construct(
         public int $transactionId,
         public string $customerName,
         public string $customerEmail,
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {
         $transaction = Transaction::find($this->transactionId);
 
-        if (!$transaction) {
-            Log::warning('Transaction not found while sending success email. ID: ' . $this->transactionId);
+        if (! $transaction) {
+            Log::warning('Transaction not found while sending success email. ID: '.$this->transactionId);
+
             return;
         }
 

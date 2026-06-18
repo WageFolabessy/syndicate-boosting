@@ -12,7 +12,7 @@ class LabelExport implements FromCollection, WithHeadings
     {
         return Label::all();
     }
-    
+
     public function headings(): array
     {
         return [

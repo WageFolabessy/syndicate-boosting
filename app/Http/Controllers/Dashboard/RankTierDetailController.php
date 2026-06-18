@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\GameRankTierDetailsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddRankTierDetailRequest;
 use App\Http\Requests\UpdateRankTierDetailRequest;
 use App\Models\GameRankTier;
 use App\Models\GameRankTierDetail;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use App\Exports\GameRankTierDetailsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class RankTierDetailController extends Controller
 {
@@ -94,7 +94,7 @@ class RankTierDetailController extends Controller
         return redirect()->route('dashboard.rank-tier-detail')
             ->with('success', 'Rank Tier Detail berhasil dihapus.');
     }
-    
+
     public function export()
     {
         return Excel::download(new GameRankTierDetailsExport, 'game rank tier details managements.xlsx');

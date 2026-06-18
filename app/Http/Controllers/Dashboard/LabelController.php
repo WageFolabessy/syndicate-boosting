@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\LabelExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddLabelRequest;
 use App\Http\Requests\UpdateLabelRequest;
 use App\Models\Label;
-use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\LabelExport;
+use Yajra\DataTables\Facades\DataTables;
 
 class LabelController extends Controller
 {
@@ -30,7 +30,7 @@ class LabelController extends Controller
             })
             ->addColumn('color', function ($label) {
                 return '<span style="display:inline-block;width:20px;height:20px;background-color: '
-                    . $label->color . '; border-radius: 4px;"></span>';
+                    .$label->color.'; border-radius: 4px;"></span>';
             })
             ->addColumn('action', function ($label) {
                 return view('dashboard.pages.label.action-button')->with('label', $label);
@@ -38,7 +38,6 @@ class LabelController extends Controller
             ->rawColumns(['action', 'color'])
             ->make(true);
     }
-
 
     public function create()
     {
@@ -49,6 +48,7 @@ class LabelController extends Controller
     {
         $data = $request->validated();
         Label::create($data);
+
         return redirect()->route('dashboard.label')->with('success', 'Label berhasil ditambahkan.');
     }
 
@@ -61,15 +61,17 @@ class LabelController extends Controller
     {
         $data = $request->validated();
         $label->update($data);
+
         return redirect()->route('dashboard.label')->with('success', 'Label berhasil diperbarui.');
     }
 
     public function destroy(Label $label)
     {
         $label->delete();
+
         return redirect()->route('dashboard.label')->with('success', 'Label berhasil dihapus.');
     }
-    
+
     public function export()
     {
         return Excel::download(new LabelExport, 'labels managements.xlsx');

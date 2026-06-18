@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\GamesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddGameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Game;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
-use App\Exports\GamesExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class GameController extends Controller
 {
@@ -21,8 +21,9 @@ class GameController extends Controller
             ->addIndexColumn()
             ->editColumn('image', function ($game) {
                 if ($game->image) {
-                    return '<img src="' . asset('storage/' . $game->image) . '" alt="Game Image" class="img-thumbnail" style="width:100px;">';
+                    return '<img src="'.asset('storage/'.$game->image).'" alt="Game Image" class="img-thumbnail" style="width:100px;">';
                 }
+
                 return '-';
             })
             ->editColumn('created_at', function ($game) {
@@ -103,7 +104,7 @@ class GameController extends Controller
     {
         return response()->json([
             'login_methods' => $game->login_methods ?? [],
-            'servers'       => $game->servers ?? [],
+            'servers' => $game->servers ?? [],
         ]);
     }
 }

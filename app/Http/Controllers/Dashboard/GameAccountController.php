@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\GameAccountsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddGameAccountRequest;
 use App\Http\Requests\UpdateGameAccountRequest;
@@ -9,9 +10,8 @@ use App\Models\Game;
 use App\Models\GameAccount;
 use App\Models\Label;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
-use App\Exports\GameAccountsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class GameAccountController extends Controller
 {
@@ -23,37 +23,42 @@ class GameAccountController extends Controller
             ->addIndexColumn()
             ->editColumn('image', function ($gameAccount) {
                 if ($gameAccount->image) {
-                    return '<img src="' . asset('storage/' . $gameAccount->image) . '" alt="Game Account Image" class="img-thumbnail" style="width:100px;">';
+                    return '<img src="'.asset('storage/'.$gameAccount->image).'" alt="Game Account Image" class="img-thumbnail" style="width:100px;">';
                 }
+
                 return '-';
             })
             ->editColumn('subtitle', function ($gameAccount) {
                 if ($gameAccount->subtitle) {
                     return $gameAccount->subtitle;
                 }
+
                 return '-';
             })
             ->editColumn('level', function ($gameAccount) {
                 if ($gameAccount->level) {
                     return $gameAccount->level;
                 }
+
                 return '-';
             })
             ->editColumn('account_age', function ($gameAccount) {
                 if ($gameAccount->account_age) {
                     return $gameAccount->account_age;
                 }
+
                 return '-';
             })
             ->editColumn('sale_price', function ($gameAccount) {
                 if ($gameAccount->sale_price) {
                     return $gameAccount->sale_price;
                 }
+
                 return '-';
             })
             ->editColumn('for_sale', function ($gameAccount) {
                 return $gameAccount->for_sale ? 'Yes' : 'No';
-                
+
             })
             ->editColumn('game_id', function ($gameAccount) {
                 return $gameAccount->game ? $gameAccount->game->name : '-';
@@ -80,11 +85,11 @@ class GameAccountController extends Controller
             ->make(true);
     }
 
-
     public function create()
     {
         $games = Game::orderBy('name')->get();
         $allLabels = Label::orderBy('name')->get();
+
         return view('dashboard.pages.game-account.add-game-account', compact('games', 'allLabels'));
     }
 
@@ -111,6 +116,7 @@ class GameAccountController extends Controller
     {
         $games = Game::orderBy('name')->get();
         $allLabels = Label::orderBy('name')->get();
+
         return view('dashboard.pages.game-account.edit-game-account', compact('gameAccount', 'games', 'allLabels'));
     }
 
@@ -128,7 +134,7 @@ class GameAccountController extends Controller
         }
 
         $data['for_sale'] = $request->has('for_sale');
-        
+
         $gameAccount->update($data);
 
         // Sinkronisasi label (jika ada)
@@ -148,7 +154,7 @@ class GameAccountController extends Controller
 
         return redirect()->route('dashboard.game-account')->with('success', 'Akun game berhasil dihapus.');
     }
-    
+
     public function export()
     {
         return Excel::download(new GameAccountsExport, 'game accounts managements.xlsx');

@@ -9,8 +9,8 @@ use App\Http\Requests\UpdateRankCategoryRequest;
 use App\Models\Game;
 use App\Models\GameRankCategory;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class RankCategoryController extends Controller
 {
@@ -27,8 +27,9 @@ class RankCategoryController extends Controller
             ->addIndexColumn()
             ->editColumn('image', function ($rankCategory) {
                 if ($rankCategory->image) {
-                    return '<img alt="Game Image" class="img-thumbnail" src="' . asset('storage/' . $rankCategory->image) . '" style="width:100px">';
+                    return '<img alt="Game Image" class="img-thumbnail" src="'.asset('storage/'.$rankCategory->image).'" style="width:100px">';
                 }
+
                 return '-';
             })
             ->editColumn('game_id', function ($rankCategory) {
@@ -54,6 +55,7 @@ class RankCategoryController extends Controller
     public function create()
     {
         $games = Game::orderBy('name')->get();
+
         return view('dashboard.pages.rank-category.add-rank-category', compact('games'));
     }
 
@@ -74,6 +76,7 @@ class RankCategoryController extends Controller
     public function show(GameRankCategory $rankCategory)
     {
         $games = Game::orderBy('name')->get();
+
         return view('dashboard.pages.rank-category.edit-rank-category', compact('rankCategory', 'games'));
     }
 

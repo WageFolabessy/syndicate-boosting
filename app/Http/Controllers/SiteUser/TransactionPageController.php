@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class TransactionPageController extends Controller
 {
-    public function __construct(private readonly TransactionSequentialSearchService $sequentialSearchService)
-    {
-    }
+    public function __construct(private readonly TransactionSequentialSearchService $sequentialSearchService) {}
 
     public function index(Request $request)
     {
@@ -29,6 +27,7 @@ class TransactionPageController extends Controller
     {
         $data = $request->validated();
         Review::create($data);
+
         return redirect()->back()->with('success', 'Review berhasil dikirim.');
     }
 }

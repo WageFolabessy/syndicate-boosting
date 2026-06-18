@@ -20,7 +20,7 @@ class TransactionSequentialSearchService
         $needle = trim($transactionNumber);
 
         if ($needle === '') {
-            return new Collection();
+            return new Collection;
         }
 
         $matchedTransactionId = null;
@@ -41,8 +41,8 @@ class TransactionSequentialSearchService
             }
         }
 
-        if (!$matchedTransactionId) {
-            return new Collection();
+        if (! $matchedTransactionId) {
+            return new Collection;
         }
 
         return Transaction::query()

@@ -205,7 +205,7 @@
                         <div class="col-lg-12">
                             <div class="position-relative">
                                 <input type="text" name="search" class="form-control" placeholder="Cari game..."
-                                    aria-label="Search games" value="{{ request('search') }}">
+                                    aria-label="Search games" value="{{ request('search') }}" maxlength="100">
                                 <i
                                     class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
                             </div>

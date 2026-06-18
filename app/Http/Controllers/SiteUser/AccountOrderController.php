@@ -12,19 +12,19 @@ use App\Services\OrderNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Midtrans\Snap;
 use Midtrans\Config;
 use Midtrans\Notification;
+use Midtrans\Snap;
 
 class AccountOrderController extends Controller
 {
     private function initMidtrans()
     {
-        Config::$serverKey       = config('midtrans.server_key');
-        Config::$isProduction    = config('midtrans.is_production');
-        Config::$isSanitized     = config('midtrans.is_sanitized');
-        Config::$is3ds           = config('midtrans.is_3ds');
-        Config::$appendNotifUrl  = env('NGROK_HTTP_8000');
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = config('midtrans.is_sanitized');
+        Config::$is3ds = config('midtrans.is_3ds');
+        Config::$appendNotifUrl = env('NGROK_HTTP_8000');
     }
 
     public function handleNotification(Request $request)
@@ -34,15 +34,17 @@ class AccountOrderController extends Controller
         $notificationService = app(OrderNotificationService::class);
 
         try {
-            $notification = new Notification();
+            $notification = new Notification;
         } catch (\Exception $e) {
-            Log::error('Error processing Midtrans notification: ' . $e->getMessage());
+            Log::error('Error processing Midtrans notification: '.$e->getMessage());
+
             return response()->json(['message' => 'Error processing notification'], 500);
         }
 
         $transaction = Transaction::where('transaction_number', $notification->order_id)->first();
-        if (!$transaction) {
-            Log::error('Transaction not found: ' . $notification->order_id);
+        if (! $transaction) {
+            Log::error('Transaction not found: '.$notification->order_id);
+
             return response()->json(['message' => 'Transaction not found'], 404);
         }
 
@@ -128,13 +130,13 @@ class AccountOrderController extends Controller
         Payment::updateOrCreate(
             ['midtrans_transaction_id' => $notification->transaction_id],
             [
-                'transaction_id'  => $transaction->id,
+                'transaction_id' => $transaction->id,
                 'midtrans_status' => $transactionStatus,
-                'payload'         => $request->all()
+                'payload' => $request->all(),
             ]
         );
 
-        Log::info('Midtrans notification processed for transaction: ' . $transaction->transaction_number);
+        Log::info('Midtrans notification processed for transaction: '.$transaction->transaction_number);
 
         return response()->json(['message' => 'Notification processed'], 200);
     }
@@ -151,19 +153,19 @@ class AccountOrderController extends Controller
         DB::beginTransaction();
         try {
             $transaction = Transaction::create([
-                'transaction_number'   => 'AkunGame-' . strtoupper(uniqid()),
-                'transactionable_id'   => 0,
+                'transaction_number' => 'AkunGame-'.strtoupper(uniqid()),
+                'transactionable_id' => 0,
                 'transactionable_type' => AccountOrderDetail::class,
-                'status'               => 'pending',
+                'status' => 'pending',
             ]);
 
             $order = AccountOrderDetail::create([
-                'transaction_id'   => $transaction->id,
-                'game_account_id'  => $data['game_account_id'],
-                'customer_name'    => $data['customer_name'],
+                'transaction_id' => $transaction->id,
+                'game_account_id' => $data['game_account_id'],
+                'customer_name' => $data['customer_name'],
                 'customer_contact' => $data['customer_contact'],
-                'customer_email'   => $data['customer_email'],
-                'price'            => $price,
+                'customer_email' => $data['customer_email'],
+                'price' => $price,
             ]);
 
             $transaction->update([
@@ -173,30 +175,31 @@ class AccountOrderController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error saat membuat order: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error saat membuat order: '.$e->getMessage()], 500);
         }
 
         $params = [
             'transaction_details' => [
-                'order_id'     => $transaction->transaction_number,
+                'order_id' => $transaction->transaction_number,
                 'gross_amount' => $order->price,
             ],
             'customer_details' => [
                 'first_name' => $order->customer_name,
-                'phone'      => $order->customer_contact,
+                'phone' => $order->customer_contact,
             ],
         ];
 
         try {
             $snapToken = Snap::getSnapToken($params);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Midtrans Error: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Midtrans Error: '.$e->getMessage()], 500);
         }
 
         return response()->json([
-            'snap_token'         => $snapToken,
+            'snap_token' => $snapToken,
             'transaction_number' => $transaction->transaction_number,
-            'customer_email'     => $order->customer_email,
+            'customer_email' => $order->customer_email,
         ]);
     }
 }

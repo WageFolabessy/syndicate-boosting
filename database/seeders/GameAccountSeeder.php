@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\GameAccount;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -31,7 +30,7 @@ class GameAccountSeeder extends Seeder
         ];
 
         if (file_exists($pointBlankImagePath)) {
-            $fileName = 'game-accounts/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            $fileName = 'game-accounts/'.Str::random(20).'.'.pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
             $dataPBGameAccount1['image'] = $fileName;
         } else {
@@ -54,7 +53,7 @@ class GameAccountSeeder extends Seeder
         ];
 
         if (file_exists($pointBlankImagePath)) {
-            $fileName = 'game-accounts/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            $fileName = 'game-accounts/'.Str::random(20).'.'.pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
             $dataPBGameAccount2['image'] = $fileName;
         } else {

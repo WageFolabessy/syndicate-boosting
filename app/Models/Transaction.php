@@ -22,7 +22,7 @@ class Transaction extends Model
     {
         return $this->hasOne(Payment::class, 'transaction_id');
     }
-    
+
     public function review()
     {
         return $this->hasOne(Review::class, 'transaction_id');

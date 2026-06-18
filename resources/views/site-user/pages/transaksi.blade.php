@@ -89,7 +89,8 @@
                         <div class="col-lg-12">
                             <form action="{{ route('transaksi') }}" method="GET">
                                 <input type="text" name="search" class="form-control"
-                                    placeholder="Masukan nomor transaksi Anda..." value="{{ request('search') }}">
+                                    placeholder="Masukan nomor transaksi Anda..." value="{{ request('search') }}"
+                                    maxlength="50">
                             </form>
                         </div>
                     </div>
@@ -317,7 +318,7 @@
                                                                     @enderror
 
                                                                     <div class="mb-2 mt-2">
-                                                                        <textarea name="comment" class="form-control" rows="2" placeholder="Tulis komentar review...">{{ old('comment') }}</textarea>
+                                                                        <textarea name="comment" class="form-control" rows="2" placeholder="Tulis komentar review..." maxlength="500">{{ old('comment') }}</textarea>
                                                                     </div>
                                                                     @error('comment')
                                                                         <div class="text-danger">{{ $message }}</div>

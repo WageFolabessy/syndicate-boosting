@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\SiteUser;
 
 use App\Http\Controllers\Controller;
-use App\Models\BoostingService;
 use App\Models\Game;
 use App\Models\GameAccount;
 use App\Models\Review;
-use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -41,6 +39,17 @@ class PageController extends Controller
             ->where('for_sale', true)
             ->orderBy('updated_at', 'desc')
             ->get();
+
         return view('site-user.pages.akun-game.index', compact('gameAccounts'));
+    }
+
+    public function privacyPolicy()
+    {
+        return view('site-user.pages.privacy-policy');
+    }
+
+    public function termsOfService()
+    {
+        return view('site-user.pages.terms-of-service');
     }
 }

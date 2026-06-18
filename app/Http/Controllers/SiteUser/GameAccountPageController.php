@@ -18,9 +18,9 @@ class GameAccountPageController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
-                $q->where('account_name', 'LIKE', '%' . $search . '%')
+                $q->where('account_name', 'LIKE', '%'.$search.'%')
                     ->orWhereHas('game', function ($q2) use ($search) {
-                        $q2->where('name', 'LIKE', '%' . $search . '%');
+                        $q2->where('name', 'LIKE', '%'.$search.'%');
                     });
             });
         }
@@ -32,10 +32,9 @@ class GameAccountPageController extends Controller
 
     public function show(Game $game, GameAccount $account)
     {
-        if($account->for_sale == true)
-        {
+        if ($account->for_sale == true) {
             $account->load('game');
-    
+
             return view('site-user.pages.akun-game.show', compact('account'));
         }
         abort(404);

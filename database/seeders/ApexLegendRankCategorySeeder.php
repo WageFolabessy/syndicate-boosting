@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\GameRankCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,46 +16,46 @@ class ApexLegendRankCategorySeeder extends Seeder
     {
         $apexLegendRankCategories = [
             [
-                'game_id'       => 1,
-                'name'          => 'Rookie',
-                'image'         => public_path('images/apex-legends/1-rookie.webp'),
+                'game_id' => 1,
+                'name' => 'Rookie',
+                'image' => public_path('images/apex-legends/1-rookie.webp'),
                 'display_order' => 1,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             [
-                'game_id'       => 1,
-                'name'          => 'Bronze',
-                'image'         => public_path('images/apex-legends/2-bronze.webp'),
+                'game_id' => 1,
+                'name' => 'Bronze',
+                'image' => public_path('images/apex-legends/2-bronze.webp'),
                 'display_order' => 2,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             [
-                'game_id'       => 1,
-                'name'          => 'Silver',
-                'image'         => public_path('images/apex-legends/3-silver.webp'),
+                'game_id' => 1,
+                'name' => 'Silver',
+                'image' => public_path('images/apex-legends/3-silver.webp'),
                 'display_order' => 3,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             [
-                'game_id'       => 1,
-                'name'          => 'Gold',
-                'image'         => public_path('images/apex-legends/4-gold.webp'),
+                'game_id' => 1,
+                'name' => 'Gold',
+                'image' => public_path('images/apex-legends/4-gold.webp'),
                 'display_order' => 4,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             [
-                'game_id'       => 1,
-                'name'          => 'Platinum',
-                'image'         => public_path('images/apex-legends/5-platinum.webp'),
+                'game_id' => 1,
+                'name' => 'Platinum',
+                'image' => public_path('images/apex-legends/5-platinum.webp'),
                 'display_order' => 5,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             [
-                'game_id'       => 1,
-                'name'          => 'Diamond',
-                'image'         => public_path('images/apex-legends/6-diamond.webp'),
+                'game_id' => 1,
+                'name' => 'Diamond',
+                'image' => public_path('images/apex-legends/6-diamond.webp'),
                 'display_order' => 6,
-                'system_type'   => 'point',
+                'system_type' => 'point',
             ],
             // [
             //     'game_id'       => 1,
@@ -78,7 +77,7 @@ class ApexLegendRankCategorySeeder extends Seeder
             // Cek apakah file gambar ada di path yang ditentukan
             if (file_exists($imagePath)) {
                 // Generate nama file baru secara random
-                $fileName = 'rank-categories/' . Str::random(20) . '.' . pathinfo($imagePath, PATHINFO_EXTENSION);
+                $fileName = 'rank-categories/'.Str::random(20).'.'.pathinfo($imagePath, PATHINFO_EXTENSION);
 
                 // Pindahkan file gambar ke storage public
                 Storage::disk('public')->put($fileName, file_get_contents($imagePath));

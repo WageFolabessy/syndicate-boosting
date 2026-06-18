@@ -19,7 +19,7 @@ class Game extends Model
 
     protected $casts = [
         'login_methods' => 'array',
-        'servers'       => 'array',
+        'servers' => 'array',
     ];
 
     public function getRouteKeyName()

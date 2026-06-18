@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exports\PaymentExport;
 use App\Http\Controllers\Controller;
-use App\Models\AccountOrderDetail;
 use App\Models\Payment;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -23,15 +21,15 @@ class PaymentController extends Controller
                 return $payment->transaction->transaction_number ?? '-';
             })
             ->addColumn('transaction_type', function ($payment) {
-                if(class_basename($payment->transaction->transactionable) == "AccountOrderDetail"){
+                if (class_basename($payment->transaction->transactionable) == 'AccountOrderDetail') {
                     return 'Account Order';
                 }
-                if(class_basename($payment->transaction->transactionable) == "CustomOrderDetail"){
+                if (class_basename($payment->transaction->transactionable) == 'CustomOrderDetail') {
                     return 'Custom Boosting Order';
-                } 
-                if(class_basename($payment->transaction->transactionable) == "PackageOrderDetail"){
+                }
+                if (class_basename($payment->transaction->transactionable) == 'PackageOrderDetail') {
                     return 'Package Boosting Order';
-                } 
+                }
             })
             ->editColumn('midtrans_status', function ($payment) {
                 return ucfirst(str_replace('_', ' ', $payment->midtrans_status));
@@ -56,6 +54,7 @@ class PaymentController extends Controller
     public function show(Payment $payment)
     {
         $data = $payment->payload;
+
         return view('dashboard.pages.payment.detail', compact('data'));
     }
 

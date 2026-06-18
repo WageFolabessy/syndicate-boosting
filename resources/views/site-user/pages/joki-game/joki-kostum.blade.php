@@ -345,7 +345,7 @@
     <!-- Main Content -->
     <main>
         <!-- Header Halaman -->
-        <section class="mt-5 page-header pt-5" data-aos="fade-up">
+        <section class="page-header" data-aos="fade-up">
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center">

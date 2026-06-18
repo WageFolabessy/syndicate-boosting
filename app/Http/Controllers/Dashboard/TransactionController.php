@@ -19,19 +19,17 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
 {
-    public function __construct(private readonly OrderNotificationService $notificationService)
-    {
-    }
+    public function __construct(private readonly OrderNotificationService $notificationService) {}
 
     public function getAllTransactions()
     {
         $month = request('month');
-        $year  = request('year');
+        $year = request('year');
         $progressStatus = request('progress_status');
 
         $transactions = Transaction::with('transactionable')
-            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+            ->when($year, fn ($q) => $q->whereYear('created_at', $year))
             ->when($progressStatus, function ($query) use ($progressStatus) {
                 $query->where(function ($progressQuery) use ($progressStatus) {
                     $progressQuery
@@ -43,7 +41,7 @@ class TransactionController extends Controller
                         ->orWhereHasMorph(
                             'transactionable',
                             [PackageOrderDetail::class, CustomOrderDetail::class],
-                            fn($morphQuery) => $morphQuery->where('status', $progressStatus)
+                            fn ($morphQuery) => $morphQuery->where('status', $progressStatus)
                         );
                 });
             })
@@ -103,7 +101,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('progress_status', function ($transaction) {
                 $status = match ($transaction->transactionable_type) {
@@ -123,7 +121,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->rawColumns(['action', 'payment_status', 'progress_status'])
             ->make(true);
@@ -132,7 +130,7 @@ class TransactionController extends Controller
     public function getAllCustomBoostingTransaction()
     {
         $month = request('month');
-        $year  = request('year');
+        $year = request('year');
         $progressStatus = request('progress_status');
 
         $transactions = CustomOrderDetail::with([
@@ -144,9 +142,9 @@ class TransactionController extends Controller
             'desiredGameRankTier',
             'desiredGameRankTierDetail',
         ])
-            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->where('custom_order_details.status', $progressStatus))
+            ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+            ->when($year, fn ($q) => $q->whereYear('created_at', $year))
+            ->when($progressStatus, fn ($q) => $q->where('custom_order_details.status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -170,7 +168,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('transaction_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -186,7 +184,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('progress_status', function ($detail) {
                 $status = $detail->status ?? 'pending';
@@ -202,7 +200,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('game', function ($detail) {
                 // Misal ambil nama game dari kategori current (atau desired, tergantung logika)
@@ -251,13 +249,13 @@ class TransactionController extends Controller
     public function getAllpackageBoostingTransaction()
     {
         $month = request('month');
-        $year  = request('year');
+        $year = request('year');
         $progressStatus = request('progress_status');
 
         $transactions = PackageOrderDetail::with(['transaction', 'boostingService'])
-            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
-            ->when($progressStatus, fn($q) => $q->where('package_order_details.status', $progressStatus))
+            ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+            ->when($year, fn ($q) => $q->whereYear('created_at', $year))
+            ->when($progressStatus, fn ($q) => $q->where('package_order_details.status', $progressStatus))
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -309,7 +307,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('transaction_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -325,7 +323,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('progress_status', function ($detail) {
                 $status = $detail->status ?? 'pending';
@@ -341,7 +339,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->rawColumns(['action', 'payment_status', 'transaction_status', 'progress_status'])
             ->make(true);
@@ -350,15 +348,15 @@ class TransactionController extends Controller
     public function getAllGameAccountTransaction()
     {
         $month = request('month');
-        $year  = request('year');
+        $year = request('year');
         $progressStatus = request('progress_status');
 
         $transactions = AccountOrderDetail::with(['transaction', 'gameAccount.game'])
-            ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-            ->when($year,  fn($q) => $q->whereYear('created_at',  $year))
+            ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
+            ->when($year, fn ($q) => $q->whereYear('created_at', $year))
             ->when(
                 $progressStatus,
-                fn($q) => $q->whereHas('transaction', fn($query) => $query->where('transactions.status', $progressStatus))
+                fn ($q) => $q->whereHas('transaction', fn ($query) => $query->where('transactions.status', $progressStatus))
             )
             ->orderBy('updated_at', 'desc')
             ->get();
@@ -408,7 +406,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('progress_status', function ($detail) {
                 $status = $detail->transaction->status ?? 'pending';
@@ -424,7 +422,7 @@ class TransactionController extends Controller
 
                 $statusLabel = ucfirst($status);
 
-                return '<span class="badge bg-' . $statusClass . '">' . $statusLabel . '</span>';
+                return '<span class="badge bg-'.$statusClass.'">'.$statusLabel.'</span>';
             })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.game-account')->with('detail', $detail);
@@ -519,7 +517,7 @@ class TransactionController extends Controller
         $latest = Transaction::latest('id')->first();
 
         return response()->json([
-            'latest_id'          => $latest?->id ?? 0,
+            'latest_id' => $latest?->id ?? 0,
             'transaction_number' => $latest?->transaction_number ?? null,
         ]);
     }

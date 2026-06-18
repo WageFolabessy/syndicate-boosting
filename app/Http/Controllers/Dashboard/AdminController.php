@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\AdminsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Yajra\DataTables\Facades\DataTables;
-use App\Exports\AdminsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -37,7 +37,6 @@ class AdminController extends Controller
             ->make(true);
     }
 
-
     public function create()
     {
         return view('dashboard.pages.admin.add-admin');
@@ -55,8 +54,7 @@ class AdminController extends Controller
 
     public function show(User $admin)
     {
-        if(Auth::user()->id == $admin->id)
-        {
+        if (Auth::user()->id == $admin->id) {
             return view('dashboard.pages.admin.profile', compact('admin'));
         }
 
@@ -67,7 +65,7 @@ class AdminController extends Controller
     {
         $data = $request->validated();
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
@@ -80,14 +78,13 @@ class AdminController extends Controller
 
     public function destroy(User $admin)
     {
-        if(Auth::user()->id !== $admin->id)
-        {
+        if (Auth::user()->id !== $admin->id) {
             $admin->delete();
-    
+
             return redirect()->route('dashboard.admin')->with('success', 'Admin berhasil dihapus.');
         }
     }
-    
+
     public function export()
     {
         return Excel::download(new AdminsExport, 'admins managements.xlsx');

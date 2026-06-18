@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountOrderDetail;
 use App\Models\CustomOrderDetail;
 use App\Models\PackageOrderDetail;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -47,6 +46,7 @@ class DashboardController extends Controller
             if ($previous > 0) {
                 return round((($current - $previous) / $previous) * 100, 2);
             }
+
             return $current > 0 ? 100 : 0;
         };
 

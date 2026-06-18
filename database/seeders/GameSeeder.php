@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Game;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,20 +15,20 @@ class GameSeeder extends Seeder
     public function run(): void
     {
         $apexLegendImagePath = public_path('images/games/apex-legend.jpg');
-        $mobileLegendImagePath = public_path('images/games/ml.jpg');;
-        $pointBlankImagePath = public_path('images/games/pb.jpeg');;
+        $mobileLegendImagePath = public_path('images/games/ml.jpg');
+        $pointBlankImagePath = public_path('images/games/pb.jpeg');
 
         // Data untuk Apex Legends
         $dataApex = [
-            'name'          => 'Apex Legends',
-            'genre'         => 'FPS',
-            'developer'     => 'Respawn Entertainment',
-            'description'   => 'Apex Legends is the award-winning, free-to-play Hero Shooter from Respawn Entertainment. Master an ever-growing roster of legendary characters with powerful abilities, and experience strategic squad play and innovative gameplay in the next evolution of Hero Shooter and Battle Royale.',
+            'name' => 'Apex Legends',
+            'genre' => 'FPS',
+            'developer' => 'Respawn Entertainment',
+            'description' => 'Apex Legends is the award-winning, free-to-play Hero Shooter from Respawn Entertainment. Master an ever-growing roster of legendary characters with powerful abilities, and experience strategic squad play and innovative gameplay in the next evolution of Hero Shooter and Battle Royale.',
             'login_methods' => ['Steam', 'EA App (Origin)', 'PlayStation Network', 'Xbox Live'],
-            'servers'       => ['Singapore', 'Tokyo', 'Hong Kong', 'Sydney', 'Frankfurt', 'London', 'Oregon'],
+            'servers' => ['Singapore', 'Tokyo', 'Hong Kong', 'Sydney', 'Frankfurt', 'London', 'Oregon'],
         ];
         if (file_exists($apexLegendImagePath)) {
-            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($apexLegendImagePath, PATHINFO_EXTENSION);
+            $fileName = 'games/'.Str::random(20).'.'.pathinfo($apexLegendImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($apexLegendImagePath));
             $dataApex['image'] = $fileName;
         } else {
@@ -39,15 +38,15 @@ class GameSeeder extends Seeder
 
         // Data untuk Mobile Legends: Bang Bang
         $dataML = [
-            'name'          => 'Mobile Legends: Bang Bang',
-            'genre'         => 'MOBA',
-            'developer'     => 'Moonton',
-            'description'   => 'Mobile Legends: Bang Bang (MLBB) is a mobile multiplayer online battle arena (MOBA) game developed and published by Chinese developer Moonton, a subsidiary of ByteDance. The game was released in 2016 and grew in popularity, most prominently in Southeast Asia.',
+            'name' => 'Mobile Legends: Bang Bang',
+            'genre' => 'MOBA',
+            'developer' => 'Moonton',
+            'description' => 'Mobile Legends: Bang Bang (MLBB) is a mobile multiplayer online battle arena (MOBA) game developed and published by Chinese developer Moonton, a subsidiary of ByteDance. The game was released in 2016 and grew in popularity, most prominently in Southeast Asia.',
             'login_methods' => ['Moonton Account', 'VK', 'Facebook', 'Google Play', 'Apple ID', 'TikTok'],
-            'servers'       => ['Global/Asia', 'Indonesia', 'Philippines', 'Malaysia', 'Singapore'],
+            'servers' => ['Global/Asia', 'Indonesia', 'Philippines', 'Malaysia', 'Singapore'],
         ];
         if (file_exists($mobileLegendImagePath)) {
-            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
+            $fileName = 'games/'.Str::random(20).'.'.pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($mobileLegendImagePath));
             $dataML['image'] = $fileName;
         } else {
@@ -57,15 +56,15 @@ class GameSeeder extends Seeder
 
         // Data untuk Point Blank: Beyond Limits
         $datPB = [
-            'name'          => 'Point Blank: Beyond Limits',
-            'genre'         => 'FPS',
-            'developer'     => 'Zepetto',
-            'description'   => 'Point Blank: Beyond Limits adalah Game FPS Favorite sejak 2009. Point Blank Beyond Limit adalah game FPS No. 1 Indonesia selama 10 tahun. Dimainkan di 100 negara dan memiliki 100 juta player dunia.',
+            'name' => 'Point Blank: Beyond Limits',
+            'genre' => 'FPS',
+            'developer' => 'Zepetto',
+            'description' => 'Point Blank: Beyond Limits adalah Game FPS Favorite sejak 2009. Point Blank Beyond Limit adalah game FPS No. 1 Indonesia selama 10 tahun. Dimainkan di 100 negara dan memiliki 100 juta player dunia.',
             'login_methods' => ['Zepetto ID', 'Google', 'Facebook'],
-            'servers'       => ['Public Server', 'Premium Server', 'Clan Server', 'Competition Server'],
+            'servers' => ['Public Server', 'Premium Server', 'Clan Server', 'Competition Server'],
         ];
         if (file_exists($pointBlankImagePath)) {
-            $fileName = 'games/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            $fileName = 'games/'.Str::random(20).'.'.pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
             $datPB['image'] = $fileName;
         } else {

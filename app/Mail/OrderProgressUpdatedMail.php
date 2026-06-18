@@ -19,13 +19,12 @@ class OrderProgressUpdatedMail extends Mailable
         public string $progressStatus,
         public string $orderType,
         public bool $isReminder = false,
-    ) {
-    }
+    ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: ($this->isReminder ? '[Pengingat] ' : '') . 'Update Progres Pesanan - ' . $this->transactionNumber,
+            subject: ($this->isReminder ? '[Pengingat] ' : '').'Update Progres Pesanan - '.$this->transactionNumber,
         );
     }
 
@@ -35,12 +34,12 @@ class OrderProgressUpdatedMail extends Mailable
             view: 'emails.order-progress-updated',
             with: [
                 'transactionNumber' => $this->transactionNumber,
-                'customerName'      => $this->customerName,
-                'customerEmail'     => $this->customerEmail,
-                'progressStatus'    => $this->progressStatus,
-                'orderType'         => $this->orderType,
-                'isReminder'        => $this->isReminder,
-                'statusLabel'       => $this->statusLabel($this->progressStatus),
+                'customerName' => $this->customerName,
+                'customerEmail' => $this->customerEmail,
+                'progressStatus' => $this->progressStatus,
+                'orderType' => $this->orderType,
+                'isReminder' => $this->isReminder,
+                'statusLabel' => $this->statusLabel($this->progressStatus),
             ],
         );
     }

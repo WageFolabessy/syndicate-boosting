@@ -11,9 +11,6 @@
                         untuk gamer di seluruh dunia.
                     </p>
                     <div class="social-links mt-3">
-                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" aria-label="Discord"><i class="bi bi-discord"></i></a>
                         <a href="https://wa.me/6282156309436" aria-label="WhatsApp" target="_blank"><i class="bi bi-whatsapp"></i></a>
                     </div>
                 </div>
@@ -45,9 +42,8 @@
                     <h4>Kontak Kami</h4>
                     <ul>
                         <li>
-                            <a href="https://wa.me/6282156309436" target="_blank" class="d-flex align-items-center">
-                                <i class="bi bi-whatsapp me-2 fs-5 text-success"></i> 
-                                +62 821-5630-9436
+                            <a href="https://wa.me/6282156309436" target="_blank" aria-label="WhatsApp">
+                                <i class="bi bi-whatsapp fs-3 text-success"></i>
                             </a>
                         </li>
                     </ul>
@@ -59,8 +55,8 @@
                 <p>&copy; 2025 Syndicate Booster. Semua Hak Dilindungi.</p>
             </div>
             <div class="footer-bottom-links">
-                <a href="#">Kebijakan Privasi</a>
-                <a href="#">Syarat Layanan</a>
+                <a href="{{ route('privacy-policy') }}">Kebijakan Privasi</a>
+                <a href="{{ route('terms-of-service') }}">Syarat Layanan</a>
             </div>
         </div>
     </div>

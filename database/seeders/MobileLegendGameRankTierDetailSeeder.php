@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\GameRankTier;
 use App\Models\GameRankTierDetail;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MobileLegendGameRankTierDetailSeeder extends Seeder

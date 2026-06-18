@@ -17,16 +17,16 @@ class GameAccountTransactionExport implements FromCollection, WithHeadings
             $q->where('status', 'success');
         })->get()->map(function ($detail) {
             return [
-                'ID'                 => $detail->id,
-                'Transaction Number'     => $detail->transaction->transaction_number,
-                'Payment Status'     => $detail->transaction->payment->midtrans_status,
-                'Game Account'       => optional($detail->gameAccount)->account_name,
-                'Game'               => optional(optional($detail->gameAccount)->game)->name,
-                'Customer Name'      => $detail->customer_name,
-                'Customer Contact'   => $detail->customer_contact,
-                'Price'              => $detail->price,
-                'Created At'         => $detail->created_at->format('Y-m-d H:i:s'),
-                'Updated At'         => $detail->updated_at->format('Y-m-d H:i:s'),
+                'ID' => $detail->id,
+                'Transaction Number' => $detail->transaction->transaction_number,
+                'Payment Status' => $detail->transaction->payment->midtrans_status,
+                'Game Account' => optional($detail->gameAccount)->account_name,
+                'Game' => optional(optional($detail->gameAccount)->game)->name,
+                'Customer Name' => $detail->customer_name,
+                'Customer Contact' => $detail->customer_contact,
+                'Price' => $detail->price,
+                'Created At' => $detail->created_at->format('Y-m-d H:i:s'),
+                'Updated At' => $detail->updated_at->format('Y-m-d H:i:s'),
             ];
         });
     }

@@ -12,13 +12,13 @@ class GameRankTiersExport implements FromCollection, WithHeadings
     {
         return GameRankTier::with('rankCategory')->get()->map(function ($tier) {
             return [
-                'ID'              => $tier->id,
-                'Category'        => $tier->rankCategory ? $tier->rankCategory->name : '-',
-                'Tier'            => $tier->tier,
+                'ID' => $tier->id,
+                'Category' => $tier->rankCategory ? $tier->rankCategory->name : '-',
+                'Tier' => $tier->tier,
                 'Progress Target' => $tier->progress_target,
-                'Display Order'   => $tier->display_order,
-                'Created At'      => $tier->created_at ? $tier->created_at->toDateTimeString() : null,
-                'Updated At'      => $tier->updated_at ? $tier->updated_at->toDateTimeString() : null,
+                'Display Order' => $tier->display_order,
+                'Created At' => $tier->created_at ? $tier->created_at->toDateTimeString() : null,
+                'Updated At' => $tier->updated_at ? $tier->updated_at->toDateTimeString() : null,
             ];
         });
     }

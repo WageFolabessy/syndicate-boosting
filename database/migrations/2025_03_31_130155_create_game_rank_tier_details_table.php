@@ -18,10 +18,10 @@ return new class extends Migration
             $table->integer('price')->nullable();
             $table->integer('display_order')->default(0);
             $table->timestamps();
-            
+
             $table->foreign('game_rank_tier_id')
-                  ->references('id')->on('game_rank_tiers')
-                  ->onDelete('cascade');
+                ->references('id')->on('game_rank_tiers')
+                ->onDelete('cascade');
         });
     }
 

@@ -10,7 +10,7 @@ class GameRankTier extends Model
         'game_rank_category_id',
         'tier',
         'progress_target',
-        'display_order'
+        'display_order',
     ];
 
     public function rankCategory()

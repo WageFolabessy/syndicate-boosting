@@ -11,7 +11,7 @@ class OrderNotificationService
 {
     public function queueTransactionSuccess(Transaction $transaction, ?string $customerName, ?string $customerEmail): void
     {
-        if (!$customerName || !$customerEmail) {
+        if (! $customerName || ! $customerEmail) {
             return;
         }
 
@@ -22,9 +22,9 @@ class OrderNotificationService
                 customerEmail: $customerEmail,
             );
 
-            Log::info('Transaction success email queued for: ' . $customerEmail);
+            Log::info('Transaction success email queued for: '.$customerEmail);
         } catch (\Throwable $e) {
-            Log::error('Failed to queue transaction success email: ' . $e->getMessage());
+            Log::error('Failed to queue transaction success email: '.$e->getMessage());
         }
     }
 
@@ -36,13 +36,13 @@ class OrderNotificationService
         string $orderType,
         bool $isReminder = false
     ): void {
-        if (!$transactionNumber || !$customerName || !$customerEmail || !$progressStatus) {
+        if (! $transactionNumber || ! $customerName || ! $customerEmail || ! $progressStatus) {
             return;
         }
 
         $normalizedStatus = strtolower($progressStatus);
 
-        if (!in_array($normalizedStatus, ['failed', 'canceled', 'pending', 'processed', 'success'], true)) {
+        if (! in_array($normalizedStatus, ['failed', 'canceled', 'pending', 'processed', 'success'], true)) {
             return;
         }
 
@@ -56,9 +56,9 @@ class OrderNotificationService
                 isReminder: $isReminder,
             );
 
-            Log::info('Order progress email queued for: ' . $customerEmail . ' (' . $normalizedStatus . ')');
+            Log::info('Order progress email queued for: '.$customerEmail.' ('.$normalizedStatus.')');
         } catch (\Throwable $e) {
-            Log::error('Failed to queue order progress email: ' . $e->getMessage());
+            Log::error('Failed to queue order progress email: '.$e->getMessage());
         }
     }
 }

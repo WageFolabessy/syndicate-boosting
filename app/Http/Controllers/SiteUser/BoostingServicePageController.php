@@ -18,7 +18,7 @@ class BoostingServicePageController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->input('search');
-            $query->where('name', 'LIKE', '%' . $search . '%');
+            $query->where('name', 'LIKE', '%'.$search.'%');
         }
 
         $games = $query->get();
@@ -29,6 +29,7 @@ class BoostingServicePageController extends Controller
     public function serviceSelection(Game $game)
     {
         $game->load('boostingServices');
+
         return view('site-user.pages.joki-game.pilih-layanan', compact('game'));
     }
 
@@ -55,7 +56,7 @@ class BoostingServicePageController extends Controller
             },
             'rankCategories.rankTiers.tierDetails' => function ($query) {
                 $query->orderBy('display_order', 'asc');
-            }
+            },
         ]);
 
         if ($game->rankCategories->isEmpty()) {
@@ -74,6 +75,7 @@ class BoostingServicePageController extends Controller
     public function show(Game $game, BoostingService $service)
     {
         $service->load('game');
+
         return view('site-user.pages.joki-game.joki-paket-detail', compact('service'));
     }
 }

@@ -10,8 +10,8 @@ use App\Models\BoostingService;
 use App\Models\Game;
 use App\Models\Label;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class BoostingServiceController extends Controller
 {
@@ -23,8 +23,9 @@ class BoostingServiceController extends Controller
             ->addIndexColumn()
             ->editColumn('image', function ($service) {
                 if ($service->image) {
-                    return '<img src="' . asset('storage/' . $service->image) . '" alt="Service Image" class="img-thumbnail" style="width:100px;">';
+                    return '<img src="'.asset('storage/'.$service->image).'" alt="Service Image" class="img-thumbnail" style="width:100px;">';
                 }
+
                 return '-';
             })
             ->editColumn('created_at', function ($service) {
@@ -56,6 +57,7 @@ class BoostingServiceController extends Controller
     {
         $games = Game::orderBy('name')->get();
         $allLabels = Label::orderBy('name')->get();
+
         return view('dashboard.pages.boosting-service.add-boosting-service', compact('games', 'allLabels'));
     }
 
@@ -80,6 +82,7 @@ class BoostingServiceController extends Controller
     {
         $games = Game::orderBy('name')->get();
         $allLabels = Label::orderBy('name')->get();
+
         return view('dashboard.pages.boosting-service.edit-boosting-service', compact('service', 'games', 'allLabels'));
     }
 
@@ -114,7 +117,7 @@ class BoostingServiceController extends Controller
 
         return redirect()->route('dashboard.boosting-service')->with('success', 'Boosting Service berhasil dihapus.');
     }
-    
+
     public function export()
     {
         return Excel::download(new BoostingServicesExport, 'boosting services managements.xlsx');

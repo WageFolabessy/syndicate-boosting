@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\BoostingService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -27,7 +26,7 @@ class BoostingServiceSeeder extends Seeder
         ];
 
         if (file_exists($pointBlankImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            $fileName = 'boosting-services/'.Str::random(20).'.'.pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
             $dataPBBoosting1['image'] = $fileName;
         } else {
@@ -45,7 +44,7 @@ class BoostingServiceSeeder extends Seeder
         ];
 
         if (file_exists($pointBlankImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
+            $fileName = 'boosting-services/'.Str::random(20).'.'.pathinfo($pointBlankImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($pointBlankImagePath));
             $dataPBBoosting2['image'] = $fileName;
         } else {
@@ -63,7 +62,7 @@ class BoostingServiceSeeder extends Seeder
         ];
 
         if (file_exists($mobileLegendImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
+            $fileName = 'boosting-services/'.Str::random(20).'.'.pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($mobileLegendImagePath));
             $dataMLBoosting1['image'] = $fileName;
         } else {
@@ -81,7 +80,7 @@ class BoostingServiceSeeder extends Seeder
         ];
 
         if (file_exists($mobileLegendImagePath)) {
-            $fileName = 'boosting-services/' . Str::random(20) . '.' . pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
+            $fileName = 'boosting-services/'.Str::random(20).'.'.pathinfo($mobileLegendImagePath, PATHINFO_EXTENSION);
             Storage::disk('public')->put($fileName, file_get_contents($mobileLegendImagePath));
             $dataMLBoosting2['image'] = $fileName;
         } else {

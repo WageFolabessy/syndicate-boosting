@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 
 // ################################################ Route Milik User ################################################
 Route::get('', [PageController::class, 'index'])->name('index');
+Route::get('/kebijakan-privasi', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/syarat-layanan', [PageController::class, 'termsOfService'])->name('terms-of-service');
 
 Route::post('/account-order/process', [AccountOrderController::class, 'processPayment']);
 Route::post('/package-order/process', [PackageOrderController::class, 'processPayment']);
@@ -156,7 +158,6 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/transactions/export', [TransactionController::class, 'allTransactionExport'])->name('dashboard.all-transaction.export');
     Route::get('/transactions/all/datatables', [TransactionController::class, 'getAllTransactions']);
     Route::get('/transactions/poll-latest', [TransactionController::class, 'getLatestOrderId'])->name('dashboard.transactions.poll-latest');
-
 
     // Custom Boosting Transactions Managements
     Route::get('/transactions/custom-boosting', function () {

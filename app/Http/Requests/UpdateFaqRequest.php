@@ -15,8 +15,8 @@ class UpdateFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question'  => 'sometimes|required|string',
-            'answer'    => 'sometimes|required|string',
+            'question' => 'sometimes|required|string',
+            'answer' => 'sometimes|required|string',
         ];
     }
 
@@ -24,9 +24,9 @@ class UpdateFaqRequest extends FormRequest
     {
         return [
             'question.required' => 'Pertanyaan harus diisi.',
-            'question.string'   => 'Pertanyaan harus berupa text.',
-            'answer.required'   => 'Jawaban harus diisi.',
-            'answer.string'     => 'Jawaban harus berupa text.',
+            'question.string' => 'Pertanyaan harus berupa text.',
+            'answer.required' => 'Jawaban harus diisi.',
+            'answer.string' => 'Jawaban harus berupa text.',
         ];
     }
 }

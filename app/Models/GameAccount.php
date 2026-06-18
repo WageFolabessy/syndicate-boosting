@@ -8,7 +8,7 @@ class GameAccount extends Model
 {
     protected $fillable = [
         'game_id', 'username', 'password', 'account_name', 'description', 'features',
-        'sale_price', 'original_price', 'image', 'level', 'account_age', 'for_sale'
+        'sale_price', 'original_price', 'image', 'level', 'account_age', 'for_sale',
     ];
 
     public function game()

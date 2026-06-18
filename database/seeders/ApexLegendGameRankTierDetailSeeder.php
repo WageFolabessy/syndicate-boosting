@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\GameRankTier;
 use App\Models\GameRankTierDetail;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ApexLegendGameRankTierDetailSeeder extends Seeder
@@ -132,7 +131,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['rookie2'],
                 'star_number' => '701-750 RP',
-                'price' =>15000,
+                'price' => 15000,
                 'display_order' => 5,
             ],
             // Rookie 1
@@ -163,7 +162,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['rookie1'],
                 'star_number' => '951-1000 RP',
-                'price' =>20000,
+                'price' => 20000,
                 'display_order' => 5,
             ],
             // Bronze 4
@@ -194,7 +193,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['bronze4'],
                 'star_number' => '1401-1500 RP',
-                'price' =>25000,
+                'price' => 25000,
                 'display_order' => 5,
             ],
             // Bronze 3
@@ -225,7 +224,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['bronze3'],
                 'star_number' => '1901-2000 RP',
-                'price' =>25000,
+                'price' => 25000,
                 'display_order' => 5,
             ],
             // Bronze 2
@@ -256,7 +255,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['bronze2'],
                 'star_number' => '2401-2500 RP',
-                'price' =>30000,
+                'price' => 30000,
                 'display_order' => 5,
             ],
             // Bronze 1
@@ -287,7 +286,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['bronze1'],
                 'star_number' => '2901-3000 RP',
-                'price' =>30000,
+                'price' => 30000,
                 'display_order' => 5,
             ],
             // Silver 4
@@ -318,7 +317,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['silver4'],
                 'star_number' => '3481-3600 RP',
-                'price' =>35000,
+                'price' => 35000,
                 'display_order' => 5,
             ],
             // Silver 3
@@ -349,7 +348,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['silver3'],
                 'star_number' => '4081-4200 RP',
-                'price' =>40000,
+                'price' => 40000,
                 'display_order' => 5,
             ],
             // Silver 2
@@ -380,7 +379,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['silver2'],
                 'star_number' => '4681-4800 RP',
-                'price' =>45000,
+                'price' => 45000,
                 'display_order' => 5,
             ],
             // Silver 1
@@ -411,7 +410,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['silver1'],
                 'star_number' => '5281-5400 RP',
-                'price' =>45000,
+                'price' => 45000,
                 'display_order' => 5,
             ],
             // Gold 4
@@ -442,7 +441,7 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             [
                 'game_rank_tier_id' => $rankTier['gold4'],
                 'star_number' => '5961-6100 RP',
-                'price' =>50000,
+                'price' => 50000,
                 'display_order' => 5,
             ],
             // Gold 3

@@ -15,6 +15,7 @@ class SendOrderProgressUpdateMailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public int $timeout = 60;
 
     public function __construct(
@@ -24,8 +25,7 @@ class SendOrderProgressUpdateMailJob implements ShouldQueue
         public string $progressStatus,
         public string $orderType,
         public bool $isReminder = false,
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {

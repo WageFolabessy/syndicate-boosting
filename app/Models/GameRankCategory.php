@@ -11,7 +11,7 @@ class GameRankCategory extends Model
         'name',
         'image',
         'system_type',
-        'display_order'
+        'display_order',
     ];
 
     public function game()

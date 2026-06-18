@@ -14,14 +14,14 @@ class GameRankCategoriesExport implements FromCollection, WithHeadings
 
         return $categories->map(function ($category) {
             return [
-                'ID'             => $category->id,
-                'Game'           => $category->game ? $category->game->name : '-',
-                'Name'           => $category->name,
-                'Image'          => $category->image,
-                'Display Order'  => $category->display_order,
-                'System Type'    => $category->system_type,
-                'Created At'     => $category->created_at ? $category->created_at->toDateTimeString() : '-',
-                'Updated At'     => $category->updated_at ? $category->updated_at->toDateTimeString() : '-',
+                'ID' => $category->id,
+                'Game' => $category->game ? $category->game->name : '-',
+                'Name' => $category->name,
+                'Image' => $category->image,
+                'Display Order' => $category->display_order,
+                'System Type' => $category->system_type,
+                'Created At' => $category->created_at ? $category->created_at->toDateTimeString() : '-',
+                'Updated At' => $category->updated_at ? $category->updated_at->toDateTimeString() : '-',
             ];
         });
     }

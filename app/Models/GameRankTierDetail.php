@@ -10,7 +10,7 @@ class GameRankTierDetail extends Model
         'game_rank_tier_id',
         'star_number',
         'price',
-        'display_order'
+        'display_order',
     ];
 
     public function tier()

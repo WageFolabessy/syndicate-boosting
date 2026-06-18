@@ -1,3 +1,16 @@
+@php
+    $driver = \Illuminate\Support\Facades\DB::getDriverName();
+    $yearExpression = $driver === 'sqlite' ? "strftime('%Y', created_at)" : "YEAR(created_at)";
+    $dbYears = \App\Models\Transaction::selectRaw("distinct ($yearExpression) as year")
+        ->orderBy('year', 'desc')
+        ->pluck('year')
+        ->filter()
+        ->toArray();
+
+    if (empty($dbYears)) {
+        $dbYears = [now()->year];
+    }
+@endphp
 @extends('dashboard.components.main')
 @section('title')
     - Game Account Transactions
@@ -60,9 +73,9 @@
                         <label class="form-label fw-semibold mb-1">Year</label>
                         <select id="filterYear" class="form-select form-select-sm" style="min-width:110px;">
                             <option value="">-- All Year --</option>
-                            @for($y = now()->year; $y >= 2024; $y--)
-                                <option value="{{ $y }}">{{ $y }}</option>
-                            @endfor
+                            @foreach($dbYears as $year)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div>

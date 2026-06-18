@@ -14,15 +14,15 @@ class BoostingServicesExport implements FromCollection, WithHeadings
 
         return $services->map(function ($service) {
             return [
-                'ID'              => $service->id,
-                'Game'            => $service->game ? $service->game->name : '-',
-                'Title'           => $service->title,
-                'Description'     => $service->description,
-                'Original Price'  => $service->original_price,
-                'Sale Price'      => $service->sale_price,
-                'Image'           => $service->image,
-                'Created At'      => $service->created_at ? $service->created_at->toDateTimeString() : null,
-                'Updated At'      => $service->updated_at ? $service->updated_at->toDateTimeString() : null,
+                'ID' => $service->id,
+                'Game' => $service->game ? $service->game->name : '-',
+                'Title' => $service->title,
+                'Description' => $service->description,
+                'Original Price' => $service->original_price,
+                'Sale Price' => $service->sale_price,
+                'Image' => $service->image,
+                'Created At' => $service->created_at ? $service->created_at->toDateTimeString() : null,
+                'Updated At' => $service->updated_at ? $service->updated_at->toDateTimeString() : null,
             ];
         });
     }

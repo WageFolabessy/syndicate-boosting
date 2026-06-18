@@ -9,11 +9,11 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class PaymentExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return Payment::all()->map(function($payment) {
+        return Payment::all()->map(function ($payment) {
             return [
                 'ID' => $payment->id,
                 'Transaction ID' => $payment->transaction_id,
@@ -27,7 +27,7 @@ class PaymentExport implements FromCollection, WithHeadings
             ];
         });
     }
-    
+
     public function headings(): array
     {
         return [

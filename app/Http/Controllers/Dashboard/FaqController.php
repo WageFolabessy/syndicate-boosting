@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\FaqsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddFaqRequest;
 use App\Http\Requests\UpdateFaqRequest;
 use App\Models\Faq;
-use Yajra\DataTables\Facades\DataTables;
-use App\Exports\FaqsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class FaqController extends Controller
 {
@@ -34,7 +34,6 @@ class FaqController extends Controller
             ->rawColumns(['action'])
             ->make(true);
     }
-
 
     public function create()
     {
@@ -67,9 +66,10 @@ class FaqController extends Controller
     public function destroy(Faq $faq)
     {
         $faq->delete();
+
         return redirect()->route('dashboard.faq')->with('success', 'FAQ berhasil dihapus.');
     }
-    
+
     public function export()
     {
         return Excel::download(new FaqsExport, 'faq managements.xlsx');

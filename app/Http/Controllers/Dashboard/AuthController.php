@@ -22,15 +22,16 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('email', 'password');
-        $remember    = $request->filled('remember');
+        $remember = $request->filled('remember');
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
             return redirect()->intended('dashboard');
         }
 
@@ -42,6 +43,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login');
     }
 
@@ -55,7 +57,7 @@ class AuthController extends Controller
         $request->validate(['email' => 'required|email']);
 
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return back()->withErrors(['email' => 'Email tidak ditemukan.']);
         }
 
@@ -64,8 +66,8 @@ class AuthController extends Controller
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $request->email],
             [
-                'token'      => Hash::make($token),
-                'created_at' => Carbon::now()
+                'token' => Hash::make($token),
+                'created_at' => Carbon::now(),
             ]
         );
 
@@ -78,12 +80,12 @@ class AuthController extends Controller
     public function showResetForm($token, Request $request)
     {
         $email = $request->query('email');
-        if (!$email) {
+        if (! $email) {
             return redirect()->route('forgot.password')->withErrors(['email' => 'Email harus diisi.']);
         }
 
         $record = DB::table('password_reset_tokens')->where('email', $email)->first();
-        if (!$record || !Hash::check($token, $record->token)) {
+        if (! $record || ! Hash::check($token, $record->token)) {
             return redirect()->route('forgot.password')->withErrors(['token' => 'Token tidak valid.']);
         }
 
@@ -97,13 +99,13 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'email'                 => 'required|email',
-            'token'                 => 'required',
-            'password'              => 'required|confirmed|min:8'
+            'email' => 'required|email',
+            'token' => 'required',
+            'password' => 'required|confirmed|min:8',
         ]);
 
         $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
-        if (!$record || !Hash::check($request->token, $record->token)) {
+        if (! $record || ! Hash::check($request->token, $record->token)) {
             return back()->withErrors(['email' => 'Token tidak valid.']);
         }
 
@@ -112,7 +114,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-        if (!$user) {
+        if (! $user) {
             return back()->withErrors(['email' => 'Email tidak ditemukan.']);
         }
 
