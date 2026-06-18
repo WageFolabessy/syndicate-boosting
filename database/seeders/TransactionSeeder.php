@@ -63,9 +63,9 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Set date range: Today to 2 days from now
-        $this->startDate = Carbon::today();
-        $this->endDate = Carbon::today()->addDays(2);
+        // Set date range: June 18, 2026 to June 19, 2026 at 05:00:00 (WIB)
+        $this->startDate = Carbon::create(2026, 6, 18, 0, 0, 0);
+        $this->endDate = Carbon::create(2026, 6, 19, 5, 0, 0);
 
         // Get existing data for relations
         $gameAccounts = GameAccount::pluck('id')->toArray();
@@ -74,7 +74,7 @@ class TransactionSeeder extends Seeder
         $rankTiers = GameRankTier::pluck('id')->toArray();
         $rankTierDetails = GameRankTierDetail::pluck('id')->toArray();
 
-        // Generate transaction dates (minimum 10 per week)
+        // Generate transaction dates
         $transactionDates = $this->generateTransactionDates();
         $totalTransactions = count($transactionDates);
 
@@ -96,50 +96,30 @@ class TransactionSeeder extends Seeder
         $this->createTransactions($failedDates, 'failed', $gameAccounts, $boostingServices, $rankCategories, $rankTiers, $rankTierDetails);
 
         $this->command->info("TransactionSeeder: Created {$successCount} successful and {$failedCount} failed transactions.");
-        $this->command->info("Date range: {$this->startDate->format('Y-m-d')} to {$this->endDate->format('Y-m-d')}");
+        $this->command->info("Date range: {$this->startDate->format('Y-m-d H:i:s')} to {$this->endDate->format('Y-m-d H:i:s')}");
     }
 
     /**
-     * Generate transaction dates with minimum 10 per week
+     * Generate transaction dates within the date range
      */
     private function generateTransactionDates(): array
     {
         $dates = [];
-        $currentWeekStart = $this->startDate->copy()->startOfWeek();
-        $endWeekStart = $this->endDate->copy()->startOfWeek();
+        
+        // Generate transactions for June 18, 2026 (00:00:00 - 23:59:59)
+        $june18Start = Carbon::create(2026, 6, 18, 0, 0, 0)->timestamp;
+        $june18End = Carbon::create(2026, 6, 18, 23, 59, 59)->timestamp;
+        $numJune18 = rand(8, 12);
+        for ($i = 0; $i < $numJune18; $i++) {
+            $dates[] = Carbon::createFromTimestamp(rand($june18Start, $june18End), config('app.timezone'));
+        }
 
-        while ($currentWeekStart <= $endWeekStart) {
-            // Get week boundaries within our date range
-            $weekStart = $currentWeekStart->copy();
-            $weekEnd = $currentWeekStart->copy()->endOfWeek();
-
-            // Adjust boundaries to fit within date range
-            if ($weekStart < $this->startDate) {
-                $weekStart = $this->startDate->copy();
-            }
-            if ($weekEnd > $this->endDate) {
-                $weekEnd = $this->endDate->copy();
-            }
-
-            // Generate 10-15 random transactions per week
-            $transactionsThisWeek = rand(10, 15);
-            $daysInWeek = $weekStart->diffInDays($weekEnd) + 1;
-
-            for ($i = 0; $i < $transactionsThisWeek; $i++) {
-                // Random day within the week
-                $randomDay = rand(0, $daysInWeek - 1);
-                $transactionDate = $weekStart->copy()->addDays($randomDay);
-
-                // Random time during business hours (8:00 - 23:00)
-                $hour = rand(8, 23);
-                $minute = rand(0, 59);
-                $second = rand(0, 59);
-
-                $transactionDate->setTime($hour, $minute, $second);
-                $dates[] = $transactionDate;
-            }
-
-            $currentWeekStart->addWeek();
+        // Generate transactions for June 19, 2026 (00:00:00 - 05:00:00)
+        $june19Start = Carbon::create(2026, 6, 19, 0, 0, 0)->timestamp;
+        $june19End = Carbon::create(2026, 6, 19, 5, 0, 0)->timestamp;
+        $numJune19 = rand(4, 6);
+        for ($i = 0; $i < $numJune19; $i++) {
+            $dates[] = Carbon::createFromTimestamp(rand($june19Start, $june19End), config('app.timezone'));
         }
 
         return $dates;
@@ -163,7 +143,21 @@ class TransactionSeeder extends Seeder
 
         $minutesToAdd = rand(0, 59);
 
-        return $createdAt->copy()->addHours($hoursToAdd)->addMinutes($minutesToAdd);
+        $updatedAt = $createdAt->copy()->addHours($hoursToAdd)->addMinutes($minutesToAdd);
+
+        // Cap updated_at at June 19, 2026 05:00:00 WIB
+        $capDate = Carbon::create(2026, 6, 19, 5, 0, 0, config('app.timezone'));
+        if ($updatedAt > $capDate) {
+            $secondsDiff = $capDate->timestamp - $createdAt->timestamp;
+            if ($secondsDiff > 0) {
+                $randomSec = rand(0, $secondsDiff);
+                $updatedAt = $createdAt->copy()->addSeconds($randomSec);
+            } else {
+                $updatedAt = $createdAt->copy();
+            }
+        }
+
+        return $updatedAt;
     }
 
     /**

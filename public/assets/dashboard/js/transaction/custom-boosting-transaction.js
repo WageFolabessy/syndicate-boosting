@@ -58,8 +58,8 @@ $(document).ready(function () {
                 name: "progress_status",
                 className: "text-center all"
             },
-            { data: "created_at", name: "created_at", className: "text-center" },
-            { data: "updated_at", name: "updated_at", className: "text-center" },
+            { data: "created_at", name: "created_at", className: "text-center", orderData: [13] },
+            { data: "updated_at", name: "updated_at", className: "text-center", orderData: [14] },
             {
                 data: "action",
                 name: "action",
@@ -67,6 +67,8 @@ $(document).ready(function () {
                 searchable: false,
                 className: "text-center",
             },
+            { data: "created_at_raw", name: "created_at_raw", visible: false, searchable: false },
+            { data: "updated_at_raw", name: "updated_at_raw", visible: false, searchable: false },
         ],
         createdRow: function (row, data, dataIndex) {},
         dom:

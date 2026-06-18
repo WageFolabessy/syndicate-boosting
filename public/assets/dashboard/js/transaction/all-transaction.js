@@ -35,14 +35,16 @@ $(document).ready(function () {
                 name: "progress_status",
                 className: "text-center all",
             },
-            { data: "created_at", name: "created_at" },
-            { data: "updated_at", name: "updated_at" },
+            { data: "created_at", name: "created_at", orderData: [11] },
+            { data: "updated_at", name: "updated_at", orderData: [12] },
             {
                 data: "action",
                 name: "action",
                 orderable: false,
                 searchable: false,
             },
+            { data: "created_at_raw", name: "created_at_raw", visible: false, searchable: false },
+            { data: "updated_at_raw", name: "updated_at_raw", visible: false, searchable: false },
         ],
         createdRow: function (row, data, dataIndex) {},
         dom:

@@ -38,7 +38,7 @@
                         <div class="col-md-12">
                             <label for="customer_contact" class="form-label fw-semibold">
                                 <i class="bi bi-whatsapp me-2"></i>Nomor WhatsApp <span class="text-danger">*</span>
-                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan nomor yang AKTIF agar kami bisa menghubungi Anda)</small>
+                                <small class="text-danger fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan nomor yang AKTIF agar kami bisa menghubungi Anda)</small>
                             </label>
                             <input type="text" class="form-control rounded-3" id="customer_contact"
                                 name="customer_contact" required
@@ -51,7 +51,7 @@
                         <div class="col-md-12">
                             <label for="customer_email" class="form-label fw-semibold">
                                 <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
-                                <small class="text-muted fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan email yang AKTIF agar mendapatkan notifikasi nota pembayaran)</small>
+                                <small class="text-danger fw-normal ms-1" style="font-size: 0.75rem;">(Gunakan email yang AKTIF agar mendapatkan notifikasi nota pembayaran)</small>
                             </label>
                             <input type="email" class="form-control rounded-3" id="customer_email"
                                 name="customer_email" required

@@ -61,11 +61,13 @@ $(document).ready(function () {
                 data: "created_at",
                 name: "created_at",
                 className: "text-center",
+                orderData: [12],
             },
             {
                 data: "updated_at",
                 name: "updated_at",
                 className: "text-center",
+                orderData: [13],
             },
             {
                 data: "action",
@@ -74,6 +76,8 @@ $(document).ready(function () {
                 searchable: false,
                 className: "text-center",
             },
+            { data: "created_at_raw", name: "created_at_raw", visible: false, searchable: false },
+            { data: "updated_at_raw", name: "updated_at_raw", visible: false, searchable: false },
         ],
         createdRow: function (row, data, dataIndex) {},
         dom:

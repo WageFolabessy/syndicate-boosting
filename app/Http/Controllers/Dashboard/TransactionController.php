@@ -83,6 +83,12 @@ class TransactionController extends Controller
                     ? $transaction->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '';
             })
+            ->addColumn('created_at_raw', function ($transaction) {
+                return $transaction->created_at ? $transaction->created_at->toIso8601String() : '';
+            })
+            ->addColumn('updated_at_raw', function ($transaction) {
+                return $transaction->updated_at ? $transaction->updated_at->toIso8601String() : '';
+            })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.all-transaction')->with('detail', $detail);
             })
@@ -239,6 +245,12 @@ class TransactionController extends Controller
                     ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
             })
+            ->addColumn('created_at_raw', function ($detail) {
+                return $detail->created_at ? $detail->created_at->toIso8601String() : '';
+            })
+            ->addColumn('updated_at_raw', function ($detail) {
+                return $detail->updated_at ? $detail->updated_at->toIso8601String() : '';
+            })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.custom-boosting')->with('detail', $detail);
             })
@@ -288,6 +300,12 @@ class TransactionController extends Controller
                 return $detail->updated_at
                     ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
+            })
+            ->addColumn('created_at_raw', function ($detail) {
+                return $detail->created_at ? $detail->created_at->toIso8601String() : '';
+            })
+            ->addColumn('updated_at_raw', function ($detail) {
+                return $detail->updated_at ? $detail->updated_at->toIso8601String() : '';
             })
             ->addColumn('action', function ($detail) {
                 return view('dashboard.pages.transaction.action-button.package-boosting')->with('detail', $detail);
@@ -390,6 +408,12 @@ class TransactionController extends Controller
                 return $detail->updated_at
                     ? $detail->updated_at->locale('id')->translatedFormat('l, d F Y, H:i:s')
                     : '-';
+            })
+            ->addColumn('created_at_raw', function ($detail) {
+                return $detail->created_at ? $detail->created_at->toIso8601String() : '';
+            })
+            ->addColumn('updated_at_raw', function ($detail) {
+                return $detail->updated_at ? $detail->updated_at->toIso8601String() : '';
             })
             ->addColumn('payment_status', function ($detail) {
                 $status = $detail->transaction->payment
