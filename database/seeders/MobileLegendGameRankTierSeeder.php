@@ -206,7 +206,15 @@ class MobileLegendGameRankTierSeeder extends Seeder
             ],
         ];
 
+        $i = 1;
+        $prevCategory = null;
         foreach ($tiers as $tier) {
+            $catId = $tier['game_rank_category_id'];
+            if ($catId !== $prevCategory) {
+                $i = 1;
+                $prevCategory = $catId;
+            }
+            $tier['display_order'] = $i++;
             GameRankTier::create($tier);
         }
     }
