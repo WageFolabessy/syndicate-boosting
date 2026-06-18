@@ -4,6 +4,7 @@ $(document).ready(function () {
         serverSide: true,
         autoWidth: false,
         responsive: true,
+        order: [[8, "desc"]],
         ajax: {
             url: "/dashboard/transactions/all/datatables",
             data: function (d) {

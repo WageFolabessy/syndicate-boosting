@@ -45,7 +45,7 @@ class TransactionController extends Controller
                         );
                 });
             })
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return DataTables::of($transactions)
@@ -145,7 +145,7 @@ class TransactionController extends Controller
             ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
             ->when($year, fn ($q) => $q->whereYear('created_at', $year))
             ->when($progressStatus, fn ($q) => $q->where('custom_order_details.status', $progressStatus))
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return DataTables::of($transactions)
@@ -256,7 +256,7 @@ class TransactionController extends Controller
             ->when($month, fn ($q) => $q->whereMonth('created_at', $month))
             ->when($year, fn ($q) => $q->whereYear('created_at', $year))
             ->when($progressStatus, fn ($q) => $q->where('package_order_details.status', $progressStatus))
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return DataTables::of($transactions)
@@ -358,7 +358,7 @@ class TransactionController extends Controller
                 $progressStatus,
                 fn ($q) => $q->whereHas('transaction', fn ($query) => $query->where('transactions.status', $progressStatus))
             )
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return DataTables::of($transactions)

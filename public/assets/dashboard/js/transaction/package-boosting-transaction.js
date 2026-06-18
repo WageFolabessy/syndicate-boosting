@@ -4,6 +4,7 @@ $(document).ready(function () {
         serverSide: true,
         autoWidth: false,
         responsive: true,
+        order: [[9, "desc"]],
         ajax: {
             url: "/dashboard/transactions/package-boosting/datatables",
             data: function (d) {
