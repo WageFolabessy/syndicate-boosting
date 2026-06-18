@@ -5,7 +5,7 @@
     <meta property="og:description"
         content="Professional game boosting services and premium game accounts for serious players." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://syndicate-gaming.com" />
+    <meta property="og:url" content="https://syndicateboosting.eproject.tech" />
     <meta property="og:image" content="/images/logo.png" />
 @endsection
 @section('css')

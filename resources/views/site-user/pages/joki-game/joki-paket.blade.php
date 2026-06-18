@@ -5,7 +5,7 @@
     <meta property="og:description"
         content="Boost your rank, complete achievements, and improve your gaming skills with our professional boosting services." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://syndicate-gaming.com/joki-game" />
+    <meta property="og:url" content="https://syndicateboosting.eproject.tech/joki-game" />
     <meta property="og:image" content="/images/og-image.jpg" />
 @endsection
 @section('title')

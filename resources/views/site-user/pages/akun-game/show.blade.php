@@ -7,7 +7,7 @@
     <meta property="og:description"
         content="Browse and buy premium game accounts with rare items, high ranks, and exclusive content." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://syndicate-gaming.com/akun-game" />
+    <meta property="og:url" content="https://syndicateboosting.eproject.tech/akun-game" />
     <meta property="og:image" content="/images/og-image.jpg" />
 @endsection
 @section('title')

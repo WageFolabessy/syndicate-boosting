@@ -33,7 +33,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="email" class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="admin@syndicate-gaming.com"
+                    <input type="email" class="form-control" id="email" name="email" placeholder="admin@syndicateboosting.eproject.tech"
                         required value="{{ old('email') }}">
                 </div>
                 <div class="mb-3">
