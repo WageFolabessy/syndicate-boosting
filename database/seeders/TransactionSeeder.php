@@ -63,9 +63,9 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Set date range: April 7, 2026 to July 1, 2026
-        $this->startDate = Carbon::create(2026, 4, 7);
-        $this->endDate = Carbon::create(2026, 7, 1);
+        // Set date range: Today to 2 days from now
+        $this->startDate = Carbon::today();
+        $this->endDate = Carbon::today()->addDays(2);
 
         // Get existing data for relations
         $gameAccounts = GameAccount::pluck('id')->toArray();
