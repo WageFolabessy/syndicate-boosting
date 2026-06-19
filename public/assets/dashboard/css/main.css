@@ -69,7 +69,7 @@ body {
 }
 
 .sidebar-brand .brand-logo {
-    display: none;
+    display: none !important;
     height: 30px;
     margin-right: 10px;
 }
@@ -79,14 +79,20 @@ body {
     padding: 0;
 }
 
+.sidebar.collapsed .sidebar-brand .navbar-brand {
+    margin-right: 0;
+    justify-content: center;
+    width: 100%;
+}
+
 .sidebar.collapsed .sidebar-brand .brand-logo {
-    display: block;
+    display: block !important;
     margin-right: 0;
     height: 35px;
 }
 
 .sidebar.collapsed .sidebar-brand .brand-name {
-    display: none;
+    display: none !important;
 }
 
 .sidebar-menu {

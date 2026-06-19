@@ -20,7 +20,7 @@
     <link href="{{ asset('assets/dashboard/css/bootstrap.min.css') }}" rel="stylesheet" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/dashboard/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/dashboard/css/main.css') }}?v={{ filemtime(public_path('assets/dashboard/css/main.css')) }}" />
     @yield('css')
 </head>
 
