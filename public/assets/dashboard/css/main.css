@@ -69,6 +69,7 @@ body {
 }
 
 .sidebar-brand .brand-logo {
+    display: none;
     height: 30px;
     margin-right: 10px;
 }
@@ -79,6 +80,7 @@ body {
 }
 
 .sidebar.collapsed .sidebar-brand .brand-logo {
+    display: block;
     margin-right: 0;
     height: 35px;
 }
