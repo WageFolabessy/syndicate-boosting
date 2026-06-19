@@ -1,8 +1,9 @@
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <h2>Syndicate Booster</h2>
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('dashboard') }}">
+            <img src="{{ asset('assets/site-user/images/logo.png') }}" alt="Logo" class="brand-logo" />
+            <h2 class="brand-name">Syndicate Booster</h2>
         </a>
     </div>
 
