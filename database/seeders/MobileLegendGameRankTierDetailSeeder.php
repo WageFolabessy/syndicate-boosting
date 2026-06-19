@@ -891,7 +891,48 @@ class MobileLegendGameRankTierDetailSeeder extends Seeder
             ],
         ];
 
+        // Rates per star per category (June 2026 market prices)
+        $rates = [
+            'warrior' => 3000,
+            'elite'   => 4000,
+            'master'  => 5000,
+            'gm'      => 6000,
+            'epic'    => 8000,
+            'legend'  => 9000,
+        ];
+
+        // Create a lookup map: tier_id => rate
+        $tierIdToRate = [];
+        foreach ($rankTier as $key => $id) {
+            if (!$id) continue;
+            foreach ($rates as $cat => $rate) {
+                if (strpos($key, $cat) === 0) {
+                    $tierIdToRate[$id] = $rate;
+                    break;
+                }
+            }
+        }
+
+        $cumulativePrice = 0;
+        $prevStar = -1;
+        $prevRate = 3000;
+
         foreach ($tierDetails as $tierDetaild) {
+            $tierId = $tierDetaild['game_rank_tier_id'];
+            $rate = $tierIdToRate[$tierId] ?? 3000;
+            $star = (int)$tierDetaild['star_number'];
+
+            if ($star === 0) {
+                if ($prevStar !== -1) {
+                    $cumulativePrice += $prevStar * $prevRate;
+                }
+            }
+
+            $tierDetaild['price'] = $cumulativePrice + ($star * $rate);
+            
+            $prevStar = $star;
+            $prevRate = $rate;
+
             GameRankTierDetail::create($tierDetaild);
         }
     }

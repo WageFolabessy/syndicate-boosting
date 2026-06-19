@@ -787,7 +787,43 @@ class ApexLegendGameRankTierDetailSeeder extends Seeder
             ],
         ];
 
+        // Rates per step per category (June 2026 market prices)
+        $rates = [
+            'rookie'   => 2000,
+            'bronze'   => 3000,
+            'silver'   => 5000,
+            'gold'     => 8000,
+            'platinum' => 10000,
+            'diamond'  => 25000,
+        ];
+
+        // Create a lookup map: tier_id => rate
+        $tierIdToRate = [];
+        foreach ($rankTier as $key => $id) {
+            if (!$id) continue;
+            foreach ($rates as $cat => $rate) {
+                if (strpos($key, $cat) === 0) {
+                    $tierIdToRate[$id] = $rate;
+                    break;
+                }
+            }
+        }
+
+        $cumulativePrice = 0;
+        $isFirst = true;
+
         foreach ($tierDetails as $tierDetaild) {
+            $tierId = $tierDetaild['game_rank_tier_id'];
+            $rate = $tierIdToRate[$tierId] ?? 2000;
+
+            if ($isFirst) {
+                $tierDetaild['price'] = 0;
+                $isFirst = false;
+            } else {
+                $cumulativePrice += $rate;
+                $tierDetaild['price'] = $cumulativePrice;
+            }
+
             GameRankTierDetail::create($tierDetaild);
         }
     }

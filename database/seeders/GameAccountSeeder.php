@@ -23,7 +23,7 @@ class GameAccountSeeder extends Seeder
             'password' => 'bintang2',
             'description' => '',
             'features' => 'QC 220 hari+HK,Butterfly, Idol CT Tero Permanent+Pindad, Ninjato, 2 Karakter Permanent+Inventory 636/600+EXP 74jt+FREE GB KE B3/ B4/HERO',
-            'original_price' => 1250000,
+            'original_price' => 650000,
             // 'sale_price' => 0,
             // 'level' => '',
             'account_age' => '2 Tahun',

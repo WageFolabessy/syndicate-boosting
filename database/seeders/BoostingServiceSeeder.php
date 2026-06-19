@@ -57,7 +57,7 @@ class BoostingServiceSeeder extends Seeder
             'game_id' => 2,
             'title' => 'GM 5 - EPIC 5',
             'description' => '',
-            'original_price' => 112500,
+            'original_price' => 150000,
             // 'sale_price' => '',
         ];
 
@@ -75,7 +75,7 @@ class BoostingServiceSeeder extends Seeder
             'game_id' => 2,
             'title' => 'MYTHIC GRADING ( FINISH MYTHIC *15 )',
             'description' => '',
-            'original_price' => 235000,
+            'original_price' => 350000,
             // 'sale_price' => '',
         ];
 
