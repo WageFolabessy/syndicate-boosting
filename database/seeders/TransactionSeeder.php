@@ -63,9 +63,9 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Set date range: June 18, 2026 to July 21, 2026 at 23:59:59 (WIB)
+        // Set date range: June 18, 2026 to July 22, 2026 at 21:40:00 (WIB)
         $this->startDate = Carbon::create(2026, 6, 18, 0, 0, 0);
-        $this->endDate = Carbon::create(2026, 7, 21, 23, 59, 59);
+        $this->endDate = Carbon::create(2026, 7, 22, 21, 40, 0);
 
         // Get existing data for relations
         $gameAccounts = GameAccount::pluck('id')->toArray();
@@ -73,6 +73,16 @@ class TransactionSeeder extends Seeder
         $rankCategories = GameRankCategory::pluck('id')->toArray();
         $rankTiers = GameRankTier::pluck('id')->toArray();
         $rankTierDetails = GameRankTierDetail::pluck('id')->toArray();
+
+        // Separate newly added items for July 22 transactions
+        $newGameAccounts = GameAccount::where('id', '>=', 3)->pluck('id')->toArray();
+        if (empty($newGameAccounts)) {
+            $newGameAccounts = $gameAccounts;
+        }
+        $newBoostingServices = BoostingService::where('id', '>=', 5)->pluck('id')->toArray();
+        if (empty($newBoostingServices)) {
+            $newBoostingServices = $boostingServices;
+        }
 
         // Generate transaction dates
         $transactionDates = $this->generateTransactionDates();
@@ -88,12 +98,12 @@ class TransactionSeeder extends Seeder
         // Create successful transactions
         $successDates = array_slice($transactionDates, 0, $successCount);
         sort($successDates); // Sort chronologically
-        $this->createTransactions($successDates, 'success', $gameAccounts, $boostingServices, $rankCategories, $rankTiers, $rankTierDetails);
+        $this->createTransactions($successDates, 'success', $gameAccounts, $boostingServices, $newGameAccounts, $newBoostingServices, $rankCategories, $rankTiers, $rankTierDetails);
 
         // Create failed transactions
         $failedDates = array_slice($transactionDates, $successCount);
         sort($failedDates); // Sort chronologically
-        $this->createTransactions($failedDates, 'failed', $gameAccounts, $boostingServices, $rankCategories, $rankTiers, $rankTierDetails);
+        $this->createTransactions($failedDates, 'failed', $gameAccounts, $boostingServices, $newGameAccounts, $newBoostingServices, $rankCategories, $rankTiers, $rankTierDetails);
 
         $this->command->info("TransactionSeeder: Created {$successCount} successful and {$failedCount} failed transactions.");
         $this->command->info("Date range: {$this->startDate->format('Y-m-d H:i:s')} to {$this->endDate->format('Y-m-d H:i:s')}");
@@ -106,9 +116,10 @@ class TransactionSeeder extends Seeder
     {
         $dates = [];
         $currentDate = Carbon::create(2026, 6, 18, 0, 0, 0, config('app.timezone'));
-        $endDate = Carbon::create(2026, 7, 21, 23, 59, 59, config('app.timezone'));
+        $july21End = Carbon::create(2026, 7, 21, 23, 59, 59, config('app.timezone'));
 
-        while ($currentDate <= $endDate) {
+        // Generate for June 18 to July 21
+        while ($currentDate <= $july21End) {
             $numTransactions = rand(3, 8);
             for ($i = 0; $i < $numTransactions; $i++) {
                 $hour = rand(0, 23);
@@ -117,6 +128,14 @@ class TransactionSeeder extends Seeder
                 $dates[] = $currentDate->copy()->setTime($hour, $minute, $second);
             }
             $currentDate->addDay();
+        }
+
+        // Generate for July 22, 2026 between 12:00:00 and 21:40:00
+        $july22Start = Carbon::create(2026, 7, 22, 12, 0, 0, config('app.timezone'))->timestamp;
+        $july22End = Carbon::create(2026, 7, 22, 21, 40, 0, config('app.timezone'))->timestamp;
+        $numJuly22 = rand(6, 10);
+        for ($i = 0; $i < $numJuly22; $i++) {
+            $dates[] = Carbon::createFromTimestamp(rand($july22Start, $july22End), config('app.timezone'));
         }
 
         return $dates;
@@ -142,8 +161,8 @@ class TransactionSeeder extends Seeder
 
         $updatedAt = $createdAt->copy()->addHours($hoursToAdd)->addMinutes($minutesToAdd);
 
-        // Cap updated_at at July 21, 2026 23:59:59 WIB
-        $capDate = Carbon::create(2026, 7, 21, 23, 59, 59, config('app.timezone'));
+        // Cap updated_at at July 22, 2026 21:40:00 WIB
+        $capDate = Carbon::create(2026, 7, 22, 21, 40, 0, config('app.timezone'));
         if ($updatedAt > $capDate) {
             $secondsDiff = $capDate->timestamp - $createdAt->timestamp;
             if ($secondsDiff > 0) {
@@ -165,6 +184,8 @@ class TransactionSeeder extends Seeder
         string $status,
         array $gameAccounts,
         array $boostingServices,
+        array $newGameAccounts,
+        array $newBoostingServices,
         array $rankCategories,
         array $rankTiers,
         array $rankTierDetails
@@ -172,6 +193,11 @@ class TransactionSeeder extends Seeder
         foreach ($dates as $transactionDate) {
             // Randomly select transaction type (1: Account, 2: Custom, 3: Package)
             $type = rand(1, 3);
+
+            // Determine target accounts and services (prefer new ones on July 22)
+            $isJuly22 = $transactionDate->format('Y-m-d') === '2026-07-22';
+            $targetAccounts = $isJuly22 ? $newGameAccounts : $gameAccounts;
+            $targetServices = $isJuly22 ? $newBoostingServices : $boostingServices;
 
             // Generate customer data
             $customerName = $this->customerNames[array_rand($this->customerNames)];
@@ -200,9 +226,9 @@ class TransactionSeeder extends Seeder
 
             // Create order detail with transaction_id
             $orderDetail = match ($type) {
-                1 => $this->createAccountOrderDetail($transactionId, $gameAccounts, $customerName, $customerEmail, $customerContact, $transactionDate, $updatedAt),
+                1 => $this->createAccountOrderDetail($transactionId, $targetAccounts, $customerName, $customerEmail, $customerContact, $transactionDate, $updatedAt),
                 2 => $this->createCustomOrderDetail($transactionId, $rankCategories, $rankTiers, $rankTierDetails, $customerName, $customerEmail, $customerContact, $status, $transactionDate, $updatedAt),
-                3 => $this->createPackageOrderDetail($transactionId, $boostingServices, $customerName, $customerEmail, $customerContact, $status, $transactionDate, $updatedAt),
+                3 => $this->createPackageOrderDetail($transactionId, $targetServices, $customerName, $customerEmail, $customerContact, $status, $transactionDate, $updatedAt),
             };
 
             // Update transaction with correct transactionable_id (using DB to preserve updated_at)
@@ -219,6 +245,9 @@ class TransactionSeeder extends Seeder
             // Create review for ~60% of successful transactions (1-3 days after transaction completed)
             if ($status === 'success' && rand(1, 100) <= 60) {
                 $reviewDate = $updatedAt->copy()->addDays(rand(1, 3))->addHours(rand(0, 12));
+                if ($reviewDate > $this->endDate) {
+                    $reviewDate = $this->endDate->copy();
+                }
                 $this->createReview($transaction, $reviewDate);
             }
         }
@@ -236,13 +265,22 @@ class TransactionSeeder extends Seeder
         Carbon $createdAt,
         Carbon $updatedAt
     ): AccountOrderDetail {
+        $gameAccountId = ! empty($gameAccounts) ? $gameAccounts[array_rand($gameAccounts)] : null;
+        $price = rand(5, 50) * 10000;
+        if ($gameAccountId) {
+            $account = GameAccount::find($gameAccountId);
+            if ($account) {
+                $price = $account->sale_price ?? $account->original_price ?? $price;
+            }
+        }
+
         $id = DB::table('account_order_details')->insertGetId([
             'transaction_id' => $transactionId,
-            'game_account_id' => ! empty($gameAccounts) ? $gameAccounts[array_rand($gameAccounts)] : null,
+            'game_account_id' => $gameAccountId,
             'customer_name' => $customerName,
             'customer_contact' => $customerContact,
             'customer_email' => $customerEmail,
-            'price' => rand(5, 50) * 10000, // Rp 50,000 - Rp 500,000
+            'price' => $price,
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,
         ]);
@@ -303,18 +341,27 @@ class TransactionSeeder extends Seeder
         Carbon $createdAt,
         Carbon $updatedAt
     ): PackageOrderDetail {
+        $boostingServiceId = ! empty($boostingServices) ? $boostingServices[array_rand($boostingServices)] : null;
+        $price = rand(5, 30) * 10000;
+        if ($boostingServiceId) {
+            $service = BoostingService::find($boostingServiceId);
+            if ($service) {
+                $price = $service->sale_price ?? $service->original_price ?? $price;
+            }
+        }
+
         $id = DB::table('package_order_details')->insertGetId([
             'transaction_id' => $transactionId,
-            'boosting_service_id' => ! empty($boostingServices) ? $boostingServices[array_rand($boostingServices)] : null,
+            'boosting_service_id' => $boostingServiceId,
             'server' => $this->servers[array_rand($this->servers)],
             'login' => $this->logins[array_rand($this->logins)],
-            'note' => rand(0, 1) ? 'Request hero tertentu untuk main' : null,
+            'note' => rand(0, 1) ? 'Request hero/item tertentu untuk main' : null,
             'customer_name' => $customerName,
             'customer_contact' => $customerContact,
             'customer_email' => $customerEmail,
             'username' => strtolower(str_replace(' ', '', $customerName)).rand(100, 999),
             'password' => 'password'.rand(100, 999),
-            'price' => rand(5, 30) * 10000, // Rp 50,000 - Rp 300,000
+            'price' => $price,
             'status' => $transactionStatus === 'success' ? 'success' : 'failed',
             'created_at' => $createdAt,
             'updated_at' => $updatedAt,
