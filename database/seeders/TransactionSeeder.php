@@ -63,9 +63,9 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Set date range: June 18, 2026 to June 19, 2026 at 05:00:00 (WIB)
+        // Set date range: June 18, 2026 to July 21, 2026 at 23:59:59 (WIB)
         $this->startDate = Carbon::create(2026, 6, 18, 0, 0, 0);
-        $this->endDate = Carbon::create(2026, 6, 19, 5, 0, 0);
+        $this->endDate = Carbon::create(2026, 7, 21, 23, 59, 59);
 
         // Get existing data for relations
         $gameAccounts = GameAccount::pluck('id')->toArray();
@@ -105,21 +105,18 @@ class TransactionSeeder extends Seeder
     private function generateTransactionDates(): array
     {
         $dates = [];
-        
-        // Generate transactions for June 18, 2026 (00:00:00 - 23:59:59)
-        $june18Start = Carbon::create(2026, 6, 18, 0, 0, 0)->timestamp;
-        $june18End = Carbon::create(2026, 6, 18, 23, 59, 59)->timestamp;
-        $numJune18 = rand(8, 12);
-        for ($i = 0; $i < $numJune18; $i++) {
-            $dates[] = Carbon::createFromTimestamp(rand($june18Start, $june18End), config('app.timezone'));
-        }
+        $currentDate = Carbon::create(2026, 6, 18, 0, 0, 0, config('app.timezone'));
+        $endDate = Carbon::create(2026, 7, 21, 23, 59, 59, config('app.timezone'));
 
-        // Generate transactions for June 19, 2026 (00:00:00 - 05:00:00)
-        $june19Start = Carbon::create(2026, 6, 19, 0, 0, 0)->timestamp;
-        $june19End = Carbon::create(2026, 6, 19, 5, 0, 0)->timestamp;
-        $numJune19 = rand(4, 6);
-        for ($i = 0; $i < $numJune19; $i++) {
-            $dates[] = Carbon::createFromTimestamp(rand($june19Start, $june19End), config('app.timezone'));
+        while ($currentDate <= $endDate) {
+            $numTransactions = rand(3, 8);
+            for ($i = 0; $i < $numTransactions; $i++) {
+                $hour = rand(0, 23);
+                $minute = rand(0, 59);
+                $second = rand(0, 59);
+                $dates[] = $currentDate->copy()->setTime($hour, $minute, $second);
+            }
+            $currentDate->addDay();
         }
 
         return $dates;
@@ -134,19 +131,19 @@ class TransactionSeeder extends Seeder
     private function calculateUpdatedAt(Carbon $createdAt, string $status): Carbon
     {
         if ($status === 'success') {
-            // Success transactions take 1-3 days to complete
-            $hoursToAdd = rand(24, 72); // 1-3 days
+            // Success transactions take 12-48 hours to complete
+            $hoursToAdd = rand(12, 48);
         } else {
-            // Failed transactions fail within minutes to hours
-            $hoursToAdd = rand(0, 6); // 0-6 hours
+            // Failed transactions fail within hours
+            $hoursToAdd = rand(0, 6);
         }
 
         $minutesToAdd = rand(0, 59);
 
         $updatedAt = $createdAt->copy()->addHours($hoursToAdd)->addMinutes($minutesToAdd);
 
-        // Cap updated_at at June 19, 2026 05:00:00 WIB
-        $capDate = Carbon::create(2026, 6, 19, 5, 0, 0, config('app.timezone'));
+        // Cap updated_at at July 21, 2026 23:59:59 WIB
+        $capDate = Carbon::create(2026, 7, 21, 23, 59, 59, config('app.timezone'));
         if ($updatedAt > $capDate) {
             $secondsDiff = $capDate->timestamp - $createdAt->timestamp;
             if ($secondsDiff > 0) {
